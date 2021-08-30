@@ -1,13 +1,13 @@
 <?php
 
-header('Access-Control-Allow-Origin: *'); 
+header('Access-Control-Allow-Origin: http://localhost:3000'); 
 header("Access-Control-Allow-Credentials: true");
 header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
 header('Access-Control-Max-Age: 1000');
 header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token , Authorization');
 
 
-$target_dir = "../../images/uploaded-images";
+$target_dir = "../../images/uploaded-images/";
 $target_file = $target_dir . basename($_FILES["upload"]["name"]);
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
