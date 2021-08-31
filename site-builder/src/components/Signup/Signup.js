@@ -57,9 +57,17 @@ function Signup() {
           name='email'
           placeholder='Email'
           value={inputState.email}
-          onChange={(event) =>
-            setInputState({ ...inputState, email: event.target.value })
-          }
+          onChange={(event) => {
+            function ValidateEmail(mail) {
+              if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+                return true;
+              }
+              // alert('You have entered an invalid email address!');
+              return false;
+            }
+            console.log(ValidateEmail(event.target.value));
+            setInputState({ ...inputState, email: event.target.value });
+          }}
         />
         <input
           type='password'

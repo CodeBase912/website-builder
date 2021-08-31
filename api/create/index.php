@@ -14,27 +14,34 @@ include_once '../models/users.php';
 $database = new Database();
 $db = $database->connect();
 
-// Instantiate user object
-$user = new User();
+
 
 // Get raw posted data
-$data = json_decode(file_get_contents('php://input'));
+$data = json_decode(file_get_contents("php://input"), true);
 
-// Check if posted passwords match
-if ($data->password !== $data->confirmedPassword) {
-    // Return an passwords do not match response
-}
-else {
-    $user->username = $data->username;
-    $user->email = $data->email;
-    $user->password = $data->password;
-    $user->verified = 1;
+// Instantiate user object
+$user = new User($db);
+$query = $data['username'];
+print_r($user->getUser($query, 1));
 
-    // Create user
-    if ($user->create()) {
-        echo json_encode(array("message"=>"User created"));
-    }
-    else {
-        echo json_encode(array("message"=>"User not created"));
-    }
-}
+
+
+
+// // Check if posted passwords match
+// if ($data->password !== $data->confirmedPassword) {
+//     // Return an passwords do not match response
+// }
+// else {
+//     $user->username = $data->username;
+//     $user->email = $data->email;
+//     $user->password = $data->password;
+//     $user->verified = 1;
+
+//     // Create user
+//     if ($user->create()) {
+//         echo json_encode(array("message"=>"User created"));
+//     }
+//     else {
+//         echo json_encode(array("message"=>"User not created"));
+//     }
+// }

@@ -31,7 +31,7 @@ else {
     $user->verified = 1;
 
     // Create user
-    $result = $user->create();
+    $result = $user->signUpUser();
     if ($result[0]) {
         echo json_encode($result[1]);
     }
