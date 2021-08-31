@@ -1,4 +1,5 @@
 <?php
+// Headers
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Credentials: true");
@@ -9,33 +10,31 @@ header("Access-Control-Allow-Methods: PUT, POST, GET, OPTIONS, DELETE");
 include_once '../models/database_config.php';
 include_once '../models/users.php';
 
-// Instantiate the DB & connect
+// Instantiate database & connect
 $database = new Database();
 $db = $database->connect();
 
-// Instantiate the user object
-$user = new User($db);
+// Instantiate user object
+$user = new User();
 
 // Get raw posted data
-$data = json_decode(file_get_contents("php://input"), true);
-// echo json_encode($data);
+$data = json_decode(file_get_contents('php://input'));
 
 // Check if posted passwords match
-if ($data['password'] !== $data['confirmedPassword']) {
+if ($data->password !== $data->confirmedPassword) {
     // Return an passwords do not match response
 }
 else {
-    $user->username = $data['username'];
-    $user->email = $data['email'];
-    $user->password = $data['password'];
+    $user->username = $data->username;
+    $user->email = $data->email;
+    $user->password = $data->password;
     $user->verified = 1;
 
     // Create user
-    $result = $user->create();
-    if ($result[0]) {
-        echo json_encode($result[1]);
+    if ($user->create()) {
+        echo json_encode(array("message"=>"User created"));
     }
     else {
-        echo json_encode($result[1]);
+        echo json_encode(array("message"=>"User not created"));
     }
 }

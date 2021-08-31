@@ -5,9 +5,9 @@ function Login() {
     event.preventDefault();
 
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://localhost/site-builder-app/api/login', true);
+    xhr.open('GET', 'http://localhost:80/site-builder-app/api/login', true);
     xhr.onload = function () {
-      if (this.status == 200) {
+      if (this.status === 200) {
         console.log(this.responseText);
       }
     };

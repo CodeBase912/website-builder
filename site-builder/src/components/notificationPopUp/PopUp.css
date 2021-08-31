@@ -1,0 +1,46 @@
+.popup {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+}
+
+.error {
+  background: rgb(250, 42, 42);
+  color: white;
+}
+
+.success {
+  background: rgb(23, 139, 23);
+  color: white;
+}
+
+.popup-title {
+  font-size: 12px;
+  margin: 0;
+}
+
+.popup-msg {
+  font-size: 18px;
+  margin: 5px;
+}
+
+@keyframes showPopUp {
+  0% {
+    top: -100px;
+  }
+
+  20% {
+    top: 0;
+  }
+
+  80% {
+    top: 0;
+  }
+
+  100% {
+    top: -100px;
+  }
+}

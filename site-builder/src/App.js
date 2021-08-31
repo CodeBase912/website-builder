@@ -1,16 +1,27 @@
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Login from './components/Login/Login';
 import Builder from './components/Builder/Builder';
+import Signup from './components/Signup/Signup';
+import PopUp from './components/notificationPopUp/PopUp';
 import './App.css';
 
+export const AppContext = React.createContext();
+
 function App() {
+  const popUpDefaultState = { showPopUp: false, error: false, msg: '' };
+  const [popUpState, setPopUpState] = useState(popUpDefaultState);
   return (
-    <div className='App'>
-      <Router>
-        <Route path='/' component={Login} />
-        <Route exact path='/app' component={Builder} />
-      </Router>
-    </div>
+    <AppContext.Provider value={{ popUpState, setPopUpState }}>
+      <div className='App'>
+        <PopUp popUpState={popUpState} setPopUpState={setPopUpState} />
+        <Router>
+          <Route path='/' component={Login} />
+          <Route exact path='/app' component={Builder} />
+          <Route exact path='/signup' component={Signup} />
+        </Router>
+      </div>
+    </AppContext.Provider>
   );
 }
 
