@@ -35,7 +35,7 @@ class User {
         $this->conn = $db;
     }
 
-    // Get Users
+    // Get User Method
     public function getUser($user, $returnPassword) {
         /** 
          * @method getUser()
@@ -44,8 +44,8 @@ class User {
          *                       look up in the database
          * 
          * @param boolean $returnPassword - represents whether to return the user's password or not.
-         *                                  0 => do not return password
-         *                                  1 => return password
+         *                                  true => return password
+         *                                  false => do not return password
          * 
          * @var string $query - MySQL query statement
          * 
@@ -152,7 +152,7 @@ class User {
         }
     }
 
-    // Get User's Session
+    // Get User Session Method
     public function getUserSession($user, $findByToken) {
         /** 
          * @method getUserSession()
@@ -161,9 +161,9 @@ class User {
          *                       secure random bytes) or the user's email.
          * 
          * @param boolean $findByToken - represents whether to find the user's session data by the session 
-         *                               token or not. 
-         *                               0 => do not find by token (i.e. find by username)
-         *                               1 => find by token
+         *                               token or not.
+         *                               true => find by token
+         *                               false => do not find by token (i.e. find by username)
          * 
          * @var string $query - MySQL query statement
          * 
@@ -230,7 +230,7 @@ class User {
         }
     }
 
-    // Create post
+    // Signup User Method
     public function signUpUser() {
         /** 
          * @method signUpUser()
@@ -297,7 +297,7 @@ class User {
         
     }
 
-
+    // Login User Method
     public function logInUser($user) {
         /** 
          * @method logInUser()
