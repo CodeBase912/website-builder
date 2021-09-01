@@ -1,0 +1,71 @@
+.form-wrapper {
+  width: 100%;
+  max-width: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-title {
+  margin: 10px 0 30px 0;
+  font-size: 40px;
+}
+
+.form-input {
+  width: 80%;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 2px solid rgba(43, 49, 45, 0.603);
+  transition: 0.5s ease-in;
+  text-align: center;
+  font-size: 15px;
+}
+
+.form-input:focus {
+  outline: none;
+  border-bottom: 2px solid rgb(43, 49, 45);
+}
+
+.form-input::placeholder {
+  color: rgb(99, 99, 99);
+}
+
+.form-submit {
+  padding: 5px 20px;
+  background: rgb(43, 49, 45);
+  color: white;
+  border: 2px solid rgb(43, 49, 45);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.form-submit:active {
+  background: transparent;
+  color: rgb(43, 49, 45);
+}
+
+.form-links-wrapper {
+  padding: 20px 0;
+  text-align: center;
+}
+
+.form-forgot-pwd-link {
+  color: rgba(43, 49, 45, 0.658);
+  margin-bottom: 100px;
+}
+
+.form-signup-link-wrapper {
+  margin-top: 10px;
+}
+
+a.form-signup-link {
+  color: rgba(43, 49, 45);
+  font-weight: bold;
+}

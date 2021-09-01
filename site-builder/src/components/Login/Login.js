@@ -1,4 +1,5 @@
 import React from "react";
+import "./Login.css";
 
 function Login() {
   function handleSubmit(event) {
@@ -14,13 +15,34 @@ function Login() {
     xhr.send();
   }
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <h3>Login</h3>
-        <input type='text' name='username' placeholder='Username/Email' />
-        <input type='text' name='pwd' placeholder='Password' />
-        <input type='submit' value='Submit' />
+    <div className='form-wrapper'>
+      <form onSubmit={handleSubmit} className='form'>
+        <h3 className='form-title'>Login</h3>
+        <input
+          type='text'
+          name='username'
+          placeholder='Username/Email'
+          className='form-input'
+        />
+        <input
+          type='text'
+          name='pwd'
+          placeholder='Password'
+          className='form-input'
+        />
+        <input type='submit' value='Submit' className='form-submit' />
       </form>
+      <div className='form-links-wrapper'>
+        <a href='' className='form-forgot-pwd-link'>
+          Forgot passord?
+        </a>
+        <p className='form-signup-link-wrapper'>
+          No account?{" "}
+          <a href='' className='form-signup-link'>
+            Signup
+          </a>
+        </p>
+      </div>
     </div>
   );
 }
