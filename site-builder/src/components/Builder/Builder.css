@@ -3,14 +3,32 @@
   top: 0;
   width: 100%;
   height: 100%;
+  margin: 0;
+}
+
+.gjs-dashed *[data-highlightable] {
+  width: calc(100vw - 149px);
+  height: calc(100% - 30px);
+  margin-top: 30px;
 }
 
 #gjs {
   border: 2px solid rgb(112, 112, 112);
 }
 
-.gjs-block {
-  width: auto;
-  height: auto;
-  min-height: auto;
+.gjs-pn-views-container {
+  height: calc(100vh - 730px);
+  background: white;
+}
+
+.panel__top {
+  padding: 0;
+  width: 100%;
+  display: flex;
+  position: initial;
+  justify-content: center;
+  justify-content: space-between;
+}
+.panel__basic-actions {
+  position: initial;
 }

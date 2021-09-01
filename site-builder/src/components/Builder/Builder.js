@@ -1,64 +1,125 @@
-import React from "react";
-import "grapesjs/dist/css/grapes.min.css";
+import React, { useEffect, useState } from "react";
 import grapesjs from "grapesjs";
-// If you need plugins, put them below the main grapesjs script
-// import 'grapesjs-some-plugin';
-import "./Builder.css";
+import gjsPresetWebpage from "grapesjs-preset-webpage";
+// import pluginProductList from "./plugins/ProductList";
+// import pluginSlider from "./plugins/Slider";
+// import pluginRepeater from "./plugins/Repeater";
+// import pluginAuthor from "./plugins/Author";
+// import pluginForm from "./plugins/Form";
+// import pluginStickyBar from "./plugins/StickyBar";
+// import pluginCProductList from "./plugins/CProductList";
+// import pluginCollectionList from "./plugins/CollectionList";
+// import pluginGrid from "./plugins/Grid";
+// import pluginDropdown from "./plugins/Dropdown";
+// import loadEditorEvents from "./events";
+// import loadCommands from "./commands";
+// import loadPanels from "./panels";
+// import loadEventsManager from "./plugins/EventsManager";
+
+import "grapesjs/dist/css/grapes.min.css";
+import "grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css";
 
 function Builder() {
-  // Initiate the GrapeJS editor
-  const editor = grapesjs.init({
-    // Indicate where to init the editor. You can also pass an HTMLElement
-    container: "#gjs",
-    // Get the content for the canvas directly from the element
-    // As an alternative we could use: `components: '<h1>Hello World Component!</h1>'`,
-    fromElement: true,
-    // Size of the editor
-    height: "300px",
-    width: "auto",
-    // Disable the storage manager for the moment
-    storageManager: false,
-    // Avoid any default panel
-    panels: { defaults: [] },
-    blockManager: {
-      appendTo: "#blocks",
-      blocks: [
-        {
-          id: "section", // id is mandatory
-          label: "<b>Section</b>", // You can use HTML/SVG inside labels
-          attributes: { class: "gjs-block-section" },
-          content: `<section>
-          <h1>This is a simple title</h1>
-          <div>This is just a Lorem text: Lorem ipsum dolor sit amet</div>
-        </section>`,
+  const id = "editor";
+  const [editor, setEditor] = useState(null);
+
+  useEffect(() => {
+    if (!editor) {
+      let e = grapesjs.init({
+        container: `#${id}`,
+        avoidInlineStyle: 1,
+        fromElement: true,
+        showOffsets: 1,
+        styleManager: { clearProperties: 1 },
+        modal: {
+          backdrop: false,
         },
-        {
-          id: "text",
-          label: "Text",
-          content: '<div data-gjs-type="text">Insert your text here</div>',
+        storageManager: {
+          autoSave: 0,
         },
-        {
-          id: "image",
-          label: "Image",
-          // Select the component once it's dropped
-          select: true,
-          // You can pass components as a JSON instead of a simple HTML string,
-          // in this case we also use a defined component type `image`
-          content: { type: "image" },
-          // This triggers `active` event on dropped components and the `image`
-          // reacts by opening the AssetManager
-          activate: true,
+        // plugins: [
+        //   "gjs-preset-webpage",
+        //   // gjsPresetWebpage,
+        //   // pluginProductList,
+        //   // pluginSlider,
+        //   // pluginRepeater,
+        //   // pluginAuthor,
+        //   // pluginForm,
+        //   // pluginStickyBar,
+        //   // pluginCProductList,
+        //   // pluginGrid,
+        //   // pluginCollectionList,
+        //   // pluginDropdown,
+        //   // loadEventsManager,
+        // ],
+        // pluginsOpts: {
+        //   "gjs-preset-webpage": {
+        //     textLayout: "Hello world",
+        //   },
+        // },
+        canvas: {
+          // styles: [
+          //   "https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css",
+          //   "https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css",
+          //   "https://fonts.googleapis.com/css?family=Roboto&display=swap",
+          //   "https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css",
+          // ],
+          scripts: [
+            "//code.jquery.com/jquery-1.11.0.min.js",
+            "//code.jquery.com/jquery-migrate-1.2.1.min.js",
+            "//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js",
+          ],
         },
-      ],
-    },
-  });
+        deviceManager: {
+          devices: [
+            {
+              id: "desktop",
+              name: "Desktop",
+              width: "",
+            },
+            {
+              id: "tablet",
+              name: "Tablet",
+              width: "768px",
+              widthMedia: "992px",
+            },
+            {
+              id: "mobileLandscape",
+              name: "Mobile landscape",
+              width: "568px",
+              widthMedia: "768px",
+            },
+            {
+              id: "mobilePortrait",
+              name: "Mobile portrait",
+              width: "375px",
+              widthMedia: "480px",
+            },
+          ],
+        },
+      });
+      // loadEditorEvents(e);
+      // loadPanels(e);
+      // loadCommands(e);
+      // setEditor(e);
+      // e.setDevice("Desktop");
+    } else {
+      if (document) {
+        document.getElementById(id).append(editor.render());
+      }
+    }
+
+    return function cleanup() {
+      if (editor) {
+        editor.destroy();
+        grapesjs.editors = grapesjs.editors.filter((e) => e !== editor);
+      }
+    };
+  }, []);
 
   return (
-    <div>
-      <div id='gjs'>
-        <h1>Hello world</h1>
-      </div>
-      <div id='blocks'></div>
+    <div id={id}>
+      <h1>Hey there</h1>
     </div>
   );
 }
