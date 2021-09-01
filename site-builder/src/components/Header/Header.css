@@ -1,0 +1,29 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: rgb(49, 46, 43);
+  color: white;
+}
+
+.logo-wrapper p {
+  font-size: 25px;
+  padding: 0;
+  margin: 0;
+}
+
+.logo-wrapper p span {
+  padding: 0;
+  margin: 0;
+}
+
+.logo-wrapper p #logo {
+  color: aqua;
+  font-size: 30px;
+}
+
+.user-icon {
+  width: 30px;
+  height: 30px;
+}

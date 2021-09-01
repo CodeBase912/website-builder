@@ -37,26 +37,26 @@ function Builder() {
         storageManager: {
           autoSave: 0,
         },
-        // plugins: [
-        //   "gjs-preset-webpage",
-        //   // gjsPresetWebpage,
-        //   // pluginProductList,
-        //   // pluginSlider,
-        //   // pluginRepeater,
-        //   // pluginAuthor,
-        //   // pluginForm,
-        //   // pluginStickyBar,
-        //   // pluginCProductList,
-        //   // pluginGrid,
-        //   // pluginCollectionList,
-        //   // pluginDropdown,
-        //   // loadEventsManager,
-        // ],
-        // pluginsOpts: {
-        //   "gjs-preset-webpage": {
-        //     textLayout: "Hello world",
-        //   },
-        // },
+        plugins: [
+          "gjs-preset-webpage",
+          // gjsPresetWebpage,
+          // pluginProductList,
+          // pluginSlider,
+          // pluginRepeater,
+          // pluginAuthor,
+          // pluginForm,
+          // pluginStickyBar,
+          // pluginCProductList,
+          // pluginGrid,
+          // pluginCollectionList,
+          // pluginDropdown,
+          // loadEventsManager,
+        ],
+        pluginsOpts: {
+          "gjs-preset-webpage": {
+            textLayout: "Hello world",
+          },
+        },
         canvas: {
           // styles: [
           //   "https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css",

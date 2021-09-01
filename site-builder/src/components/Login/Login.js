@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 function Login() {
   function handleSubmit(event) {
     event.preventDefault();
 
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://localhost:80/site-builder-app/api/login', true);
+    xhr.open("GET", "http://localhost:80/site-builder-app/api/login", true);
     xhr.onload = function () {
       if (this.status === 200) {
         console.log(this.responseText);

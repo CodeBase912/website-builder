@@ -4,6 +4,7 @@ import Login from "./components/Login/Login";
 import Builder from "./components/Builder/Builder";
 import Signup from "./components/Signup/Signup";
 import PopUp from "./components/notificationPopUp/PopUp";
+import Header from "./components/Header/Header";
 import "./App.css";
 
 export const AppContext = React.createContext();
@@ -14,6 +15,7 @@ function App() {
   return (
     <AppContext.Provider value={{ popUpState, setPopUpState }}>
       <div className='App'>
+        <Header />
         <PopUp popUpState={popUpState} setPopUpState={setPopUpState} />
         <Router>
           <Route exact path='/' component={Login} />
