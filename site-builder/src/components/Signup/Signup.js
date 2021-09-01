@@ -23,12 +23,33 @@ function Signup() {
 
     // http://localhost/site-builder-app/api/login
 
-    fetch('http://localhost:80/site-builder-app/api/signup/index.php', {
-      method: 'POST',
-      body: JSON.stringify(params), // body data type must match "Content-Type" header
-    })
-      .then((response) => response.json())
-      .then((data) => {
+    // fetch('http://localhost:80/site-builder-app/api/signup/index.php', {
+    //   method: 'POST',
+    //   body: JSON.stringify(params), // body data type must match "Content-Type" header
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log(data);
+    //     AppState.setPopUpState({
+    //       ...AppState.popUpState,
+    //       showPopUp: true,
+    //       error: data.error,
+    //       msg: data.message,
+    //     });
+    //   });
+
+    const xhr = new XMLHttpRequest();
+    xhr.open(
+      'POST',
+      'http://localhost:80/site-builder-app/api/signup/index.php',
+      true
+    );
+    // xhr.setRequestHeader('Sec-Fetch-Mode', 'cors');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.onload = function () {
+      if (this.status === 200) {
+        const data = JSON.parse(this.responseText);
         console.log(data);
         AppState.setPopUpState({
           ...AppState.popUpState,
@@ -36,7 +57,10 @@ function Signup() {
           error: data.error,
           msg: data.message,
         });
-      });
+      }
+    };
+
+    xhr.send(JSON.stringify(params));
   }
 
   return (
