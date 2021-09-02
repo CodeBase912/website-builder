@@ -5,6 +5,8 @@
   width: 100%;
   text-align: center;
   padding: 10px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
 }
 
 .error {
@@ -33,11 +35,11 @@
   }
 
   20% {
-    top: 0;
+    top: 57px;
   }
 
   80% {
-    top: 0;
+    top: 57px;
   }
 
   100% {

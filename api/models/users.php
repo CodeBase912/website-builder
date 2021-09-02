@@ -380,7 +380,7 @@ class User {
                     $result = array("session_error"=>$session['error'], "username"=>$userData['data']['username'], "email"=>$userData['data']['email'], "token"=>$selector."&".bin2hex($token), "exp"=>$expires);
 
                     // Return the result
-                    return array("status"=>201, "error"=>false, "message"=>"User session created", "data"=>$result); 
+                    return array("status"=>201, "error"=>false, "message"=>"User logged in", "data"=>$result); 
 
                 }
                 else {
@@ -404,7 +404,7 @@ class User {
                     $result = array("username"=>$userData['data']['username'], "email"=>$userData['data']['email'], "token"=>$selector.'&'.bin2hex($token), "exp"=>$expires);
 
                     // Return the result
-                    return array("status"=>201, "error"=>false, "message"=>"User session created", "data"=>$result);
+                    return array("status"=>201, "error"=>false, "message"=>"User logged in", "data"=>$result);
                 }
 
             }

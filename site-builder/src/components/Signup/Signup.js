@@ -46,6 +46,7 @@ function Signup() {
     );
     // xhr.setRequestHeader('Sec-Fetch-Mode', 'cors');
     xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('Sec-Fetch_Mode', 'cors');
 
     xhr.onload = function () {
       if (this.status === 200) {
@@ -82,14 +83,6 @@ function Signup() {
           placeholder='Email'
           value={inputState.email}
           onChange={(event) => {
-            function ValidateEmail(mail) {
-              if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
-                return true;
-              }
-              // alert('You have entered an invalid email address!');
-              return false;
-            }
-            console.log(ValidateEmail(event.target.value));
             setInputState({ ...inputState, email: event.target.value });
           }}
         />
