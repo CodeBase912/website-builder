@@ -35,10 +35,10 @@ class User {
         $this->conn = $db;
     }
 
-    // Get User Method
+    // Get Single User Method
     public function getUser($user, $returnPassword) {
         /** 
-         * @method getUser()
+         * @method getUser() - gets a single user from the database
          * 
          * @param string $user - a string that represents an email address or username to look
          *                       look up in the database
@@ -66,17 +66,19 @@ class User {
             // Search by username
 
             // Create the query
-            $query = 'SELECT username, email, password, verified, mod_timestamp FROM ' . $this->table . ' WHERE username=?';
+            $query = 'SELECT username, email, password, verified, mod_timestamp FROM ' . $this->table . ' WHERE username=:username OR email=:email OR id=:id';
             // Create the prepared statement
             $stmt = $this->conn->prepare($query);
             // Bind the parameter to the placeholder
-            $stmt->bindParam(1, $this->searchQuery);
+            $stmt->bindParam('username', $this->searchQuery);
+            $stmt->bindParam('email', $this->searchQuery);
+            $stmt->bindParam('id', $this->searchQuery);
             // Execute the query
             $stmt->execute();
-            if ($stmt->rowCount() > 0) {
+            // Get the result
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($result) {
                 // The user is exists in database
-                // Get the result
-                $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 // Set properties
                 $this->username = $result['username'];
@@ -118,10 +120,10 @@ class User {
             $stmt->bindParam(1, $this->searchQuery);
             // Execute the query
             $stmt->execute();
-            if ($stmt->rowCount() > 0) {
+            // Get the result
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($result) {
                 // The user is exists in database
-                // Get the result
-                $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 // Set properties
                 $this->username = $result['username'];
@@ -146,9 +148,53 @@ class User {
                 return array("status"=>200, "error"=>false, "message"=>"User found", "search_by"=>"email", "data"=>$result);
             }
             else {
-                // The user doe not exists in database
+                // The user does not exists in database
                 return array("status"=>404, "error"=>true, "message"=>"User not found", "search_by"=>"email", "data"=>"");
             }
+        }
+    }
+
+    // Get All Users
+    public function getAllUsers() {
+        /** 
+         * @method getUser() - gets a single user from the database
+         * 
+         * @param string $user - a string that represents an email address or username to look
+         *                       look up in the database
+         * 
+         * @param boolean $returnPassword - represents whether to return the user's password or not.
+         *                                  true => return password
+         *                                  false => do not return password
+         * 
+         * @var string $query - MySQL query statement
+         * 
+         * @var object $stmt - The PDO::Statement object
+         * 
+         * @return array $result  an associative array containing the results of the search. Note
+         *                         that the "error" property of the array represents how the result 
+         *                         "message" property should be displayed in the UI on the front end
+         * 
+         * @access public
+        */
+
+        $query = 'SELECT username, email, verified, mod_timestamp  FROM ' . $this->table;
+
+        // Prepare statement
+        $stmt = $this->conn->prepare($query);
+        // Execute query
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // Check if there are any results
+        if ($result) {
+            // Get the result
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                array_push($result, $row);
+            }
+            return array("status"=>200, "error"=>false, "message"=>"Users Found", "data"=>$result);
+        }
+        else { 
+            // There are no users in the DB
+            return array("status"=>404, "error"=>true, "message"=>"No Users Found", "data"=>"");
         }
     }
 
@@ -231,70 +277,77 @@ class User {
     }
 
     // Signup User Method
-    public function signUpUser() {
+    public function signUpUser($user) {
         /** 
          * @method signUpUser()
+         * 
+         * @param array $user - an array that contains the user's email, username
          * 
          * @var string $query - MySQL query statement
          * 
          * @var object $stmt - The PDO::Statement object
          * 
-         * @return array $result - an associative array containing the status of the result of
-         *                         singing in the user
+         * @return array $result - an associative array containing the status 
+         *                         of the result of singing in the user
          * 
          * @access public
         */
 
         // First clean the data
-        $this->username = htmlspecialchars(strip_tags($this->username));
-        $this->email = htmlspecialchars(strip_tags($this->email));
-        $this->password = htmlspecialchars(strip_tags($this->password));
+        $this->username = htmlspecialchars(strip_tags($user['username']));
+        $this->email = htmlspecialchars(strip_tags($user['email']));
+        $this->password = htmlspecialchars(strip_tags($user['password']));
         $this->password = 
         password_hash($this->password, PASSWORD_DEFAULT);
         $this->verified = htmlspecialchars(strip_tags($this->verified));
 
-        // Check if the username or email is taken
-        // Create query
-        $query = 'SELECT username, email FROM ' . $this->table . ' WHERE username = :username OR email = :email ';
-        // Prepared statement
+        $query = 'SELECT username, email, verified, mod_timestamp  FROM ' . $this->table . ' WHERE username = :username OR email = :email';
+
+        // Prepare statement
         $stmt = $this->conn->prepare($query);
         // Bind the parameters to the named placeholders
-        $stmt->bindParam(':username', $this->username);
-        $stmt->bindParam(':email', $this->email);
-        // Execute the statement
+        $stmt->bindParam(':username', $user['username']);
+        $stmt->bindParam(':email', $user['email']);
+        // Execute query
         $stmt->execute();
-        // Determine if there are any matches
-        if ($stmt->rowCount() > 0) {
+
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        // Check if there are any results
+        if ($result) {
             // There is a match
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($result['username'] == $this->username) {
-                return [false, array("status"=>409, "error"=>true, "message"=>"Username is not available!")]; // Status code 409 => Conflict
+            // $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($result['username'] == $user['username']) {
+                return [false, array("status"=>400, "error"=>true, "message"=>"Username Not Available!")]; // Status code 409 => Conflict
             }
-            else if ($result['email'] == $this->email) {
-                return [false, array("status"=>409, "error"=>true, "message"=>"Email is not available!")]; // Status code 409 => Conflict
+            else if ($result['email'] == $user['email']) {
+                return [false, array("status"=>400, "error"=>true, "message"=>"Email Not Available")]; // Status code 409 => Conflict
             }
         }
-        else {
-            // There are no matches therefore insert the user in the database
+        else { 
+            // There are no users in the DB
+
             // Create query
-            $query = 'INSERT INTO ' . $this->table . ' SET username = :username, email = :email, password = :password, verified = :verified';
+            $query = 'INSERT INTO ' . $this->table . ' (username, email, password, verified, mod_timestamp) VALUES (:username, :email, :password, :verified, :mod_timestamp)';
             // Prepare statement
             $stmt = $this->conn->prepare($query);
             // Bind the parameters to the named placeholders
+            $currentUnixTime = time();
+            $verifired = 0;
             $stmt->bindParam(':username', $this->username);
             $stmt->bindParam(':email', $this->email);
             $stmt->bindParam(':password', $this->password);
-            $stmt->bindParam(':verified', $this->verified);
+            $stmt->bindParam(':verified', $verifired);
+            $stmt->bindParam(':mod_timestamp', $currentUnixTime);
             // Execute the query
             if ($stmt->execute()) {
-                return [true, array("status"=>201, "error"=>false, "message"=>"User account created!")]; // Status code 201 => Created
+                return [true, array("status"=>201, "error"=>false, "message"=>"User Account Created")]; // Status code 201 => Created
             }
             else {
                 // Print error if something goes wrong
                 return [false, array("status"=>417, "error"=>true, "message"=>"Error: ". $stmt->error)]; // Status code 417 => Expectation Failed
             }
         }
-        
     }
 
     // Login User Method

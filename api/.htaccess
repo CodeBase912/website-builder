@@ -1,0 +1,20 @@
+## Flag for GoDaddy
+Options +MultiViews
+
+### This tells the .htaccess that it interacts with everything on this server
+### unless another .htaccess file (in a subfolder) tells it not to
+RewriteBase /
+
+
+## Redirect extensions
+### This redirects to the filename that is given without the extension
+### If there exists a file with the name about (/about) it will 
+### redirect to about.php
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.php
+
+## Redirect from extensions to non-extensions
+### This redirects from /about.php to /about
+RewriteCond %{THE_REQUEST} \s/+(.+?)\.php[\s?]
+RewriteRule ^ /%1

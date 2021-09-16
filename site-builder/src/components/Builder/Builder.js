@@ -16,6 +16,13 @@ import gjsPresetWebpage from 'grapesjs-preset-webpage';
 // import loadPanels from "./panels";
 // import loadEventsManager from "./plugins/EventsManager";
 
+/**
+ * Load the data
+ * @param  {Aarray} keys Array containing values to load, eg, ['gjs-components', 'gjs-styles', ...]
+ * @param  {Function} clb Callback function to call when the load is ended
+ * @param  {Function} clbErr Callback function to call in case of errors
+ */
+
 import 'grapesjs/dist/css/grapes.min.css';
 import 'grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css';
 
