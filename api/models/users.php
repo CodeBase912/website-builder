@@ -468,4 +468,55 @@ class User {
         }
 
     }
+
+    // Update User Data Method
+    public function updateUserData($user) {
+        /** 
+         * @method updateUserData() - updates user's account information
+         * 
+         * @param array $user - an associative array where that contains the 
+         *                      identifier of the user's data to update and
+         *                      the new data
+         * 
+         * @return array $result - an associative array containing the status of 
+         *                 result of updating the user's account information
+         * 
+         * @access public
+         * @see Net_Other::getUser()
+        */
+
+        // Check if the new username/email is not taken
+        if (key($user['newData']) != 'password') {
+            $dataCheck = $this->getUser($user['newData'][key($user['newData'])], false);
+            // Check if there was an error updating the user's data
+            if (!$dataCheck['error']) {
+                // There was an error. Throw an exception with the error 
+                // message
+                if (key($user['newData']) == 'email') {
+                    return array("status"=>400, "error"=>true, "message"=>"Email Not Available");
+                }
+                else if (key($user['newData']) == 'username') {
+                    return array("status"=>400, "error"=>true, "message"=>"Username Not Available");
+                }
+            }
+        }
+
+        // Update the user's data
+        $query = 'UPDATE ' . $this->table . ' SET ' . key($user['newData']) . ' = :newData WHERE ' . key($user['userIdentifier']) . ' = :identifier';
+        // Prepare statement
+        $stmt = $this->conn->prepare($query);
+        // Bind the parameter to the placeholder
+        $stmt->bindParam(':newData', $user['newData'][key($user['newData'])]);
+        $stmt->bindParam(':identifier', $user['userIdentifier'][key($user['userIdentifier'])]);
+        // Execute the query
+        if ($stmt->execute()) {
+            // User's data was successfully update, return success message
+            return array("status"=>202, "error"=>false, "message"=>"Updated Successfully");
+        }
+        else {
+            // Something went wrong
+            return array("status"=>417, "error"=>true, "message"=>"Something Went Wrong");
+        }
+
+    }
 }

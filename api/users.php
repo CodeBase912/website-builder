@@ -136,7 +136,7 @@ switch ($verb) {
                 $userData = $user->getAllUsers();
                 // Check if there was an error
                 if ($userData['error']) {
-                    // Theer was an error. Throw an exception with the error 
+                    // There was an error. Throw an exception with the error 
                     // message
                     throw new Exception($userData['message'], $userData['status']);
                 }
@@ -161,17 +161,104 @@ switch ($verb) {
         // If the method is PUT we update a record in the user's table 
         // in the DB
 
+        // Check if the input data is provided
+        if ($InputData) {
+            // Define the input validation rules
+            $args = array(
+                'type' => FILTER_SANITIZE_STRING,
+                'username' => FILTER_SANITIZE_STRING,
+                'email' => FILTER_VALIDATE_EMAIL,
+                'password' => '',
+                'confirmedPassword' => ''
+            );
+
+            /**
+             * Schema of input
+             * {
+             *  "userIdetifier": {
+             *                     "username": "james12" 
+             *                   },
+             * "newData": {
+             *              "username": "iamjames"
+             *            }
+             * }
+             */
+
+            //  echo json_encode($InputData['newData']);
+            //  exit();
+
+            // Validate the input
+            $identifier = filter_var_array($InputData['userIdentifier'], $args);
+            $newData = filter_var_array($InputData['newData'], $args);
+            $identifier = array_filter($identifier);
+            $newData = array_filter($newData);
+
+            // Check if the newData is valid
+            if (count($newData) == 0 || !$newData[key($newData)]) {
+                throw new Exception('Invalid Update Data');
+            }
+            $InputData = ["userIdentifier" => $identifier, "newData" => $newData];
+
+            // If the an identifier and new data was given
+            if (( (count($identifier) > 0 && $InputData['userIdentifier']['username']) || (count($identifier) > 0 && $InputData['userIdentifier']['email']) ) 
+            && 
+            ( key($InputData['newData']) === 'username' || (key($InputData['newData']) === 'password' && key($InputData['newData']) === 'confirmedPassword') )) {
+                // Check if the username or email was given and lookup the user 
+                // accordingly
+                if ($InputData['userIdentifier']['username']) {
+                    // Username was given. Lookup user by username
+                    $userData = $user->getSingleUser($InputData['userIdentifier']['username']);
+                }
+                else if ($InputData['userIdentifier']['email']) {
+                    // Username was given. Lookup user by username
+                    $userData = $user->getSingleUser($InputData['userIdentifier']['email']);
+                }
+                // Check if there was an error
+                if ($userData['error']) {
+                    // There was an error. Throw an exception with the error 
+                    // message
+                    throw new Exception($userData['message'], $userData['status']);
+                }
+
+                // There was no error therefore update the user's data
+                $userData = $user->updateData($InputData);
+                // Check if there was an error updating the user's data
+                if ($userData['error']) {
+                    // There was an error. Throw an exception with the error 
+                    // message
+                    throw new Exception($userData['message'], $userData['status']);
+                }
+                else {
+                    // There was no error updating the user's data, return a
+                    // success message
+                    header("Content-Type: application/json", false, $userData['status']);
+                    echo json_encode(["success" => ["message" => $userData['message']]]);
+                }
+            }
+            else {
+                throw new Exception('Invalid Request');
+            }
+        }
+        else {
+            throw new Exception('Missing Input Data');
+        }
+
         break;
     case 'DELETE':
         // If the method is DELETE we remove a user's account from the DB
+
+        // Check if the input data is provided
+        if ($InputData) {
+            # code...
+        }
+        else {
+            throw new Exception('Missing Input Data');
+        }
 
         break;
     default:
         throw new Exception('Method Not Supported', 405);
 }
-
-// header("Content-Type: application/json", false, 200);
-// echo json_encode(["data" => $InputData]);
 
 
 

@@ -81,6 +81,21 @@ class UserController {
     }
 
     /**
+     * @method updateData - updates the user's account data
+     * 
+     * @param array $userData - an associative array where that contains the 
+     *                          identifier of the user's data to update and 
+     *                          the new data
+     * 
+     * @return array - an associative array containing the status of 
+     *                 result of updating the user's account information
+     */
+    public function updateData($userData) {
+        $result = $this->userModel->updateUserData($userData);
+        return $result;
+    }
+
+    /**
      * @method closeConnection - closes the DB connection
      */
     public function closeConnection() {
