@@ -15,7 +15,12 @@ class UserController {
         $this->userModel = new User($db);
     }
 
-    public function getInputData() {
+    /**
+     * gets the body of the http request
+     * 
+     * @return array an associative array
+     */
+    public function getInputData(){
         if (file_get_contents("php://input")) {
             return json_decode(file_get_contents("php://input"), true);
         }
@@ -25,13 +30,14 @@ class UserController {
     }
 
     /**
-     * @method signUp - signs up the user
+     * signs up the user
      * 
-     * @param array $userData - an array that contains the user's 
-     *                          email, username
+     * @param array $userData  an array that contains the user's 
+     *                         email, username, password and confirmed
+     *                         password
      * 
-     * 
-     * @return array - an array that contains the result of signup process
+     * @return array  an array that contains a success or error message 
+     *                of the signup process
      */
     public function signUp($userData) {
         $result = $this->userModel->signUpUser($userData);
@@ -39,13 +45,14 @@ class UserController {
     }
 
     /**
-     * @method getSingleUser - gets a single user
+     * gets a single user
      * 
-     * @param array $userData - an array that contains the user's 
-     *                          email, username or id
+     * @param array $userData  an array that contains the user's 
+     *                         email, username or id
      * 
-     * @return array - an array that contains the user's data and status of
-     *                 the operation
+     * @return array  an associative array that contains an error 
+     *                message or contains a success message and the 
+     *                user's data
      */
     public function getSingleUser($userData) {
         // Get the user. 2nd param is false => we do not want to return user's 
@@ -55,10 +62,11 @@ class UserController {
     }
 
     /**
-     * @method getAllUsers - gets all users in the DB
+     * gets all users in the database
      * 
-     * @return array - an array that contains the users' data and status of
-     *                 the operation
+     * @return array  an associative array that contains an error 
+     *                message or contains a success message and the 
+     *                user's data
      */
     public function getAllUsers() {
         // Get the user. 2nd param is false => we do not want to return user's 
@@ -68,27 +76,27 @@ class UserController {
     }
 
     /**
-     * @method logIn - logs in the user and returns the session
-     *                 token
+     * logs in the user and returns the session token (if successful)
      * 
-     * @param string $userData - the user's email or username
+     * @param string $userData  the user's email or username
      * 
-     * @return array - an array that contains the user's session 
-     *                 token
+     * @return array  an associative array that contains an error 
+     *                message or contains a success message and the 
+     *                user's session token
      */
     public function logIn($userData) {
         $this->userModel->logInUser($userData);
     }
 
     /**
-     * @method updateData - updates the user's account data
+     * updates the user's account data
      * 
-     * @param array $userData - an associative array where that contains the 
-     *                          identifier of the user's data to update and 
-     *                          the new data
+     * @param array $userData  an associative array that contains an 
+     *                         identifier of the user and the new data 
+     *                         to update
      * 
-     * @return array - an associative array containing the status of 
-     *                 result of updating the user's account information
+     * @return array  an associative array that contains an error 
+     *                message or a success message
      */
     public function updateData($userData) {
         $result = $this->userModel->updateUserData($userData);
@@ -96,7 +104,7 @@ class UserController {
     }
 
     /**
-     * @method closeConnection - closes the DB connection
+     * closes the database connection
      */
     public function closeConnection() {
         $this->userModel->conn = null;

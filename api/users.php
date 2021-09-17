@@ -184,9 +184,6 @@ switch ($verb) {
              * }
              */
 
-            //  echo json_encode($InputData['newData']);
-            //  exit();
-
             // Validate the input
             $identifier = filter_var_array($InputData['userIdentifier'], $args);
             $newData = filter_var_array($InputData['newData'], $args);
@@ -199,17 +196,17 @@ switch ($verb) {
             }
             $InputData = ["userIdentifier" => $identifier, "newData" => $newData];
 
-            // If the an identifier and new data was given
-            if (( (count($identifier) > 0 && $InputData['userIdentifier']['username']) || (count($identifier) > 0 && $InputData['userIdentifier']['email']) ) 
+            // If the an identifier (is valid) and new data were given
+            if (( (count($identifier) > 0 && key($InputData['userIdentifier']) === 'username') || (count($identifier) > 0 && key($InputData['userIdentifier']) === 'email') ) 
             && 
-            ( key($InputData['newData']) === 'username' || (key($InputData['newData']) === 'password' && key($InputData['newData']) === 'confirmedPassword') )) {
+            ( key($InputData['newData']) === 'username' || (key_exists('password', $InputData['newData']) && key_exists('confirmedPassword', $InputData['newData'])) )) {
                 // Check if the username or email was given and lookup the user 
                 // accordingly
-                if ($InputData['userIdentifier']['username']) {
+                if (key($InputData['userIdentifier']) === 'username') {
                     // Username was given. Lookup user by username
                     $userData = $user->getSingleUser($InputData['userIdentifier']['username']);
                 }
-                else if ($InputData['userIdentifier']['email']) {
+                else if (key($InputData['userIdentifier']) === 'email') {
                     // Username was given. Lookup user by username
                     $userData = $user->getSingleUser($InputData['userIdentifier']['email']);
                 }
@@ -247,6 +244,8 @@ switch ($verb) {
     case 'DELETE':
         // If the method is DELETE we remove a user's account from the DB
 
+        // For noe we do not support delete methods
+        throw new Exception('Method Not Supported', 405);
         // Check if the input data is provided
         if ($InputData) {
             # code...

@@ -1,22 +1,33 @@
 <?php
+
+/** 
+ * The user class will hold the properties and methods that involve the user
+ * 
+ * Properties:
+ * @property object $conn  The database connection
+ * 
+ * @property string $searchQuery  The string to look for in the database 
+ *                             (a parameter of the getUser() method)
+ * 
+ * @property string $table  A sting value of the database table that contains 
+ *                     user account information
+ * 
+ * @property string $sessionTable  A sting value of the database table that 
+ *                            contains user session information
+ * 
+ * @property string $username  User's username
+ * 
+ * @property string $email  User's email
+ * 
+ * @property string $password  User's password
+ * 
+ * @property boolean $verified  Represents whether the user's email has been 
+ *                         verified. 1 => Verified ; 0 => Not Verified
+ * 
+ * @property integer $modified_at  Last modified date of the user's account
+ * 
+*/
 class User {
-    /** 
-     * The user class will hold the properties and methods that involve the user
-     * 
-     * Properties:
-     * @var object    $conn - The database connection
-     * @param string  $searchQuery - The string to look for in the database (a parameter of the getUser() method)
-     * @var string    $table - A sting value of the database table that contains user account information
-     * @var string    $sessionTable - A sting value of the database table that contains user session information
-     * @var string    $username - User's username
-     * @var string    $email - User's email
-     * @var string    $password - User's password
-     * @var boolean   $verified - Represents whether the user's email has been verified. 1 => Verified ; 0 => Not Verified
-     * @var timestamp $modified_at - Last modified date of the user's account
-     * 
-    */
-
-
     // DB Stuff
     private $conn;
     private $table = 'members';
@@ -36,28 +47,22 @@ class User {
     }
 
     // Get Single User Method
+    /** 
+     * gets a single user from the database
+     * 
+     * @param string $user  an array that contains the user's 
+     *                      email, username or id
+     * 
+     * @param boolean $returnPassword  represents whether to return the user's 
+     *                                 password or not:
+     *                                 (true => return password) and
+     *                                 (false => do not return password)
+     * 
+     * @return array  an associative array that contains an error 
+     *                message or contains a success message and the 
+     *                user's data
+    */
     public function getUser($user, $returnPassword) {
-        /** 
-         * @method getUser() - gets a single user from the database
-         * 
-         * @param string $user - a string that represents an email address or username to look
-         *                       look up in the database
-         * 
-         * @param boolean $returnPassword - represents whether to return the user's password or not.
-         *                                  true => return password
-         *                                  false => do not return password
-         * 
-         * @var string $query - MySQL query statement
-         * 
-         * @var object $stmt - The PDO::Statement object
-         * 
-         * @return array $result  an associative array containing the results of the search. Note
-         *                         that the "error" property of the array represents how the result 
-         *                         "message" property should be displayed in the UI on the front end
-         * 
-         * @access public
-        */
-
         // First clean the input & set the searchQuery
         $this->searchQuery = htmlspecialchars(strip_tags($user));
         // Check whether searchQuery is an email or not
@@ -155,30 +160,16 @@ class User {
     }
 
     // Get All Users
+    /** 
+     * gets a all users in the database
+     * 
+     * @return array  an associative array that contains an error 
+     *                message or contains a success message and the 
+     *                user's data
+    */
     public function getAllUsers() {
-        /** 
-         * @method getUser() - gets a single user from the database
-         * 
-         * @param string $user - a string that represents an email address or username to look
-         *                       look up in the database
-         * 
-         * @param boolean $returnPassword - represents whether to return the user's password or not.
-         *                                  true => return password
-         *                                  false => do not return password
-         * 
-         * @var string $query - MySQL query statement
-         * 
-         * @var object $stmt - The PDO::Statement object
-         * 
-         * @return array $result  an associative array containing the results of the search. Note
-         *                         that the "error" property of the array represents how the result 
-         *                         "message" property should be displayed in the UI on the front end
-         * 
-         * @access public
-        */
-
+        // Define the query
         $query = 'SELECT username, email, verified, mod_timestamp  FROM ' . $this->table;
-
         // Prepare statement
         $stmt = $this->conn->prepare($query);
         // Execute query
@@ -199,31 +190,23 @@ class User {
     }
 
     // Get User Session Method
+    /** 
+     * gets the user's session data
+     * 
+     * @param string $user  May be either a user's selector token or 
+     *                      the user's email.
+     * 
+     * @param boolean $findByToken  represents whether to find the user's
+     *                              session data by the session token or not:
+     *                              (true => find by token) and
+     *                              (false => find by username)
+     * 
+     * @return array  an associative array that contains an error 
+     *                message or contains a success message and the 
+     *                user's session data
+     *
+    */
     public function getUserSession($user, $findByToken) {
-        /** 
-         * @method getUserSession()
-         * 
-         * @param string $user - May be either a user's selector token (i.e. a string of cryptographically 
-         *                       secure random bytes) or the user's email.
-         * 
-         * @param boolean $findByToken - represents whether to find the user's session data by the session 
-         *                               token or not.
-         *                               true => find by token
-         *                               false => do not find by token (i.e. find by username)
-         * 
-         * @var string $query - MySQL query statement
-         * 
-         * @var object $stmt - The PDO::Statement object
-         * 
-         * @return array $result - an associative array that holds the user's session data. Note
-         *                         that the "error" property of the array represents how the result 
-         *                         "message" property should be displayed in the UI on the front end
-         * 
-         * @access public
-         *
-        */
-
-        
         // Check whether searchQuery is an email or not
         if (!filter_var($user, FILTER_VALIDATE_EMAIL)) {
             // The $user parameter is a token (not an email).
@@ -277,22 +260,17 @@ class User {
     }
 
     // Signup User Method
+    /** 
+     * signs up the user
+     * 
+     * @param array $user  an array that contains the user's 
+     *                     email, username, password and confirmed
+     *                     password
+     * 
+     * @return array  an array that contains a success or error message 
+     *                of the signup process
+    */
     public function signUpUser($user) {
-        /** 
-         * @method signUpUser()
-         * 
-         * @param array $user - an array that contains the user's email, username
-         * 
-         * @var string $query - MySQL query statement
-         * 
-         * @var object $stmt - The PDO::Statement object
-         * 
-         * @return array $result - an associative array containing the status 
-         *                         of the result of singing in the user
-         * 
-         * @access public
-        */
-
         // First clean the data
         $this->username = htmlspecialchars(strip_tags($user['username']));
         $this->email = htmlspecialchars(strip_tags($user['email']));
@@ -300,9 +278,8 @@ class User {
         $this->password = 
         password_hash($this->password, PASSWORD_DEFAULT);
         $this->verified = htmlspecialchars(strip_tags($this->verified));
-
+        // Define the SQL query
         $query = 'SELECT username, email, verified, mod_timestamp  FROM ' . $this->table . ' WHERE username = :username OR email = :email';
-
         // Prepare statement
         $stmt = $this->conn->prepare($query);
         // Bind the parameters to the named placeholders
@@ -310,13 +287,11 @@ class User {
         $stmt->bindParam(':email', $user['email']);
         // Execute query
         $stmt->execute();
-
-        
+        // Collect the result
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         // Check if there are any results
         if ($result) {
             // There is a match
-            // $result = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($result['username'] == $user['username']) {
                 return [false, array("status"=>400, "error"=>true, "message"=>"Username Not Available!")]; // Status code 409 => Conflict
             }
@@ -351,37 +326,17 @@ class User {
     }
 
     // Login User Method
+    /** 
+     * logs in the user and returns the session token (if successful)
+     * 
+     * @param array $user  an associative array that contains a user's email or
+     *                     username and password
+     * 
+     * @return array  an associative array that contains an error 
+     *                message or contains a success message and the 
+     *                user's session token
+    */
     public function logInUser($user) {
-        /** 
-         * @method logInUser()
-         * 
-         * @param array $user - an associative array that contains a user property (may be an email 
-         *                      address/username), to look up in the database, and a password property
-         * 
-         * @var string $selector - a string of cryptographically secure random bytes (converted to a hexidecimal
-         *                         representation) that will be used to identify the user's session token in the
-         *                         database. This is done to prevent against timing attacks
-         * 
-         * @var string $token - the session token. It is string of cryptographically secure random bytes
-         * 
-         * @var int $expires - The expiration date of the token (in UNIX time) 
-         * 
-         * @var array $session - an array that holds the user's session data 
-         * 
-         * @var string $query - MySQL query statement
-         * 
-         * @var object $stmt - The PDO::Statement object
-         * 
-         * 
-         * 
-         * @return array $result - an associative array containing the status of the result of
-         *                         loggin in the user
-         * 
-         * @access public
-         * @see Net_Other::getUser()
-        */
-
-
         $userData = $this->getUser($user['user'], 1);
         // Check if the user is in the database
         if (!$userData['error']) {
@@ -395,7 +350,15 @@ class User {
                 // The passwords match
 
                 // Generate the session tokens
-                $selector = bin2hex(random_bytes(8)); // Used to identify the session token in the database
+                /**
+                 * @var string $selector  a string of cryptographically secure
+                 *                        random bytes (converted to a hexidecimal 
+                 *                        representation) that will be used to 
+                 *                        identify the user's session token in the
+                 *                        database. This is done to prevent 
+                 *                        against timing attacks 
+                 */
+                $selector = bin2hex(random_bytes(8));
                 $token = random_bytes(32); // The session token
                 $expires = time() + 60 * 30;
 
@@ -466,24 +429,20 @@ class User {
             // User is not in the database
             return $userData;
         }
-
     }
 
     // Update User Data Method
+    /** 
+     * =updates user's account information
+     * 
+     * @param array $user  an associative array that contains an 
+     *                     identifier of the user and the new data to
+     *                     update
+     * 
+     * @return array  an associative array that contains an error 
+     *                message or a success message
+    */
     public function updateUserData($user) {
-        /** 
-         * @method updateUserData() - updates user's account information
-         * 
-         * @param array $user - an associative array where that contains the 
-         *                      identifier of the user's data to update and
-         *                      the new data
-         * 
-         * @return array $result - an associative array containing the status of 
-         *                 result of updating the user's account information
-         * 
-         * @access public
-         * @see Net_Other::getUser()
-        */
 
         // Check if the new username/email is not taken
         if (key($user['newData']) != 'password') {
