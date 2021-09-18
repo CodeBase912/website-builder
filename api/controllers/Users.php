@@ -2,7 +2,7 @@
 // This file contains the Users controller
 
 include_once './models/database_config.php';
-include_once './models/users.php';
+include_once './models/user.php';
 
 class UserController {
 
@@ -18,9 +18,9 @@ class UserController {
     /**
      * gets the body of the http request
      * 
-     * @return array an associative array
+     * @return array|bool an associative array
      */
-    public function getInputData(){
+    public function getInputData(): array|bool {
         if (file_get_contents("php://input")) {
             return json_decode(file_get_contents("php://input"), true);
         }
@@ -39,7 +39,7 @@ class UserController {
      * @return array  an array that contains a success or error message 
      *                of the signup process
      */
-    public function signUp($userData) {
+    public function signUp(array $userData): array {
         $result = $this->userModel->signUpUser($userData);
         return $result[1];
     }
@@ -47,14 +47,14 @@ class UserController {
     /**
      * gets a single user
      * 
-     * @param array $userData  an array that contains the user's 
-     *                         email, username or id
+     * @param string $user  an string that contains the user's 
+     *                      email, username or id
      * 
      * @return array  an associative array that contains an error 
      *                message or contains a success message and the 
      *                user's data
      */
-    public function getSingleUser($userData) {
+    public function getSingleUser(string $userData): array {
         // Get the user. 2nd param is false => we do not want to return user's 
         // pwd
         $result = $this->userModel->getUser($userData, false);
@@ -68,7 +68,7 @@ class UserController {
      *                message or contains a success message and the 
      *                user's data
      */
-    public function getAllUsers() {
+    public function getAllUsers(): array {
         // Get the user. 2nd param is false => we do not want to return user's 
         // pwd
         $result = $this->userModel->getAllUsers();
@@ -78,7 +78,8 @@ class UserController {
     /**
      * logs in the user and returns the session token (if successful)
      * 
-     * @param string $userData  the user's email or username
+     * @param array $userData  an associative array that contains a 
+     *                         user's email or username and password
      * 
      * @return array  an associative array that contains an error 
      *                message or contains a success message and the 
@@ -98,7 +99,7 @@ class UserController {
      * @return array  an associative array that contains an error 
      *                message or a success message
      */
-    public function updateData($userData) {
+    public function updateData(array $userData): array {
         $result = $this->userModel->updateUserData($userData);
         return $result;
     }
@@ -106,7 +107,7 @@ class UserController {
     /**
      * closes the database connection
      */
-    public function closeConnection() {
+    public function closeConnection(): void {
         $this->userModel->conn = null;
     }
 }

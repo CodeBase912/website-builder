@@ -50,19 +50,19 @@ class User {
     /** 
      * gets a single user from the database
      * 
-     * @param string $user  an array that contains the user's 
+     * @param string $user  a string that contains the user's 
      *                      email, username or id
      * 
-     * @param boolean $returnPassword  represents whether to return the user's 
-     *                                 password or not:
-     *                                 (true => return password) and
-     *                                 (false => do not return password)
+     * @param boolean|null $returnPassword  represents whether to return the user's
+     *                                      password or not:
+     *                                      (true => return password) and
+     *                                      (false => do not return password)
      * 
      * @return array  an associative array that contains an error 
      *                message or contains a success message and the 
      *                user's data
     */
-    public function getUser($user, $returnPassword) {
+    public function getUser(string $user, bool|null $returnPassword): array {
         // First clean the input & set the searchQuery
         $this->searchQuery = htmlspecialchars(strip_tags($user));
         // Check whether searchQuery is an email or not
@@ -94,7 +94,7 @@ class User {
 
 
                 // Check if the user's password should be returned
-                if ($returnPassword) {
+                if ($returnPassword === true) {
                     // Return the user's password
                     // Remove "password" property from the $result array
                     $result = array("username"=>$result['username'], "email"=>$result['email'], "password"=>$result['password'], "verified"=>$result['verified'], "last_updated"=>$result['mod_timestamp']);
@@ -167,7 +167,7 @@ class User {
      *                message or contains a success message and the 
      *                user's data
     */
-    public function getAllUsers() {
+    public function getAllUsers(): array {
         // Define the query
         $query = 'SELECT username, email, verified, mod_timestamp  FROM ' . $this->table;
         // Prepare statement
@@ -196,23 +196,23 @@ class User {
      * @param string $user  May be either a user's selector token or 
      *                      the user's email.
      * 
-     * @param boolean $findByToken  represents whether to find the user's
-     *                              session data by the session token or not:
-     *                              (true => find by token) and
-     *                              (false => find by username)
+     * @param boolean|null $findByToken  represents whether to find the user's
+     *                                   session data by the session token or not:
+     *                                   (true => find by token) and
+     *                                   (false => find by username)
      * 
      * @return array  an associative array that contains an error 
      *                message or contains a success message and the 
      *                user's session data
      *
     */
-    public function getUserSession($user, $findByToken) {
+    public function getUserSession(string $user, bool|null $findByToken): array {
         // Check whether searchQuery is an email or not
         if (!filter_var($user, FILTER_VALIDATE_EMAIL)) {
             // The $user parameter is a token (not an email).
 
             /** Check if the @param $findByToken is set to true (i.e. true => 1) */
-            if ($findByToken) {
+            if ($findByToken === true) {
                 // Look for the user's session data using the token
     
                 // Create query
@@ -270,7 +270,7 @@ class User {
      * @return array  an array that contains a success or error message 
      *                of the signup process
     */
-    public function signUpUser($user) {
+    public function signUpUser(array $user): array {
         // First clean the data
         $this->username = htmlspecialchars(strip_tags($user['username']));
         $this->email = htmlspecialchars(strip_tags($user['email']));
@@ -336,7 +336,7 @@ class User {
      *                message or contains a success message and the 
      *                user's session token
     */
-    public function logInUser($user) {
+    public function logInUser(array $user): array {
         $userData = $this->getUser($user['user'], 1);
         // Check if the user is in the database
         if (!$userData['error']) {
@@ -442,7 +442,7 @@ class User {
      * @return array  an associative array that contains an error 
      *                message or a success message
     */
-    public function updateUserData($user) {
+    public function updateUserData(array $user):array {
 
         // Check if the new username/email is not taken
         if (key($user['newData']) != 'password') {
