@@ -331,7 +331,7 @@ switch ($verb) {
         // If the method is DELETE we remove a user's account from the DB
 
         // Check if the input data is provided
-        if ($url_pieces[4]) {
+        if (isset($url_pieces[4])) {
             if ($url_pieces[4] === 'logout') {
                 /**
                  * Expected structure of input:
@@ -380,7 +380,3 @@ switch ($verb) {
     default:
         throw new Exception('Method Not Supported', 405);
 }
-
-
-
-
