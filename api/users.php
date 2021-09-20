@@ -11,7 +11,7 @@ set_exception_handler(function ($e) {
 });
 
 $verb = $_SERVER['REQUEST_METHOD'];
-$url_pieces = explode('/', $_SERVER['PHP_SELF']);
+$url_pieces = explode('/', $_SERVER['REQUEST_URI']);
 
 $user = new UserController;
 $InputData = $user->getInputData();
@@ -21,40 +21,111 @@ switch ($verb) {
     case 'POST':
         // If the method is POST we sign up the user
         if ($InputData) {
-            // Define the input validation rules
-            $args = array(
-                'username' => FILTER_SANITIZE_STRING,
-                'email' => FILTER_VALIDATE_EMAIL,
-                'password' => '',
-                'confirmedPassword' => ''
-            );
-            // Sanitize the input
-            $InputData = filter_var_array($InputData, $args);
+            // Check if the the request is to signup or login
+            if (isset($url_pieces[4])) {
+                // Check if the request it to signup or login
+                if ($url_pieces[4] === 'signup') {
+                    /**
+                     * Expected structure of input:
+                     * {
+                     *     "username": "john", //
+                     *     "email": "john@example.com",
+                     *     "password": "12345", // username or email
+                     *     "confirmedPassword": "12345"
+                     * }
+                     */
+                    // 
 
-            // Check if the input data is valid
-            if (!$InputData['username']) {
-                throw new Exception("Username is missing or invalid");
+                    // Define the input validation rules
+                    $args = array(
+                        'username' => FILTER_SANITIZE_STRING,
+                        'email' => FILTER_VALIDATE_EMAIL,
+                        'password' => '',
+                        'confirmedPassword' => ''
+                    );
+                    // Sanitize the input
+                    $InputData = filter_var_array($InputData, $args);
+
+                    // Check if the input data is valid
+                    if (!$InputData['username']) {
+                        throw new Exception("Username is missing or invalid");
+                    }
+                    if (!$InputData['email']) {
+                        throw new Exception("Email is missing or invalid");
+                    }
+
+                    // Check if the password and confirmPassword match
+                    if ($InputData['password'] !== $InputData['confirmedPassword']) {
+                        throw new Exception('Passwords Do Not Match');
+                    }
+
+                    // Signup the user
+                    $signUpResult = $user->signUp($InputData);
+                    // Check if there was an error
+                    if ($signUpResult['error']) {
+                        // There was an error, return error message
+                        throw new Exception($signUpResult['message'], $signUpResult['status']);
+                    }
+
+                    // There was no error, the user was successfully signed up 
+                    // Return success message
+                    header("Content-Type: application/json", false, 200);
+                    echo json_encode(["success" => ["message" => $signUpResult['message']]]);
+                }
+                else if ($url_pieces[4] === 'login') {
+                    /**
+                     * Expected structure of input:
+                     * {
+                     *     "identifier": "john", // username or email
+                     *     "password": "12345"
+                     * }
+                     */
+                    // 
+
+                    // Define the input validation rules
+                    $args = array(
+                        'identifier' => FILTER_SANITIZE_STRING,
+                        'password' => ''
+                    );
+                    // Validate the input
+                    $InputData = filter_var_array($InputData, $args);
+
+                    // Check if the correct data was provided
+                    if (isset($InputData['identifier']) && isset($InputData['password'])) {
+                        // Check if the in data is valid
+                        if ($InputData['identifier'] && $InputData['password']) {
+                            // Data is valid, login the user
+                            $loginResult = $user->login($InputData);
+
+
+                            // Check if there was an error
+                            if ($loginResult['error']) {
+                                // There was an error, return error message
+                                throw new Exception($loginResult['message'], $loginResult['status']);
+                            }
+
+                            // There was no error, user was successfully signed up,
+                            // Return success message and user data
+                            header("Content-Type: application/json", false, 200);
+                            echo json_encode(["success" => ["message" => $loginResult['message'], "data" => $loginResult['data']]]);
+                        }
+                        else {
+                            throw new Exception('Invalid Request');
+                        }
+                    }
+                    else {
+                        throw new Exception('Invalid/Missing Input Keys');
+                    }
+                }
+                else {
+                    throw new Exception('Request Not Supported');
+                }
             }
-            if (!$InputData['email']) {
-                throw new Exception("Email is missing or invalid");
+            else {
+                throw new Exception('Request Not Supported');
             }
 
-            // Check if the password and confirmPassword match
-            if ($InputData['password'] !== $InputData['confirmedPassword']) {
-                throw new Exception('Passwords Do Not Match');
-            }
-
-            // Signup the user
-            $signUpResult = $user->signUp($InputData);
-
-            if ($signUpResult['error']) {
-                throw new Exception($signUpResult['message'], $signUpResult['status']);
-            }
-
-            header("Content-Type: application/json", false, 200);
-            echo json_encode(["success" => ["message" => $signUpResult['message']]]);
-            $user->closeConnection();
-            exit();
+            
         }
         else {
             throw new Exception("No Input Data");
@@ -64,23 +135,28 @@ switch ($verb) {
 
     case 'GET':
         // If the method is GET we look for a user in the DB
+        
+        /**
+         * Expected structure of input:
+         * {
+         *     "username": "james", // type
+         * }
+         */
+        // 
 
         // Check if the request wants all users or a single user
-        if (isset($InputData['type'])) {
+        if (isset($url_pieces[4])) {
             // Check if the request wants all user's or a single user
-            if ($InputData['type'] === 'single') {
-                // Define the input validation rules
-                $args = array(
-                    'username' => FILTER_SANITIZE_STRING,
-                    'email' => FILTER_VALIDATE_EMAIL,
-                    'id' => FILTER_VALIDATE_INT,
-                );
-                // Validate the input
-                $InputData = filter_var_array($InputData, $args);
+            if ($url_pieces[4] === 'single') {
+                if ($url_pieces[5]) {
+                    // Lookup the user by id
 
-                // If the username was given lookup user by username
-                if ($InputData['username']) {
-                    $userData = $user->getSingleUser($InputData['username']);
+                    // Validate the input
+                    $InputData = filter_var($url_pieces[5], FILTER_VALIDATE_INT);
+                    // Check if the input is valid
+                    if (!$InputData) throw new Exception('Invalid Request');
+                    
+                    $userData = $user->getSingleUser($InputData);
                     // Check if there was an error
                     if ($userData['error']) {
                         // Theer was an error. Throw an exception with the error 
@@ -91,47 +167,59 @@ switch ($verb) {
                         // There was not error. Return a successful reponse
                         header("Content-Type: application/json", false, 200);
                         echo json_encode(["success" => ["message" => $userData['message'], "data" => $userData['data']]]);
-                        $user->closeConnection();
-                        exit();
                     }
+
                 }
-                else if ($InputData['email']) {
-                    $userData = $user->getSingleUser($InputData['email']);
-                    // Check if there was an error
-                    if ($userData['error']) {
-                        // Theer was an error. Throw an exception with the error 
-                        // message
-                        throw new Exception($userData['message'], $userData['status']);
+                else if ($InputData) {
+                    // Lookup the user by email/username
+                    
+                    // Define the input validation rules
+                    $args = array(
+                        'username' => FILTER_SANITIZE_STRING,
+                        'email' => FILTER_VALIDATE_EMAIL,
+                        'id' => FILTER_VALIDATE_INT,
+                    );
+                    // Validate the input
+                    $InputData = filter_var_array($InputData, $args);
+
+                    // If the username was given lookup user by username
+                    if ($InputData['username']) {
+                        $userData = $user->getSingleUser($InputData['username']);
+                        // Check if there was an error
+                        if ($userData['error']) {
+                            // Theer was an error. Throw an exception with the error 
+                            // message
+                            throw new Exception($userData['message'], $userData['status']);
+                        }
+                        else {
+                            // There was not error. Return a successful reponse
+                            header("Content-Type: application/json", false, 200);
+                            echo json_encode(["success" => ["message" => $userData['message'], "data" => $userData['data']]]);
+                        }
+                    }
+                    else if ($InputData['email']) {
+                        $userData = $user->getSingleUser($InputData['email']);
+                        // Check if there was an error
+                        if ($userData['error']) {
+                            // Theer was an error. Throw an exception with the error 
+                            // message
+                            throw new Exception($userData['message'], $userData['status']);
+                        }
+                        else {
+                            // There was not error. Return a successful reponse
+                            header("Content-Type: application/json", false, 200);
+                            echo json_encode(["success" => ["message" => $userData['message'], "data" => $userData['data']]]);
+                        }
                     }
                     else {
-                        // There was not error. Return a successful reponse
-                        header("Content-Type: application/json", false, 200);
-                        echo json_encode(["success" => ["message" => $userData['message'], "data" => $userData['data']]]);
-                        $user->closeConnection();
-                        exit();
-                    }
-                }
-                else if ($InputData['id']) {
-                    $userData = $user->getSingleUser($InputData['id']);
-                    // Check if there was an error
-                    if ($userData['error']) {
-                        // Theer was an error. Throw an exception with the error 
-                        // message
-                        throw new Exception($userData['message'], $userData['status']);
-                    }
-                    else {
-                        // There was not error. Return a successful reponse
-                        header("Content-Type: application/json", false, 200);
-                        echo json_encode(["success" => ["message" => $userData['message'], "data" => $userData['data']]]);
-                        $user->closeConnection();
-                        exit();
+                        throw new Exception('Request Not Supported');
                     }
                 }
                 else {
-                    throw new Exception('Invalid Request');
+                    throw new Exception('Request Not Supported');
                 }
             }
-            else if ($InputData['type'] === 'all') {
+            else if ($url_pieces[4] === 'all') {
                 // Get all the users
                 $userData = $user->getAllUsers();
                 // Check if there was an error
@@ -144,16 +232,14 @@ switch ($verb) {
                     // There was not error. Return a successful reponse
                     header("Content-Type: application/json", false, 200);
                     echo json_encode(["success" => ["message" => $userData['message'], "data" => $userData['data']]]);
-                    $user->closeConnection();
-                    exit();
                 }
             }
             else {
-                throw new Exception('GET Request Type Not Supported');
+                throw new Exception('Request Not Supported');
             }
         }
         else {
-            throw new Exception('GET Request Type Not Provided');
+            throw new Exception('Invalid Provided');
         }
 
         break;
@@ -244,14 +330,50 @@ switch ($verb) {
     case 'DELETE':
         // If the method is DELETE we remove a user's account from the DB
 
-        // For noe we do not support delete methods
-        throw new Exception('Method Not Supported', 405);
         // Check if the input data is provided
-        if ($InputData) {
-            # code...
+        if ($url_pieces[4]) {
+            if ($url_pieces[4] === 'logout') {
+                /**
+                 * Expected structure of input:
+                 * {
+                 *     "token": "24c2030adf8ca560&cce9d26ea1a818e3bf2262b3ec8df95869753cf77c4ff2f861bf2f0db43bceb1"
+                 * }
+                 */
+                // 
+
+                // Define the input validation rules
+                $args = array(
+                    'token' => FILTER_SANITIZE_STRING
+                );
+                // Validate the input
+                $InputData = filter_var_array($InputData, $args);
+
+                if ($InputData && isset($InputData['token'])) {
+                    // Logout the user
+                    $userData = $user->logOut($InputData['token']);
+                    // Check if there was an error updating the user's data
+                    if ($userData['error']) {
+                        // There was an error. Throw an exception with the error 
+                        // message
+                        throw new Exception($userData['message'], $userData['status']);
+                    }
+                    else {
+                        // There was no error updating the user's data, return a
+                        // success message
+                        header("Content-Type: application/json", false, $userData['status']);
+                        echo json_encode(["success" => ["message" => $userData['message']]]);
+                    }
+                }
+                else {
+                    throw new Exception('Invalid Request Data');
+                }
+            }
+            else {
+                throw new Exception('Request Not Supported');
+            }
         }
         else {
-            throw new Exception('Missing Input Data');
+            throw new Exception('Request Not Supported');
         }
 
         break;

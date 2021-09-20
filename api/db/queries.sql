@@ -16,3 +16,14 @@ CREATE TABLE `members` (
     `mod_timestamp` INTEGER NOT NULL
 )
 */
+
+/*
+CREATE TABLE `sessions` (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+    `username` varchar(65 ) UNIQUE NOT NULL DEFAULT '',
+    `email` varchar(65) UNIQUE NOT NULL,
+    `selector` LONGTEXT NOT NULL, 
+    `token` LONGTEXT NOT NULL,
+    `expires` INTEGER NOT NULL
+)
+*/

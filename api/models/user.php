@@ -31,7 +31,7 @@ class User {
     // DB Stuff
     private $conn;
     private $table = 'members';
-    private $sessionTable = 'loggedinusers';
+    private $sessionTable = 'sessions';
 
     // Post Properties
     private $searchQuery;
@@ -71,7 +71,7 @@ class User {
             // Search by username
 
             // Create the query
-            $query = 'SELECT username, email, password, verified, mod_timestamp FROM ' . $this->table . ' WHERE username=:username OR email=:email OR id=:id';
+            $query = 'SELECT id, username, email, password, verified, mod_timestamp FROM ' . $this->table . ' WHERE username=:username OR email=:email OR id=:id';
             // Create the prepared statement
             $stmt = $this->conn->prepare($query);
             // Bind the parameter to the placeholder
@@ -97,12 +97,12 @@ class User {
                 if ($returnPassword === true) {
                     // Return the user's password
                     // Remove "password" property from the $result array
-                    $result = array("username"=>$result['username'], "email"=>$result['email'], "password"=>$result['password'], "verified"=>$result['verified'], "last_updated"=>$result['mod_timestamp']);
+                    $result = array("id" => $result['id'], "username"=>$result['username'], "email"=>$result['email'], "password"=>$result['password'], "verified"=>$result['verified'], "last_updated"=>$result['mod_timestamp']);
                 }
                 else {
                     // Do not return the user's password
                     // Remove "password" property from the $result array
-                    $result = array("username"=>$result['username'], "email"=>$result['email'], "verified"=>$result['verified'], "last_updated"=>$result['mod_timestamp']);
+                    $result = array("id" => $result['id'], "username"=>$result['username'], "email"=>$result['email'], "verified"=>$result['verified'], "last_updated"=>$result['mod_timestamp']);
                 }
 
                 // Return the result
@@ -118,7 +118,7 @@ class User {
             // Search by email
 
             // Create the query
-            $query = 'SELECT username, email, password, verified, mod_timestamp FROM ' . $this->table . ' WHERE email=?';
+            $query = 'SELECT id, username, email, password, verified, mod_timestamp FROM ' . $this->table . ' WHERE email=?';
             // Create the prepared statement
             $stmt = $this->conn->prepare($query);
             // Bind the parameter to the placeholder
@@ -138,15 +138,15 @@ class User {
                 $this->modified_at = $result['mod_timestamp'];
 
                 // Check if the user's password should be returned
-                if ($returnPassword) {
+                if ($returnPassword === true) {
                     // Return the user's password
                     // Remove "password" property from the $result array
-                    $result = array("username"=>$result['username'], "email"=>$result['email'], "password"=>$result['password'], "verified"=>$result['verified'], "last_updated"=>$result['mod_timestamp']);
+                    $result = array("id" => $result['id'], "username"=>$result['username'], "email"=>$result['email'], "password"=>$result['password'], "verified"=>$result['verified'], "last_updated"=>$result['mod_timestamp']);
                 }
                 else {
                     // Do not return the user's password
                     // Remove "password" property from the $result array
-                    $result = array("username"=>$result['username'], "email"=>$result['email'], "verified"=>$result['verified'], "last_updated"=>$result['mod_timestamp']);
+                    $result = array("id" => $result['id'], "username"=>$result['username'], "email"=>$result['email'], "verified"=>$result['verified'], "last_updated"=>$result['mod_timestamp']);
                 }
 
                 // Return the result
@@ -193,8 +193,8 @@ class User {
     /** 
      * gets the user's session data
      * 
-     * @param string $user  May be either a user's selector token or 
-     *                      the user's email.
+     * @param string $user  the user's session token or username or
+     *                      email
      * 
      * @param boolean|null $findByToken  represents whether to find the user's
      *                                   session data by the session token or not:
@@ -202,60 +202,31 @@ class User {
      *                                   (false => find by username)
      * 
      * @return array  an associative array that contains an error 
-     *                message or contains a success message and the 
-     *                user's session data
+     *                message or contains a success message
      *
     */
-    public function getUserSession(string $user, bool|null $findByToken): array {
-        // Check whether searchQuery is an email or not
-        if (!filter_var($user, FILTER_VALIDATE_EMAIL)) {
-            // The $user parameter is a token (not an email).
-
-            /** Check if the @param $findByToken is set to true (i.e. true => 1) */
-            if ($findByToken === true) {
-                // Look for the user's session data using the token
-    
-                // Create query
-                $query = 'SELECT * FROM ' . $this->sessionTable . ' WHERE sessionSelector=?';
-            }
-            else {
-                // Look for the user's session data using the email
-
-                // Get users email
-                $userData = $this->getUser($user['user'], 0);
-                $user = $userData['data']['email'];
-
-                // Create query
-                $query = 'SELECT * FROM ' . $this->sessionTable . ' WHERE userEmail=?';
-            }
-        }
-        else {
-            // The $user parameter is an email. Therefore look for the user's session data using the 
-            // user's email
-
-            // Create query
-            $query = 'SELECT * FROM ' . $this->sessionTable . ' WHERE userEmail=?';
-        }
-
+    public function getUserSession(string $user): array {
+        // Create query
+        $query = 'SELECT * FROM ' . $this->sessionTable . ' WHERE username = :username OR email = :email OR selector = :selector';
         // Prepare statement
         $stmt = $this->conn->prepare($query);
         // Bind the parameter to the placeholder
-        $stmt->bindParam(1, $user);
+        $stmt->bindParam(':username', $user);
+        $stmt->bindParam(':email', $user);
+        $stmt->bindParam(':selector', $user);
         // Execute the query
         $stmt->execute();
         
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         // Check if there are results
-        if ($stmt->rowCount() > 0) {
+        if ($result) {
             // The user has a session open
-            // Collect the result
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
             // Return the result
-            return array("status"=>200, "error"=>false, "message"=>"User session found", "data"=>$result); 
+            return array("status"=>200, "error"=>false, "message"=>"User Session Found", "data"=>$result); 
         }
         else {
             // The user does not have an open session
-            return array("status"=>404, "error"=>true, "message"=>"User session not found", "data"=>"");
+            return array("status"=>404, "error"=>true, "message"=>"User Session Not Found");
         }
     }
 
@@ -337,14 +308,14 @@ class User {
      *                user's session token
     */
     public function logInUser(array $user): array {
-        $userData = $this->getUser($user['user'], 1);
+        $userData = $this->getUser($user['identifier'], true);
         // Check if the user is in the database
         if (!$userData['error']) {
             // User is in the database
             // Check if the password the user provided matches the one in the database
             if (!password_verify($user['password'], $userData['data']['password'])) {
                 // The passwords do not match
-                return array("status"=>404, "error"=>true, "message"=>"User not found", "data"=>"");
+                return array("status" => 400, "error" => true, "message" => "Invalid Username/Email And Password Combination");
             }
             else {
                 // The passwords match
@@ -360,80 +331,170 @@ class User {
                  */
                 $selector = bin2hex(random_bytes(8));
                 $token = random_bytes(32); // The session token
-                $expires = time() + 60 * 30;
+                $expires = time() + 60 * 30; // Expires in 30 minutes
 
                 // Get the user's session data
-                $session = $this->getUserSession($userData['data']['email'], 0);
+                $session = $this->getUserSession($userData['data']['email']);
+
                 // Check if the user has an open session
                 if (!$session['error']) {
                     // The user has an open session
 
-                    // Delete the current session in the database
-                    // Create the query
-                    $query = 'DELETE FROM ' . $this->sessionTable . ' WHERE userEmail=?';
-                    // Prepare statement
-                    $stmt = $this->conn->prepare($query);
-                    // Bind the parameter to the placeholder
-                    $stmt->bindParam(1, $userData['data']['email']);
-                    // Execute teh query
-                    $stmt->execute();
+                    $currentTime = time();
+                    // Check if the user's session has expired
+                    if ($currentTime > $session['data']['expires']) {
+                        // User's session has expired
 
-                    // Then create a new session data in the database (i.e. login the user)
-                    // Create the query
-                    $query = 'INSERT INTO ' . $this->sessionTable . ' SET userEmail = :userEmail, sessionSelector = :sessionSelector, sessionToken = :sessionToken, sessionExpires = :sessionExpires';
-                    // Prepare statement
-                    $stmt = $this->conn->prepare($query);
-                    // Bind the parameters to the named place holders
-                    $hasedToken = password_hash($token, PASSWORD_DEFAULT);
-                    $stmt->bindParam(':userEmail', $userData['data']['email']);
-                    $stmt->bindParam(':sessionSelector', $selector);
-                    $stmt->bindParam(':sessionToken', $hasedToken);
-                    $stmt->bindParam(':sessionExpires', $expires);
-                    // Execute the query
-                    $stmt->execute();
+                        // Delete the current session in the database
+                        // Create the query
+                        $query = 'DELETE FROM ' . $this->sessionTable . ' WHERE username = :username OR email = :email';
+                        // Prepare statement
+                        $stmt = $this->conn->prepare($query);
+                        // Bind the parameter to the placeholder
+                        $stmt->bindParam(":username", $userData['data']['username']);
+                        $stmt->bindParam(":email", $userData['data']['email']);
+                        // Execute the query
+                        $stmt->execute();
 
-                    // Set the result
-                    $result = array("session_error"=>$session['error'], "username"=>$userData['data']['username'], "email"=>$userData['data']['email'], "token"=>$selector."&".bin2hex($token), "exp"=>$expires);
+                        // Then create a new session data in the database (i.e. login the user)
+                        // Create the query
+                        $query = 'INSERT INTO ' . $this->sessionTable . ' (username, email, selector, token, expires) VALUES (:username, :email, :selector, :token, :expires)';
+                        // Prepare statement
+                        $stmt = $this->conn->prepare($query);
+                        // Bind the parameters to the named place holders
+                        $hasedToken = password_hash($token, PASSWORD_DEFAULT);
+                        $stmt->bindParam(':username', $userData['data']['username']);
+                        $stmt->bindParam(':email', $userData['data']['email']);
+                        $stmt->bindParam(':selector', $selector);
+                        $stmt->bindParam(':token', $hasedToken);
+                        $stmt->bindParam(':expires', $expires);
+                        // Execute the query
+                        $stmt->execute();
 
-                    // Return the result
-                    return array("status"=>201, "error"=>false, "message"=>"User logged in", "data"=>$result); 
+                        // Set the result
+                        $result = array("id" => $userData['data']['id'], "username" => $userData['data']['username'], "email" => $userData['data']['email'], "token" => $selector."&".bin2hex($token));
+
+                        // Return the result
+                        return array("status" => 201, "error" => false, "message" => "User Successfully Logged In", "data" => $result);
+                    }
+                    else {
+                        // User's session is still in effect
+
+                        $expires = time() + 30 * 60; // expires in 30 minutes
+                        // Update the user's session expiration date
+                        // Create query
+                        $query = 'UPDATE ' . $this->sessionTable . ' SET selector = :selector, token = :token, expires = :expires WHERE username = :username OR email = :email';
+                        // Preare statement
+                        $stmt = $this->conn->prepare($query);
+                        // Bind the parameters to the named placeholders
+                        $hasedToken = password_hash($token, PASSWORD_DEFAULT);
+                        $stmt->bindParam(":selector", $selector);
+                        $stmt->bindParam(":token", $hasedToken);
+                        $stmt->bindParam(":expires", $expires);
+                        $stmt->bindParam(":username", $userData['data']['username']);
+                        $stmt->bindParam(":email", $userData['data']['email']);
+                        // Execute the statement
+                        $stmt->execute();
+
+                        // Set the result
+                        $result = array("id" => $userData['data']['id'], "username" => $userData['data']['username'], "email" => $userData['data']['email'], "token" => $selector."&".bin2hex($token));
+
+                        // Return the result
+                        return array("status" => 201, "error" => false, "message" => "User Successfully Logged In", "data" => $result);
+                    }
 
                 }
                 else {
                     // The user does not have an open session
 
                     // Then create a new session data in the database (i.e. login the user)
+                    
                     // Create the query
-                    $query = 'INSERT INTO ' . $this->sessionTable . ' SET userEmail = :userEmail, sessionSelector = :sessionSelector, sessionToken = :sessionToken, sessionExpires = :sessionExpires';
+                    $query = 'INSERT INTO ' . $this->sessionTable . ' (username, email, selector, token, expires) VALUES (:username, :email, :selector, :token, :expires)';
                     // Prepare statement
                     $stmt = $this->conn->prepare($query);
                     // Bind the parameters to the named place holders
                     $hasedToken = password_hash($token, PASSWORD_DEFAULT);
-                    $stmt->bindParam(':userEmail', $userData['data']['email']);
-                    $stmt->bindParam(':sessionSelector', $selector);
-                    $stmt->bindParam(':sessionToken', $hasedToken);
-                    $stmt->bindParam(':sessionExpires', $expires);
+                    $stmt->bindParam(':username', $userData['data']['username']);
+                    $stmt->bindParam(':email', $userData['data']['email']);
+                    $stmt->bindParam(':selector', $selector);
+                    $stmt->bindParam(':token', $hasedToken);
+                    $stmt->bindParam(':expires', $expires);
                     // Execute the query
                     $stmt->execute();
 
                     // Set the result
-                    $result = array("username"=>$userData['data']['username'], "email"=>$userData['data']['email'], "token"=>$selector.'&'.bin2hex($token), "exp"=>$expires);
+                    $result = array("id" => $userData['data']['id'], "username" => $userData['data']['username'], "email" => $userData['data']['email'], "token" => $selector."&".bin2hex($token));
 
                     // Return the result
-                    return array("status"=>201, "error"=>false, "message"=>"User logged in", "data"=>$result);
+                    return array("status" => 201, "error" => false, "message" => "User Successfully Logged In", "data" => $result);
                 }
 
             }
         }
         else {
-            // User is not in the database
-            return $userData;
+            // User is not in the database, return error message
+            return array("status"=>404, "error"=>true, "message"=>"Invalid Username/Email And Password Combination");
         }
+    }
+
+    // Logout User Method
+    /** 
+     * logs out the user
+     * 
+     * @param string $userSessionToken  an associative array that contains a 
+     *                                  uses's session token
+     * 
+     * @return array  an associative array that contains an error 
+     *                message or contains a success message
+    */
+    public function logOutUser(string $userSessionToken) {
+        // Get the selector from the token
+        try {
+            $tokens = explode('&', $userSessionToken);
+        } catch (Exception $error) {
+            return array("status" => 400, "error" => true, "message" => $error->getMessage());
+        }
+        
+        $selector = $tokens[0];
+        $token = hex2bin($tokens[1]);
+
+        // Get the user's session
+        $session = $this->getUserSession($selector);
+
+        // Check if the user has a session
+        if ($session['error']) {
+            // User has no session, return with error message
+            return $session;
+        }
+
+        // User has a session
+        // Check if the tokens match
+        if (!password_verify($token, $session['data']['token'])) {
+            // Session tokens do not match, return with error message
+            return array("status"=>401, "error"=>true, "message"=>"Invalid Token");
+        }
+
+        // Session tokens match, logout the user
+
+        // Delete the user's session
+        // Create query
+        $query = 'DELETE FROM ' . $this->sessionTable . ' WHERE selector = :selector';
+        // Prepare statement
+        $stmt = $this->conn->prepare($query);
+        // Bind the parameter to the placeholder
+        $stmt->bindParam(':selector', $session['data']['selector']);
+        // Execute the query
+        $stmt->execute();
+
+        // User has been logged out
+        // Return the result
+        return array("status"=>200, "error"=>false, "message"=>"User Successfully Logged Out"); 
     }
 
     // Update User Data Method
     /** 
-     * =updates user's account information
+     * updates user's account information
      * 
      * @param array $user  an associative array that contains an 
      *                     identifier of the user and the new data to

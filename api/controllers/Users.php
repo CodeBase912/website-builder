@@ -86,7 +86,22 @@ class UserController {
      *                user's session token
      */
     public function logIn($userData) {
-        $this->userModel->logInUser($userData);
+        $result = $this->userModel->logInUser($userData);
+        return $result;
+    }
+
+    /**
+     * logs out the user
+     * 
+     * @param string $userSessionToken  an associative array that contains a 
+     *                                  uses's session token
+     * 
+     * @return array  an associative array that contains an error 
+     *                message or contains a success message
+     */
+    public function logOut($userSessionToken) {
+        $result = $this->userModel->logOutUser($userSessionToken);
+        return $result;
     }
 
     /**
