@@ -26,4 +26,4 @@ A full stack web application that allows users to create a static website using 
 ### Back end
 
 - Object-oriented [PHP](https://www.php.net)
-- [SQLite]https://www.sqlite.org/) database
+- [SQLite](https://www.sqlite.org) database
