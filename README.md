@@ -20,7 +20,6 @@ A full stack web application that allows users to create a static website using 
 ### Front end
 
 - React
-- Grapes.js javascript library
 - [Tailwind CSS](https://tailwindcss.com)
 - [Heroicons](https://heroicons.com)
 
