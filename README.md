@@ -2,7 +2,7 @@
 
 <!-- [Live Site](http://localhost:3000) -->
 
-A Full Stack web application that allows users to create a static website using drag and drop and then download the resulting HTML and CSS files. Users need to login to create a website. I bootstrapped this project with [Create React App](https://github.com/facebook/create-react-app) on the front end and built the backend REST API from scratch using object-oriented PHP & SQLite.
+A full stack web application that allows users to create a static website using drag and drop and then download the resulting HTML and CSS files. Users need to login to create a website. I bootstrapped this project with [Create React App](https://github.com/facebook/create-react-app) on the front end and built the backend REST API from scratch using object-oriented PHP & SQLite.
 
 **Note: The work on this project is still in progress!**
 
