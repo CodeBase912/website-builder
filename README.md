@@ -19,11 +19,11 @@ A full stack web application that allows users to create a static website using 
 
 ### Front end
 
-- React
+- [React](https://reactjs.org)
 - [Tailwind CSS](https://tailwindcss.com)
 - [Heroicons](https://heroicons.com)
 
 ### Back end
 
-- Object-oriented PHP
-- SQLite database
+- Object-oriented [PHP](https://www.php.net)
+- [SQLite]https://www.sqlite.org/) database
