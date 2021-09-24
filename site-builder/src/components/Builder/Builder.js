@@ -1,182 +1,258 @@
-import React, { useEffect, useState } from 'react';
-import grapesjs from 'grapesjs';
-import gjsPresetWebpage from 'grapesjs-preset-webpage';
-// import pluginProductList from "./plugins/ProductList";
-// import pluginSlider from "./plugins/Slider";
-// import pluginRepeater from "./plugins/Repeater";
-// import pluginAuthor from "./plugins/Author";
-// import pluginForm from "./plugins/Form";
-// import pluginStickyBar from "./plugins/StickyBar";
-// import pluginCProductList from "./plugins/CProductList";
-// import pluginCollectionList from "./plugins/CollectionList";
-// import pluginGrid from "./plugins/Grid";
-// import pluginDropdown from "./plugins/Dropdown";
-// import loadEditorEvents from "./events";
-// import loadCommands from "./commands";
-// import loadPanels from "./panels";
-// import loadEventsManager from "./plugins/EventsManager";
+import React, { useState, useEffect } from 'react';
+import Editor from '../Editor/Editor';
+import {
+  ChevronDownIcon,
+  PencilIcon,
+  XIcon,
+  ViewGridIcon,
+  DuplicateIcon,
+  CogIcon,
+  SparklesIcon,
+} from '@heroicons/react/solid';
+import { DocumentAddIcon } from '@heroicons/react/outline';
 
-/**
- * Load the data
- * @param  {Aarray} keys Array containing values to load, eg, ['gjs-components', 'gjs-styles', ...]
- * @param  {Function} clb Callback function to call when the load is ended
- * @param  {Function} clbErr Callback function to call in case of errors
- */
-
-import 'grapesjs/dist/css/grapes.min.css';
-import 'grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css';
-
-const id = 'editor';
 function Builder() {
-  const [editor, setEditor] = useState(null);
-
+  const [pagesOpen, setPagesOpen] = useState(false);
+  const [activePanel, setActivePanel] = useState('block');
   useEffect(() => {
-    if (!editor) {
-      let e = grapesjs.init({
-        container: `#${id}`,
-        avoidInlineStyle: 1,
-        fromElement: true,
-        // Size of the editor
-        height: 'calc(100vh - 57px)',
-        width: '100vw',
-        marginTop: '57px',
-        showOffsets: 1,
-        styleManager: {
-          clearProperties: 1,
-          sectors: [
-            // {
-            //   name: 'Dimension',
-            //   buildProps: ['width', 'min-height'],
-            // },
-            {
-              name: 'Background',
-              buildProps: [
-                'background-color',
-                'box-shadow',
-                'background-image',
-                'background-repeat',
-                'background-position',
-                'background-attachment',
-                'background-size',
-              ],
-            },
-            {
-              name: 'Flexbox',
-              buildProps: [
-                'display',
-                'flex-direction',
-                'flex-wrap',
-                'justify-content',
-                'align-items',
-                'align-content',
-                'order',
-                'flex-basis',
-                'flex-grow',
-                'flex-shrink',
-                'align-self',
-                'overflow',
-                'overflow-x',
-                'overflow-y',
-              ],
-            },
-          ],
-        },
-        modal: {
-          backdrop: false,
-        },
-        storageManager: {
-          autoSave: 0,
-        },
-        plugins: [
-          'gjs-preset-webpage',
-          // gjsPresetWebpage,
-          // pluginProductList,
-          // pluginSlider,
-          // pluginRepeater,
-          // pluginAuthor,
-          // pluginForm,
-          // pluginStickyBar,
-          // pluginCProductList,
-          // pluginGrid,
-          // pluginCollectionList,
-          // pluginDropdown,
-          // loadEventsManager,
-        ],
-        canvas: {
-          // styles: [
-          //   "https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css",
-          //   "https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css",
-          //   "https://fonts.googleapis.com/css?family=Roboto&display=swap",
-          //   "https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css",
-          // ],
-          scripts: [
-            '//code.jquery.com/jquery-1.11.0.min.js',
-            '//code.jquery.com/jquery-migrate-1.2.1.min.js',
-            '//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js',
-          ],
-        },
-        deviceManager: {
-          devices: [
-            {
-              id: 'desktop',
-              name: 'Desktop',
-              width: '',
-            },
-            {
-              id: 'tablet',
-              name: 'Tablet',
-              width: '768px',
-              widthMedia: '992px',
-            },
-            {
-              id: 'mobileLandscape',
-              name: 'Mobile landscape',
-              width: '568px',
-              widthMedia: '768px',
-            },
-            {
-              id: 'mobilePortrait',
-              name: 'Mobile portrait',
-              width: '375px',
-              widthMedia: '480px',
-            },
-          ],
-        },
+    const pages = document.querySelectorAll('.page');
+    const listItems = document.querySelectorAll('.web-x-list-items');
+
+    Array.from(listItems).forEach((item, index) => {
+      item.addEventListener('click', () => {
+        const panelId = Array.from(listItems)
+          [index].children[0].getAttribute('id')
+          .split('-')[0];
+        setActivePanel(panelId);
       });
-      // loadEditorEvents(e);
-      // loadPanels(e);
-      // loadCommands(e);
-      // setEditor(e);
-      // e.setDevice("Desktop");
-      e.addStyle('.gjs-one-bg{background-color: rgb(49, 46, 43)}');
+    });
 
-      document.getElementById('editor').style =
-        'width: 100vw; height: calc(100vh - 57px); margin-top: 57px;';
+    pages.forEach((page) => {
+      page.addEventListener('mouseenter', () => {
+        page.querySelector('.close-icon').classList.remove('hidden');
+      });
+      page.addEventListener('mouseleave', () => {
+        page.querySelector('.close-icon').classList.add('hidden');
+      });
+    });
 
-      // // Set background color of the top panel
-      for (let i = 0; i <= 4; i++) {
-        document.getElementsByClassName('gjs-one-bg')[i].style =
-          'background-color: rgb(247, 247, 247); border: none;';
-      }
+    return () => {
+      pages.forEach((page) => {
+        page.removeEventListener('mouseenter', () => {
+          page.querySelector('.close-icon').classList.remove('hidden');
+        });
+        page.removeEventListener('mouseleave', () => {
+          page.querySelector('.close-icon').classList.add('hidden');
+        });
+      });
 
-      console.log(e.storeData());
-    } else {
-      if (document) {
-        document.getElementById(id).append(editor.render());
-      }
-    }
-
-    return function cleanup() {
-      if (editor) {
-        editor.destroy();
-        grapesjs.editors = grapesjs.editors.filter((e) => e !== editor);
-      }
+      Array.from(listItems).forEach((item, index) => {
+        item.removeEventListener('click', () => {
+          const panelId = Array.from(listItems)
+            [index].children[0].getAttribute('id')
+            .split('-')[0];
+          setActivePanel(panelId);
+        });
+      });
     };
   }, []);
 
+  function togglePageContainer() {
+    const pagesContainer = document.querySelector('.pages-container');
+    const pagesContainerToggler = document.querySelector(
+      '.pages-container-toggler'
+    );
+    const pagesChevronIcon = document.querySelector('.pages-chevron-icon');
+
+    if (pagesOpen) {
+      pagesContainer.classList.add('h-[50px]');
+      pagesContainer.classList.remove('h-[fit-content]');
+      pagesChevronIcon.classList.add('-rotate-90');
+      setPagesOpen(false);
+    } else {
+      pagesContainer.classList.remove('h-[50px]');
+      pagesContainer.classList.add('h-[fit-content]');
+      pagesChevronIcon.classList.remove('-rotate-90');
+      setPagesOpen(true);
+    }
+  }
+
   return (
-    <div id={id}>
-      <h1>Hey there</h1>
+    <div className='flex h-screen pt-16'>
+      {/* Side bar */}
+      <div className='bg-gray-200 h-screen w-60 min-w-60  border-gray-400'>
+        <div className='pages-container border-b border-gray-400 items-center px-4 py-2  overflow-hidden h-[50px] transition-h duration-1000 ease-in-out'>
+          <div
+            className='pages-container-toggler flex justify-between  cursor-pointer'
+            onClick={() => {
+              togglePageContainer();
+            }}
+          >
+            <p className='flex items-center font-semibold'>Pages</p>
+            <ChevronDownIcon className='pages-chevron-icon w-8 -rotate-90' />
+          </div>
+          <button className='flex justify-center items-center w-full  mt-3 border-2 outline:none border-gray-500 hover:border-gray-800 text-gray-500 hover:text-gray-800 font-semibold p-1 rounded-md cursor-pointer'>
+            <DocumentAddIcon className='w-6 h-6 mr-2' />
+            Add Page
+          </button>
+          <div id='pages'>
+            <div className='page flex justify-between mt-3 font-semibold text-gray-700 hover:text-black cursor-pointer'>
+              Home
+              <div className='items-wrapper flex justify-between items-center'>
+                {/* <PencilIcon className='w-5' /> */}
+                <XIcon className='close-icon hidden w-6' />
+              </div>
+            </div>
+            <div className='page flex justify-between mt-3 font-semibold text-gray-700 hover:text-black cursor-pointer'>
+              About Us
+              <div className='items-wrapper flex justify-between items-center'>
+                {/* <PencilIcon className='w-5' /> */}
+                <XIcon className='close-icon hidden w-6' />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <ul
+            className='flex px-3 py-2 text-gray-500 justify-between'
+            role='tablist'
+          >
+            <li
+              className={
+                activePanel === 'block'
+                  ? 'web-x-list-items flex items-center text-black'
+                  : 'web-x-list-items flex items-center'
+              }
+              role='presentation'
+            >
+              <button
+                id='block-tab'
+                data-bs-toggle='tab'
+                data-bs-target='#block'
+                aria-selected='true'
+                aria-controls='block'
+              >
+                <ViewGridIcon
+                  className={
+                    activePanel === 'block' ? 'w-8' : 'w-8 hover:text-[#009e9e]'
+                  }
+                />
+              </button>
+            </li>
+            <li
+              className={
+                activePanel === 'layers'
+                  ? 'web-x-list-items flex items-center text-black'
+                  : 'web-x-list-items flex items-center'
+              }
+              role='presentation'
+            >
+              <button
+                id='layers-tab'
+                data-bs-toggle='tab'
+                data-bs-target='#layers'
+                aria-selected='true'
+                aria-controls='layers'
+              >
+                <DuplicateIcon
+                  className={
+                    activePanel === 'layers'
+                      ? 'w-8'
+                      : 'w-8 hover:text-[#009e9e]'
+                  }
+                />
+              </button>
+            </li>
+            <li
+              className={
+                activePanel === 'style'
+                  ? 'web-x-list-items flex items-center text-black'
+                  : 'web-x-list-items flex items-center'
+              }
+              role='presentation'
+            >
+              <button
+                id='style-tab'
+                data-bs-toggle='tab'
+                data-bs-target='#style'
+                aria-selected='true'
+                aria-controls='style'
+              >
+                <SparklesIcon
+                  className={
+                    activePanel === 'style' ? 'w-8' : 'w-8 hover:text-[#009e9e]'
+                  }
+                />
+              </button>
+            </li>
+            <li
+              className={
+                activePanel === 'trait'
+                  ? 'web-x-list-items flex items-center text-black'
+                  : 'web-x-list-items flex items-center'
+              }
+              role='presentation'
+            >
+              <button
+                id='trait-tab'
+                data-bs-toggle='tab'
+                data-bs-target='#trait'
+                aria-selected='true'
+                aria-controls='trait'
+              >
+                <CogIcon
+                  className={
+                    activePanel === 'trait' ? 'w-8' : 'w-8 hover:text-[#009e9e]'
+                  }
+                />
+              </button>
+            </li>
+          </ul>
+          <div className='tab-content'>
+            <div
+              className={activePanel === 'block' ? '' : 'hidden'}
+              id='block'
+              role='tabpanel'
+              aria-labelledby='block-tab'
+            >
+              Blocks
+            </div>
+            <div
+              className={activePanel === 'layers' ? '' : 'hidden'}
+              id='layers'
+              role='tabpanel'
+              aria-labelledby='layers-tab'
+            >
+              Layers
+            </div>
+            <div
+              className={activePanel === 'style' ? '' : 'hidden'}
+              id='style'
+              role='tabpanel'
+              aria-labelledby='style-tab'
+            >
+              Style
+            </div>
+            <div
+              className={activePanel === 'trait' ? '' : 'hidden'}
+              id='trait'
+              role='tabpanel'
+              aria-labelledby='trait-tab'
+            >
+              Trait
+            </div>
+          </div>
+        </div>
+      </div>
+      <main className='bg-red-200 flex-1'>
+        {/* Top Panel */}
+        {/* <div className='h-[50px] flex items-center w-full bg-gray-200 px-4'>
+          top panel
+        </div> */}
+
+        {/* Main page content */}
+        <Editor />
+      </main>
     </div>
   );
 }

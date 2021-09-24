@@ -6,6 +6,7 @@ import Signup from './components/Signup/Signup';
 import PopUp from './components/notificationPopUp/PopUp';
 import Header from './components/Header/Header';
 import './App.css';
+// import '../node_modules/tailwindcss/dist/tailwind.min.css';
 
 export const AppContext = React.createContext();
 
