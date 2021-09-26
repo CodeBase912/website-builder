@@ -2,8 +2,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
+  /* padding: 10px 20px; */
   background-color: rgb(49, 46, 43);
+  color: #252423;
   color: white;
   position: fixed;
   top: 0;
@@ -15,13 +16,12 @@
 
 .logo-wrapper p {
   font-size: 25px;
-  padding: 0;
+  /* padding: 0; */
   margin: 0;
 }
 
 .logo-wrapper p span {
   padding: 0;
-  margin: 0;
 }
 
 .logo-wrapper p #logo {

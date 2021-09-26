@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  @variants responsive {
+    /* Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+  }
+}
+
 .gjs-cv-canvas {
   width: 100%;
   height: 100%;
@@ -14,10 +28,29 @@
 
 #blocks {
   height: 100%;
+  @apply font-semibold;
 }
 
 .gjs-pn-panel {
   position: relative;
+  background: transparent !important;
+  /* display: none; */
+}
+
+.gjs-pn-btn {
+  background: transparent !important;
+}
+
+.gjs-pn-active {
+  @apply text-[#00ffff] !important;
+}
+
+.gjs-pn-buttons {
+  @apply h-full !important;
+}
+
+.gjs-pn-buttons:hover {
+  @apply bg-[#252423] !important;
 }
 
 /* Adding our theme */
@@ -42,4 +75,45 @@
 
 .gjs-four-color-h:hover {
   @apply text-[#009e9e];
+}
+
+.gjs-field input {
+  @apply text-gray-700 !important;
+  @apply bg-gray-300 !important;
+}
+
+.gjs-field-arrow-u {
+  border-left: 3px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid rgba(56, 56, 56, 0.7);
+}
+
+.gjs-field-arrow-d {
+  border-left: 3px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid rgba(56, 56, 56, 0.7);
+}
+
+.gjs-input-unit {
+  @apply text-gray-700 !important;
+}
+
+.gjs-sm-properties {
+  @apply bg-gray-200;
+}
+
+.gjs-title {
+  @apply font-semibold !important;
+}
+
+.gjs-sm-title {
+  @apply font-semibold !important;
+}
+
+.gjs-mdl-header {
+  border-bottom: none !important;
+}
+
+.header__panel-visibility {
+  @apply text-gray-400;
 }

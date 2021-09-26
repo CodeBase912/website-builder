@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Header from '../Header/Header';
 import grapesjs from 'grapesjs';
 import gjsPresetWebpage from 'grapesjs-preset-webpage';
 // import pluginProductList from "./plugins/ProductList";
@@ -175,8 +176,11 @@ function Builder() {
   }, []);
 
   return (
-    <div id={id}>
-      <h1>Hey there</h1>
+    <div>
+      <Header />
+      <div id={id}>
+        <h1>Hey there</h1>
+      </div>
     </div>
   );
 }

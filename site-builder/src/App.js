@@ -16,7 +16,6 @@ function App() {
   return (
     <AppContext.Provider value={{ popUpState, setPopUpState }}>
       <div className='App'>
-        <Header />
         <PopUp popUpState={popUpState} setPopUpState={setPopUpState} />
         <Router>
           <Route exact path='/' component={Login} />
