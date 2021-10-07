@@ -114,6 +114,10 @@
   border-bottom: none !important;
 }
 
+#gjs-sm-add {
+  @apply text-gray-700 !important;
+}
+
 .header__panel-visibility {
   @apply text-gray-400;
 }

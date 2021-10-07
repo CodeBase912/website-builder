@@ -590,6 +590,8 @@ function Pages(props) {
         pageSelector.addEventListener('click', (event) => {
           if (event.target.classList[0] != 'close-icon') {
             pagesEditor.Pages.select(page.id);
+            console.log('SELECTED DEVICE');
+            console.log(pagesEditor.Devices.getSelected());
           }
         });
 
