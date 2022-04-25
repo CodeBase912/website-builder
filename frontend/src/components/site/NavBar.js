@@ -61,7 +61,7 @@ const NavBar = ({ children, links, actions }) => {
         onClick={() => {
           setMenuOpen(true);
         }}
-        className="text-xl sm:hidden px-2 cursor-pointer text-grey-lighter"
+        className="text-xl sm:hidden px-4 cursor-pointer text-grey-lighter"
       >
         {Icons.bars}
       </div>
@@ -81,7 +81,7 @@ const NavBar = ({ children, links, actions }) => {
             onClick={() => {
               setMenuOpen(false);
             }}
-            className="text-xl sm:hidden px-2 py-3 cursor-pointer w-fit text-grey-lighter"
+            className="text-xl sm:hidden px-4 py-3 cursor-pointer w-fit text-grey-lighter"
           >
             {Icons.closeIcon}
           </div>
@@ -137,7 +137,7 @@ const NavBar = ({ children, links, actions }) => {
                 "sm:py-0 sm:flex items-center justify-center" // Larger Screens
               )}
             >
-              <Button endIcon={action.endIcon} className="mx-2">
+              <Button endIcon={action.endIcon} className="mx-4">
                 <p>Login</p>
               </Button>
             </li>

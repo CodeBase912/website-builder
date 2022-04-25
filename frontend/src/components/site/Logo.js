@@ -4,7 +4,7 @@ import LogoIcon from "../../assets/icons/Logo Icon.svg";
 
 const Logo = ({ iconOnly = false }) => {
   return (
-    <div className="flex p-2 items-center justify-center w-fit space-x-2">
+    <div className="flex py-2 px-4 items-center justify-center w-fit space-x-2">
       <img src={LogoIcon} className="w-[35px] object-contain" />
       {!iconOnly && (
         <p className="font-semibold text-xl">
