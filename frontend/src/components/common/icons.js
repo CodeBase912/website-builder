@@ -9,6 +9,7 @@ import {
   faTwitter,
   faInstagram,
   faPinterest,
+  faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 
 library.add(faClose, faBars);
