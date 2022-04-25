@@ -16,9 +16,24 @@ import {
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 
-library.add(faClose, faBars, faPaperPlane);
+library.add(
+  faFacebookF,
+  faTwitter,
+  faInstagram,
+  faPinterest,
+  faYoutube,
+  faClose,
+  faBars,
+  faPaperPlane
+);
 
 export const Icons = {
+  social: {
+    facebook: <FontAwesomeIcon icon={faFacebookF} />,
+    twitter: <FontAwesomeIcon icon={faTwitter} />,
+    instagram: <FontAwesomeIcon icon={faInstagram} />,
+    youtube: <FontAwesomeIcon icon={faYoutube} />,
+  },
   closeIcon: <FontAwesomeIcon icon={faClose} />,
   bars: <FontAwesomeIcon icon={faBars} />,
   paperPlane: <FontAwesomeIcon icon={faPaperPlane} />,

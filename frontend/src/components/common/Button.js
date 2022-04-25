@@ -6,6 +6,7 @@ const Button = ({
   startIcon = null,
   endIcon = null,
   color = "primary",
+  icon = false,
   contained = false,
   outlined = false,
   className,
@@ -31,6 +32,10 @@ const Button = ({
         {
           "border-[3px] border-grey-dark text-grey-dark":
             color === "secondary" && outlined === true,
+        },
+        {
+          "hover:bg-primary justify-center bg-transparent hover:bg-opacity-20 px-2 py-2 text-primary":
+            color === "primary" && icon === true,
         },
         className
       )}

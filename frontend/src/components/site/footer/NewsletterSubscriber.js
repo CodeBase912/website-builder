@@ -20,12 +20,13 @@ const NewsletterSubscriber = () => {
       <FormProvider {...methods}>
         <form
           onSubmit={methods.handleSubmit(onSubmit)}
-          className={classNames("flex space-x-3")}
+          className={classNames("flex flex-wrap gap-3")}
         >
           <Input
             name={"email"}
             type={"email"}
-            placeholder={"Enter your Email"}
+            placeholder={"Enter your email address"}
+            className="text-grey-lighter"
           />
           <Button type="submit" className={"text-sm"}>
             {"Subscribe"}
