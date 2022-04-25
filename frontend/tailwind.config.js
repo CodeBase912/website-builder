@@ -39,6 +39,9 @@ module.exports = {
         secondary: "rgba(46, 46, 46, 0.8)",
         tertiary: "#E0E0E3",
       },
+      maxWidth: {
+        largest: "1240px",
+      },
     },
   },
   plugins: [],

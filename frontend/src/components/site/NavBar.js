@@ -8,14 +8,14 @@ import { navLinks, navActions } from "./nav-links";
 import { Icons } from "../common/icons";
 
 const NavBgModal = ({ menuOpen, setMenuOpen }) => {
-  const modalRoot = document.getElementById("root");
+  const modalRoot = document.getElementById("modal-root");
   const modalContent = (
     <div
       onClick={() => {
         setMenuOpen(false);
       }}
       className={classNames(
-        "absolute top-0 left-0 h-screenh w-screenw transition-opacity duration-500 ease-in-out bg-black z-40",
+        "fixed top-0 left-0 h-full w-screenw transition-opacity duration-500 ease-in-out bg-black z-40",
         { "bg-opacity-40 pointer-events-auto": menuOpen === true },
         { "bg-opacity-0 pointer-events-none": menuOpen === false }
       )}
