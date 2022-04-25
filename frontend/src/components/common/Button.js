@@ -20,7 +20,10 @@ const Button = ({
     <button
       className={classNames(
         "flex items-center space-x-2 rounded-[3px] py-1 px-4 font-bold active:opacity-80 hover:opacity-90",
-        { "bg-primary text-black": color === "primary" && contained === true },
+        {
+          "bg-primary text-grey-darker":
+            color === "primary" && contained === true && icon === false,
+        },
         {
           "bg-grey-dark text-tertiary":
             color === "secondary" && contained === true,

@@ -3,7 +3,15 @@ module.exports = {
   theme: {
     extend: {
       screens: {
+        xxs: "300px",
+        xs: "315px",
+        "2xs": "360px",
+        "3xs": "400px",
+        "2sm": "662px",
+        ms: "768px",
+        "2ms": "800px",
         "2md": "860px",
+        ls: "1024px",
       },
       colors: {
         primary: "#00EDFF",

@@ -10,7 +10,7 @@ import NewsletterSubscriber from "./NewsletterSubscriber";
 
 const Footer = () => {
   return (
-    <footer className="bg-grey-darker text-white py-4 px-4 z-0">
+    <footer className="bg-grey-darker text-white py-4 px-4 w-full">
       {/* Footer Content Container */}
       <div className="max-w-largest m-auto">
         {/* Linkx & Newsletter Container */}
@@ -48,7 +48,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom container */}
-        <div className="sm:flex items-center justify-between pt-8 z-0">
+        <div className="sm:flex items-center justify-between pt-8">
           {/* Logo Container */}
           <div>
             <Logo />
@@ -93,7 +93,7 @@ const Footer = () => {
                 </p>
               </Link>
               <div className="h-full text-transparent border-l-[1px] border-grey-light ml-3 w-3 pointer-events-none">
-                test
+                bar
               </div>
               <Link to="/">
                 <p className="text-grey-lighter text-sm">{"Privacy Policy"}</p>
