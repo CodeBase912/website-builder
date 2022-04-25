@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 // Import Custom React Components
 import Button from "../common/Button";
@@ -6,17 +6,57 @@ import Button from "../common/Button";
 import { navLinks, navActions } from "./nav-links";
 
 const NavBar = ({ children, links, actions }) => {
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <nav className="flex items-center relative">
-      <div className="sm:hidden px-2">{"Menu"}</div>
+      {/* Open Menu Button (Visibility: Mobile Screens "sm:...") */}
+      <div
+        onClick={() => {
+          setMenuOpen(true);
+        }}
+        className="sm:hidden px-2 cursor-pointer"
+      >
+        {"Menu"}
+      </div>
       <ul
         className={classNames(
-          "flex flex-col h-screenh absolute right-0 top-0 bg-grey-darker",
+          "flex flex-col h-screenh transition duration-500 absolute top-0 sm:right-0 bg-grey-darker",
           "w-[200px] sm:w-fit",
-          "sm:flex-row sm:relative sm:h-full"
+          "sm:flex-row sm:relative sm:h-full",
+          { "right-0": menuOpen === true },
+          { "-right-[200px]": menuOpen === false }
         )}
       >
-        <div className="sm:hidden px-2 text-right p-3">{"Close Menu"}</div>
+        <div
+          onClick={() => {
+            setMenuOpen(false);
+          }}
+          className="sm:hidden px-2 text-right p-2 cursor-pointer"
+        >
+          {"Close Menu"}
+        </div>
+
+        {/* NavBar Actions (Mobile Screens) */}
+        {navActions.map((action, actionLink) => {
+          return (
+            <li
+              className={classNames(
+                "flex items-center justify-center",
+                "py-2", // Mobile Screens
+                "sm:py-0 sm:hidden" // Larger Screens
+              )}
+            >
+              <Button
+                key={`nav-home-action-${actionLink}`}
+                endIcon={action.endIcon}
+                className="mx-2"
+              >
+                <p>Login</p>
+              </Button>
+            </li>
+          );
+        })}
+
         {/* NavBar Links */}
         {navLinks.map((link, linkIndex) => {
           return (
@@ -36,14 +76,14 @@ const NavBar = ({ children, links, actions }) => {
           );
         })}
 
-        {/* NavBar Actions */}
+        {/* NavBar Actions (Mobile Screens) */}
         {navActions.map((action, actionLink) => {
           return (
             <li
               className={classNames(
-                "flex items-center",
-                "py-2", // Mobile Screens
-                "sm:py-0" // Larger Screens
+                "",
+                "py-2 hidden", // Mobile Screens
+                "sm:py-0 sm:flex items-center justify-center" // Larger Screens
               )}
             >
               <Button
