@@ -1,29 +1,38 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Login from './components/Login/Login';
-import Builder from './components/Builder/Builder';
-import Signup from './components/Signup/Signup';
-import PopUp from './components/notificationPopUp/PopUp';
-import Header from './components/Header/Header';
-import './App.css';
+import React, { useState, useContext } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+// Import State Context Variables
+import { AppContext } from "./context/AppStateProvider";
+// Import Custom React Components
+import AppStateProvider from "./context/AppStateProvider";
+import Login from "./components/Login/Login";
+import Builder from "./components/Builder/Builder";
+import Signup from "./components/Signup/Signup";
+import PopUp from "./components/notificationPopUp/PopUp";
+// import Header from "./components/site//Header/Header";
+import DropDownProvider from "./components/DropDown/DropDownContext";
+import "./App.css";
 // import '../node_modules/tailwindcss/dist/tailwind.min.css';
 
-export const AppContext = React.createContext();
-
 function App() {
-  const popUpDefaultState = { showPopUp: false, error: false, msg: '' };
-  const [popUpState, setPopUpState] = useState(popUpDefaultState);
+  const { appState, appStateUpdate } = useContext(AppContext);
   return (
-    <AppContext.Provider value={{ popUpState, setPopUpState }}>
-      <div className='App'>
-        <PopUp popUpState={popUpState} setPopUpState={setPopUpState} />
-        <Router>
-          <Route exact path='/' component={Login} />
-          <Route exact path='/app' component={Builder} />
-          <Route exact path='/signup' component={Signup} />
-        </Router>
-      </div>
-    </AppContext.Provider>
+    <AppStateProvider>
+      <DropDownProvider>
+        <div className="App">
+          <PopUp
+            popUpState={appState.popUpState}
+            setPopUpState={appStateUpdate.popUpState}
+          />
+          <Router>
+            <Routes>
+              <Route exact path="/" component={Login} />
+              <Route exact path="/app" component={Builder} />
+              <Route exact path="/signup" component={Signup} />
+            </Routes>
+          </Router>
+        </div>
+      </DropDownProvider>
+    </AppStateProvider>
   );
 }
 

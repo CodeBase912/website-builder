@@ -22,10 +22,10 @@ class Database {
         $this->conn = null;
 
         try {
-            // $this->conn = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->db_name, $this->username, $this->password);
-            $this->conn = new PDO('sqlite:../db/app.db', '', '', array(PDO::ATTR_PERSISTENT => true));
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING); 
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->conn = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->db_name, $this->username, $this->password);
+            // $this->conn = new PDO('sqlite:../db/app.db', '', '', array(PDO::ATTR_PERSISTENT => true));
+            // $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING); 
+            // $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $error) {
             // echo 'Connection Error: ' . $error->getMessage();
             // echo json_encode(["status"=>500, "message"=>"Connection Error: ".$error->getMessage()]);

@@ -3,9 +3,16 @@
 
 require_once './controllers/Users.php';
 
+// Fixing the CORS error bug
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
+header('Access-Control-Allow-Methods: GET,POST,OPTIONS,DELETE,PUT');
+header("Access-Control-Allow-Headers: Content-Type, Sec-Fetch_Mode");
+// header("Access-Control-Allow-Headers: Content-Type, Accept, sec-ch-ua, sec-ch-ua-mobile, sec-ch-ua-platform, User-Agent");
+
 set_exception_handler(function ($e) {
  $code = $e->getCode() ?: 400;
- header("Content-Type: application/json", false, $code);
+//  header("Content-Type: application/json", false, $code);
  echo json_encode(["error" => $e->getMessage()]);
  exit;
 });
@@ -152,7 +159,7 @@ switch ($verb) {
                     // Lookup the user by id
 
                     // Validate the input
-                    $InputData = filter_var($url_pieces[5], FILTER_VALIDATE_INT);
+                    $InputData = filter_var($url_pieces[5], FILTER_SANITIZE_STRING);
                     // Check if the input is valid
                     if (!$InputData) throw new Exception('Invalid Request');
                     

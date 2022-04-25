@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import Header from '../Header/Header';
-import grapesjs from 'grapesjs';
-import gjsPresetWebpage from 'grapesjs-preset-webpage';
+import React, { useEffect, useState } from "react";
+import Header from "../site/Header/Header";
+import grapesjs from "grapesjs";
+import gjsPresetWebpage from "grapesjs-preset-webpage";
 // import pluginProductList from "./plugins/ProductList";
 // import pluginSlider from "./plugins/Slider";
 // import pluginRepeater from "./plugins/Repeater";
@@ -24,10 +24,10 @@ import gjsPresetWebpage from 'grapesjs-preset-webpage';
  * @param  {Function} clbErr Callback function to call in case of errors
  */
 
-import 'grapesjs/dist/css/grapes.min.css';
-import 'grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css';
+import "grapesjs/dist/css/grapes.min.css";
+import "grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css";
 
-const id = 'editor';
+const id = "editor";
 function Builder() {
   const [editor, setEditor] = useState(null);
 
@@ -38,9 +38,9 @@ function Builder() {
         avoidInlineStyle: 1,
         fromElement: true,
         // Size of the editor
-        height: 'calc(100vh - 57px)',
-        width: '100vw',
-        marginTop: '57px',
+        height: "calc(100vh - 57px)",
+        width: "100vw",
+        marginTop: "57px",
         showOffsets: 1,
         styleManager: {
           clearProperties: 1,
@@ -50,34 +50,34 @@ function Builder() {
             //   buildProps: ['width', 'min-height'],
             // },
             {
-              name: 'Background',
+              name: "Background",
               buildProps: [
-                'background-color',
-                'box-shadow',
-                'background-image',
-                'background-repeat',
-                'background-position',
-                'background-attachment',
-                'background-size',
+                "background-color",
+                "box-shadow",
+                "background-image",
+                "background-repeat",
+                "background-position",
+                "background-attachment",
+                "background-size",
               ],
             },
             {
-              name: 'Flexbox',
+              name: "Flexbox",
               buildProps: [
-                'display',
-                'flex-direction',
-                'flex-wrap',
-                'justify-content',
-                'align-items',
-                'align-content',
-                'order',
-                'flex-basis',
-                'flex-grow',
-                'flex-shrink',
-                'align-self',
-                'overflow',
-                'overflow-x',
-                'overflow-y',
+                "display",
+                "flex-direction",
+                "flex-wrap",
+                "justify-content",
+                "align-items",
+                "align-content",
+                "order",
+                "flex-basis",
+                "flex-grow",
+                "flex-shrink",
+                "align-self",
+                "overflow",
+                "overflow-x",
+                "overflow-y",
               ],
             },
           ],
@@ -89,7 +89,7 @@ function Builder() {
           autoSave: 0,
         },
         plugins: [
-          'gjs-preset-webpage',
+          "gjs-preset-webpage",
           // gjsPresetWebpage,
           // pluginProductList,
           // pluginSlider,
@@ -111,35 +111,35 @@ function Builder() {
           //   "https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css",
           // ],
           scripts: [
-            '//code.jquery.com/jquery-1.11.0.min.js',
-            '//code.jquery.com/jquery-migrate-1.2.1.min.js',
-            '//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js',
+            "//code.jquery.com/jquery-1.11.0.min.js",
+            "//code.jquery.com/jquery-migrate-1.2.1.min.js",
+            "//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js",
           ],
         },
         deviceManager: {
           devices: [
             {
-              id: 'desktop',
-              name: 'Desktop',
-              width: '',
+              id: "desktop",
+              name: "Desktop",
+              width: "",
             },
             {
-              id: 'tablet',
-              name: 'Tablet',
-              width: '768px',
-              widthMedia: '992px',
+              id: "tablet",
+              name: "Tablet",
+              width: "768px",
+              widthMedia: "992px",
             },
             {
-              id: 'mobileLandscape',
-              name: 'Mobile landscape',
-              width: '568px',
-              widthMedia: '768px',
+              id: "mobileLandscape",
+              name: "Mobile landscape",
+              width: "568px",
+              widthMedia: "768px",
             },
             {
-              id: 'mobilePortrait',
-              name: 'Mobile portrait',
-              width: '375px',
-              widthMedia: '480px',
+              id: "mobilePortrait",
+              name: "Mobile portrait",
+              width: "375px",
+              widthMedia: "480px",
             },
           ],
         },
@@ -149,15 +149,15 @@ function Builder() {
       // loadCommands(e);
       // setEditor(e);
       // e.setDevice("Desktop");
-      e.addStyle('.gjs-one-bg{background-color: rgb(49, 46, 43)}');
+      e.addStyle(".gjs-one-bg{background-color: rgb(49, 46, 43)}");
 
-      document.getElementById('editor').style =
-        'width: 100vw; height: calc(100vh - 57px); margin-top: 57px;';
+      document.getElementById("editor").style =
+        "width: 100vw; height: calc(100vh - 57px); margin-top: 57px;";
 
-      // // Set background color of the top panel
+      // Set background color of the top panel
       for (let i = 0; i <= 4; i++) {
-        document.getElementsByClassName('gjs-one-bg')[i].style =
-          'background-color: rgb(247, 247, 247); border: none;';
+        document.getElementsByClassName("gjs-one-bg")[i].style =
+          "background-color: rgb(247, 247, 247); border: none;";
       }
 
       console.log(e.storeData());

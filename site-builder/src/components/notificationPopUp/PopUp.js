@@ -1,32 +1,35 @@
-import { useEffect } from 'react';
-import './PopUp.css';
+import { useEffect, useContext } from "react";
+// Import State Context Variable
+import { AppContext } from "../../context/AppStateProvider";
+// Import Stylesheet
+import "./PopUp.css";
 
 function PopUp(props) {
-  const { popUpState, setPopUpState } = props;
+  const { appState } = useContext(AppContext);
   function togglePopUp() {
-    document.getElementById('popup').style.animation = '3s showPopUp ease';
+    document.getElementById("popup").style.animation = "3s showPopUp ease";
   }
 
   useEffect(() => {
-    if (popUpState.showPopUp) {
+    if (appState.popUpState.showPopUp) {
       togglePopUp();
       setTimeout(() => {
-        setPopUpState({ ...popUpState, showPopUp: false });
-        document.getElementById('popup').style.animation = '';
+        // appStateUpdate.popUpState({ ...appState.popUpState, showPopUp: false });
+        document.getElementById("popup").style.animation = "";
       }, 3000);
     }
-  }, [popUpState, setPopUpState]);
+  }, [appState.popUpState.showPopUp]);
 
   let popUpClass;
-  if (popUpState.error === true) {
-    popUpClass = 'popup error';
-  } else if (popUpState.error === false) {
-    popUpClass = 'popup success';
+  if (appState.popUpState.error === true) {
+    popUpClass = "popup error";
+  } else if (appState.popUpState.error === false) {
+    popUpClass = "popup success";
   }
 
   return (
-    <div className={popUpClass} id='popup'>
-      <p className='popup-msg'>{popUpState.msg}</p>
+    <div className={popUpClass} id="popup">
+      <p className="popup-msg">{appState.popUpState.msg}</p>
     </div>
   );
 }

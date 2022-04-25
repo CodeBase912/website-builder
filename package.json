@@ -9,5 +9,8 @@
     "build": "cd site-builder && npm build"
   },
   "author": "Tshepo Tsilo",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@fortawesome/react-fontawesome": "^0.1.17"
+  }
 }

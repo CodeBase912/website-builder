@@ -62,6 +62,23 @@ class UserController {
     }
 
     /**
+     * checks if the user is loggedin
+     * 
+     * @param string $token  an string that contains the user's 
+     *                       session token
+     * 
+     * @return array  an associative array that contains an error 
+     *                message or contains a success message and the 
+     *                user's data
+     */
+    public function isLoggedIn(string $token, int $userID): array {
+        // Get the user. 2nd param is false => we do not want to return user's 
+        // pwd
+        $result = $this->userModel->isLoggedIn($token, $userID);
+        return $result;
+    }
+
+    /**
      * gets all users in the database
      * 
      * @return array  an associative array that contains an error 
