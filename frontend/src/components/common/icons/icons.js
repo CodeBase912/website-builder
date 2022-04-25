@@ -1,11 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import UserIcon from "../../assets/icons/user-icon_big.svg";
 // Import FontAwesome Icons
 import {
   faClose,
   faBars,
   faPaperPlane,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 // Import Brand Icons
 import {
@@ -15,6 +15,8 @@ import {
   faPinterest,
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
+// Import Custom Icons
+import CustomIcon from "./CustomIcon";
 
 library.add(
   faFacebookF,
@@ -24,10 +26,15 @@ library.add(
   faYoutube,
   faClose,
   faBars,
-  faPaperPlane
+  faPaperPlane,
+  faUser
 );
 
 export const Icons = {
+  customIcons: {
+    userFriendly: <CustomIcon icon="userFriendly" />,
+    user: <CustomIcon icon="user" />,
+  },
   social: {
     facebook: <FontAwesomeIcon icon={faFacebookF} />,
     twitter: <FontAwesomeIcon icon={faTwitter} />,
@@ -37,4 +44,5 @@ export const Icons = {
   closeIcon: <FontAwesomeIcon icon={faClose} />,
   bars: <FontAwesomeIcon icon={faBars} />,
   paperPlane: <FontAwesomeIcon icon={faPaperPlane} />,
+  user: <FontAwesomeIcon icon={faUser} />,
 };

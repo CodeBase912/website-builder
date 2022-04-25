@@ -3,10 +3,12 @@ module.exports = {
   theme: {
     extend: {
       screens: {
+        xxss: "264px",
         xxs: "300px",
         xs: "315px",
-        "2xs": "360px",
+        "2xs": "364px",
         "3xs": "400px",
+        "4xs": "455px",
         "2sm": "662px",
         ms: "768px",
         "2ms": "800px",
@@ -23,7 +25,7 @@ module.exports = {
         "grey-dark": "#363636", // Dark-Mode (Dashbord) Page Background
         "grey-darker": "#252423", // Footer Background
         dark: "#0F0F0F", // Header Active Link Background / Dark-Mode Icons SideBar background
-        blue: "#00A7B4", // Home Page 1st Section Icons
+        "blue-icons": "#00A7B4", // Home Page 1st Section Icons
         "blue-light": "rgba(0, 222, 239, 0.15)", // Home Page Pricing Card Icon Background
         "blue-dark": "#00A7B4", // Home Page 2nd Section Box-1 Background
         "blue-darker": "#007078", // Home Page 2nd Section Box-2 Background

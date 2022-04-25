@@ -1,4 +1,5 @@
 import UserIcon from "../../assets/icons/user-icon_big.svg";
+import { Icons } from "../common/icons/icons";
 
 export const navLinks = [
   {
@@ -18,6 +19,6 @@ export const navLinks = [
 export const navActions = [
   {
     title: "Login",
-    endIcon: <img src={UserIcon} className="w-[18px] text-grey-lighter" />,
+    endIcon: <div className="w-5">{Icons.customIcons.user}</div>,
   },
 ];

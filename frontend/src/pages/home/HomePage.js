@@ -1,17 +1,19 @@
 import React from "react";
 // Import Custom React Components
-import Header from "../site/Header";
-import Footer from "../site/footer/Footer";
+import Header from "../../components/site/Header";
+import Footer from "../../components/site/footer/Footer";
 // Import Images
 import HeroImage from "../../assets/images/Hero_Image.svg";
-import { HeroIcon, Icons } from "../common/icons";
-import Button from "../common/Button";
+import { ReactComponent as UserFriendlyIcon } from "../../assets/icons/Group 389.svg";
+import { HeroIcon, Icons } from "../../components/common/icons/icons";
+import Button from "../../components/common/Button";
+import Icon from "../../components/common/icons/CustomIcon";
 
 const HomePage = () => {
   return (
     <div className="relative flex flex-col min-h-screen w-screenw max-w-full">
       <Header />
-      <main className="flex flex-1 pt-[47px] w-full">
+      <main className="flex flex-col flex-1 pt-[47px] w-full">
         {/* Hero Section */}
         <section className="flex flex-col items-center 2sm:flex-row bg-grey-darker text-white w-full">
           {/* Hero Content Container */}
@@ -51,7 +53,21 @@ const HomePage = () => {
         {/* Services Section */}
         <section>
           {/* Section Header Container */}
+          <div className="py-8 space-y-3 px-3">
+            <h2 className="font-semibold text-center text-lg 2sm:text-xl ls:text-2xl">
+              {"WebX brings all your creativity together"}
+            </h2>
+            <p className=" text-grey-dark text-center 2xs:text-sm 2sm:text-[16px]">
+              {
+                "When you need to a kickstart in your business and have no time for "
+              }
+              <br className="hidden 4xs:block" />
+              {"coding your website, let us do that job for you in minutes"}
+            </p>
+          </div>
           {/* Section Content Container */}
+          <div>{Icons.customIcons.userFriendly}</div>
+          <div>{Icons.customIcons.user}</div>
         </section>
 
         {/* Where to Start Section */}

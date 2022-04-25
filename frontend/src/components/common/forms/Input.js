@@ -15,7 +15,7 @@ const Input = ({ name, placeholder, type = "text", className }) => {
           onChange={onChange}
           value={value}
           className={classNames(
-            "bg-transparent text-sm outline-none border-2 border-grey px-6 py-2",
+            "bg-transparent text-sm outline-none border-2 border-grey px-1 xxss:px-6 py-2 ",
             className
           )}
         />

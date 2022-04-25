@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 // Import Custom React Components
-import HomePage from "./components/pages/HomePage";
-import Login from "./components/pages/Login";
+import HomePage from "./pages/home/HomePage";
+import Login from "./pages/login/Login";
 
 function App() {
   return (

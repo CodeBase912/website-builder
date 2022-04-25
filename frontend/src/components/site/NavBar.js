@@ -5,7 +5,7 @@ import classNames from "classnames";
 import Button from "../common/Button";
 // Import NavLinks
 import { navLinks, navActions } from "./nav-links";
-import { Icons } from "../common/icons";
+import { Icons } from "../common/icons/icons";
 
 const NavBgModal = ({ menuOpen, setMenuOpen }) => {
   const modalRoot = document.getElementById("modal-root");
