@@ -8,7 +8,7 @@ import Logo from "./Logo";
 
 const Header = () => {
   return (
-    <header className="flex justify-between bg-grey-darker text-white shadow-lg fixed w-full">
+    <header className="flex justify-between bg-grey-darker text-white shadow-lg fixed w-full z-50">
       {/* Logo Container */}
       <Logo />
 
