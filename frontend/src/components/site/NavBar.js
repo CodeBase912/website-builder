@@ -5,6 +5,7 @@ import classNames from "classnames";
 import Button from "../common/Button";
 // Import NavLinks
 import { navLinks, navActions } from "./nav-links";
+import { Icons } from "../common/icons";
 
 const NavBgModal = ({ menuOpen, setMenuOpen }) => {
   const modalRoot = document.getElementById("root");
@@ -60,9 +61,9 @@ const NavBar = ({ children, links, actions }) => {
         onClick={() => {
           setMenuOpen(true);
         }}
-        className="sm:hidden px-2 cursor-pointer"
+        className="text-xl sm:hidden px-2 cursor-pointer text-grey-lighter"
       >
-        {"Menu"}
+        {Icons.bars}
       </div>
       <ul
         className={classNames(
@@ -80,9 +81,9 @@ const NavBar = ({ children, links, actions }) => {
             onClick={() => {
               setMenuOpen(false);
             }}
-            className=" sm:hidden px-2 p-2 cursor-pointer w-fit"
+            className="text-xl sm:hidden px-2 py-3 cursor-pointer w-fit text-grey-lighter"
           >
-            {"Close Menu"}
+            {Icons.closeIcon}
           </div>
         </div>
 

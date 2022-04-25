@@ -13,22 +13,7 @@ const Header = () => {
       <Logo />
 
       {/* Nav Bar Container */}
-      <NavBar>
-        <a className="flex items-center px-9 bg-dark text-grey-lighter h-full cursor-pointer">
-          <p>{"Home"}</p>
-        </a>
-        <a className="flex items-center px-9 hover:bg-dark text-grey-lighter h-full cursor-pointer">
-          <p>{"Services"}</p>
-        </a>
-        <Button
-          endIcon={
-            <img src={UserIcon} className="w-[18px] text-grey-lighter" />
-          }
-          className="mx-2"
-        >
-          <p>Login</p>
-        </Button>
-      </NavBar>
+      <NavBar />
     </header>
   );
 };
