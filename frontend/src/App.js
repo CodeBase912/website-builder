@@ -1,10 +1,16 @@
-import Header from "./components/site/Header";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+// Import Custom React Components
+import HomePage from "./components/pages/HomePage";
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<HomePage />}></Route>
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
