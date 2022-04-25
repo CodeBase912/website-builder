@@ -35,7 +35,7 @@ const NavBar = ({ children, links, actions }) => {
     window.addEventListener("resize", (e) => {
       const width = e.target.innerWidth;
       const height = e.target.innerHeight;
-      console.log({ width, height });
+      // console.log({ width, height });
 
       if (width < 640) {
         setMenuOpen(false);
@@ -45,7 +45,7 @@ const NavBar = ({ children, links, actions }) => {
     return window.removeEventListener("resize", (e) => {
       const width = e.target.innerWidth;
       const height = e.target.innerHeight;
-      console.log({ width, height });
+      // console.log({ width, height });
 
       if (width < 640) {
         setMenuOpen(false);
