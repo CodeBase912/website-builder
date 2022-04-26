@@ -33,6 +33,9 @@ library.add(
 export const Icons = {
   customIcons: {
     logo: <CustomIcon icon="logo" />,
+    heroImage: <CustomIcon icon="heroImage" />,
+    dotsTopRight: <CustomIcon icon="dotsTopRight" />,
+    dotsBottomLeft: <CustomIcon icon="dotsBottomLeft" />,
     userFriendly: <CustomIcon icon="userFriendly" />,
     user: <CustomIcon icon="user" />,
     customize: <CustomIcon icon="customize" />,
