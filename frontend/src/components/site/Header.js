@@ -2,7 +2,6 @@ import React from "react";
 // Import Custom React Components
 import Button from "../common/Button";
 // Import Icons
-import UserIcon from "../../assets/icons/user-icon_big.svg";
 import NavBar from "./NavBar";
 import Logo from "./Logo";
 

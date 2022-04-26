@@ -1,4 +1,3 @@
-import UserIcon from "../../assets/icons/user-icon_big.svg";
 import { Icons } from "../common/icons/icons";
 
 export const navLinks = [

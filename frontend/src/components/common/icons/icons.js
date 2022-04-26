@@ -32,8 +32,40 @@ library.add(
 
 export const Icons = {
   customIcons: {
+    logo: <CustomIcon icon="logo" />,
     userFriendly: <CustomIcon icon="userFriendly" />,
     user: <CustomIcon icon="user" />,
+    customize: <CustomIcon icon="customize" />,
+    page: <CustomIcon icon="page" />,
+    rocket: <CustomIcon icon="rocket" />,
+    cycle: <CustomIcon icon="cycle" />,
+    database: <CustomIcon icon="database" />,
+    cloudOutlined: <CustomIcon icon="cloudOutlined" />,
+    allDevices: <CustomIcon icon="allDevices" />,
+    clients: {
+      robinhood: <CustomIcon icon="robinhood" />,
+      reddit: <CustomIcon icon="reddit" />,
+      upcase: <CustomIcon icon="upcase" />,
+      hubspot: <CustomIcon icon="hubspot" />,
+    },
+    builder: {
+      header: {
+        // widths = {mobile: w-[21px], tablet: w-[36px], desktop: w-[54px]}
+        mobile: <CustomIcon icon="mobile" />,
+        tablet: <CustomIcon icon="tablet" />,
+        desktop: <CustomIcon icon="desktop" />,
+        download: <CustomIcon icon="download" />,
+        preview: <CustomIcon icon="preview" />,
+        upload: <CustomIcon icon="upload" />,
+      },
+      sideBar: {
+        pages: <CustomIcon icon="pages" />,
+        blocks: <CustomIcon icon="blocks" />,
+        layers: <CustomIcon icon="layers" />,
+        styles: <CustomIcon icon="styles" />,
+        traits: <CustomIcon icon="traits" />,
+      },
+    },
   },
   social: {
     facebook: <FontAwesomeIcon icon={faFacebookF} />,

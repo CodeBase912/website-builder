@@ -4,7 +4,6 @@ import Header from "../../components/site/Header";
 import Footer from "../../components/site/footer/Footer";
 // Import Images
 import HeroImage from "../../assets/images/Hero_Image.svg";
-import { ReactComponent as UserFriendlyIcon } from "../../assets/icons/Group 389.svg";
 import { HeroIcon, Icons } from "../../components/common/icons/icons";
 import Button from "../../components/common/Button";
 import Icon from "../../components/common/icons/CustomIcon";
@@ -66,8 +65,61 @@ const HomePage = () => {
             </p>
           </div>
           {/* Section Content Container */}
-          <div>{Icons.customIcons.userFriendly}</div>
-          <div>{Icons.customIcons.user}</div>
+          <div className="w-24 fill-blue-icons">
+            {Icons.customIcons.userFriendly}
+          </div>
+          <div className="w-24 fill-blue-icons">
+            {Icons.customIcons.customize}
+          </div>
+          <div className="w-24 fill-blue-icons">
+            {Icons.customIcons.allDevices}
+          </div>
+          <div className="w-24 fill-blue-icons">{Icons.customIcons.page}</div>
+          <div className="w-24 fill-blue-icons">{Icons.customIcons.rocket}</div>
+          <div className="w-24">{Icons.customIcons.cycle}</div>
+          <div className="w-24">{Icons.customIcons.database}</div>
+          <div className="w-24">{Icons.customIcons.cloudOutlined}</div>
+          <div className="w-24">{Icons.customIcons.clients.robinhood}</div>
+          <div className="w-24">{Icons.customIcons.clients.reddit}</div>
+          <div className="w-24 fill-grey-dark">
+            {Icons.customIcons.clients.upcase}
+          </div>
+          <div className="w-24 fill-grey-dark">
+            {Icons.customIcons.clients.hubspot}
+          </div>
+          <div className="w-[54px] object-contain fill-primary stroke-primary">
+            {Icons.customIcons.builder.header.desktop}
+          </div>
+          <div className="w-[36px] fill-primary stroke-primary">
+            {Icons.customIcons.builder.header.tablet}
+          </div>
+          <div className="w-[21px] fill-primary stroke-primary">
+            {Icons.customIcons.builder.header.mobile}
+          </div>
+          <div className="w-24 fill-grey-darker ">
+            {Icons.customIcons.builder.header.download}
+          </div>
+          <div className="w-24 fill-grey-darker ">
+            {Icons.customIcons.builder.header.preview}
+          </div>
+          <div className="w-24 fill-grey-darker ">
+            {Icons.customIcons.builder.header.upload}
+          </div>
+          <div className="w-24 fill-blue-icons ">
+            {Icons.customIcons.builder.sideBar.pages}
+          </div>
+          <div className="w-24 fill-blue-icons ">
+            {Icons.customIcons.builder.sideBar.blocks}
+          </div>
+          <div className="w-24 fill-blue-icons ">
+            {Icons.customIcons.builder.sideBar.layers}
+          </div>
+          <div className="w-24 fill-blue-icons ">
+            {Icons.customIcons.builder.sideBar.styles}
+          </div>
+          <div className="w-24 fill-blue-icons ">
+            {Icons.customIcons.builder.sideBar.traits}
+          </div>
         </section>
 
         {/* Where to Start Section */}

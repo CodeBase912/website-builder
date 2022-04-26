@@ -1,3 +1,5 @@
+import { Icons } from "../../components/common/icons/icons";
+
 export const sections = {
   services: {
     title: "WebX brings all your creativity together",
@@ -10,14 +12,17 @@ export const sections = {
     ),
     content: [
       {
+        icon: Icons.customIcons.userFriendly,
         title: "USER-FRIENDLY PAGE BUILDER",
         text: "An industry leading page builder that makes it easy to build world-class websites that you can host anywhere",
       },
       {
+        icon: Icons.customIcons.customize,
         title: "EASY TO CUSTOMIZE",
         text: "Be able to customize your plan over time if needed so you pay only for what you use",
       },
       {
+        icon: Icons.customIcons.anyDevice,
         title: "FITS WITH ANY DEVICE",
         text: "Build functional responsive websites that look great on any device in a breeze",
       },
