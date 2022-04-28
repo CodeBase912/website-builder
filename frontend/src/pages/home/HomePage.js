@@ -71,12 +71,12 @@ const HomePage = () => {
             {/* Section Content Container */}
             <div className="flex flex-col-reverse 2sm:flex-row px-3 pb-8">
               {/* Text & Icons Container */}
-              <div className="flex flex-col w-full gap-8">
+              <div className="flex flex-col items-center w-full gap-8">
                 {sections.services.content.map((item, itemIndex) => {
                   return (
-                    <div className="flex gap-3 max-w-[500px]">
+                    <div className="flex gap-3 max-w-[400px]">
                       {/* Section Item Icon Container */}
-                      <div className="w-24 min-w-[6rem] fill-blue-icons">
+                      <div className="w-24 min-w-[3rem] fill-blue-icons">
                         {item.icon}
                       </div>
                       {/* Section Item Text Container */}
