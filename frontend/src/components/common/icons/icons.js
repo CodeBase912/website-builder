@@ -6,6 +6,12 @@ import {
   faBars,
   faPaperPlane,
   faUser,
+  faUndo,
+  faRedo,
+  faChevronUp,
+  faChevronDown,
+  faChevronLeft,
+  faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 // Import Brand Icons
 import {
@@ -27,7 +33,13 @@ library.add(
   faClose,
   faBars,
   faPaperPlane,
-  faUser
+  faUser,
+  faUndo,
+  faRedo,
+  faChevronUp,
+  faChevronDown,
+  faChevronLeft,
+  faChevronRight
 );
 
 export const Icons = {
@@ -57,6 +69,7 @@ export const Icons = {
         mobile: <CustomIcon icon="mobile" />,
         tablet: <CustomIcon icon="tablet" />,
         desktop: <CustomIcon icon="desktop" />,
+        borders: <CustomIcon icon="borders" />,
         download: <CustomIcon icon="download" />,
         preview: <CustomIcon icon="preview" />,
         upload: <CustomIcon icon="upload" />,
@@ -76,8 +89,16 @@ export const Icons = {
     instagram: <FontAwesomeIcon icon={faInstagram} />,
     youtube: <FontAwesomeIcon icon={faYoutube} />,
   },
+  chevron: {
+    up: <FontAwesomeIcon icon={faChevronUp} />,
+    down: <FontAwesomeIcon icon={faChevronDown} />,
+    right: <FontAwesomeIcon icon={faChevronRight} />,
+    left: <FontAwesomeIcon icon={faChevronLeft} />,
+  },
   closeIcon: <FontAwesomeIcon icon={faClose} />,
   bars: <FontAwesomeIcon icon={faBars} />,
   paperPlane: <FontAwesomeIcon icon={faPaperPlane} />,
   user: <FontAwesomeIcon icon={faUser} />,
+  redo: <FontAwesomeIcon icon={faRedo} />,
+  undo: <FontAwesomeIcon icon={faUndo} />,
 };

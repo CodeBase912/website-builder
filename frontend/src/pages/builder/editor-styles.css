@@ -1,0 +1,37 @@
+/* Let's highlight canvas boundaries */
+#gjs {
+  /* border: 3px solid #444; */
+  --canvas__frames_margin: 50px;
+}
+
+/* Add padding */
+.gjs-frame-wrapper {
+  padding: 50px;
+}
+
+/* Reset some default styling */
+.gjs-cv-canvas {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.gjs-cv-canvas__frames {
+  /* left: 50%;
+  transform: translateX(calc(-50% - var(--canvas__frames_margin))); */
+  width: calc(100vw - 100px);
+  margin: var(--canvas__frames_margin);
+  height: calc(100% - 2 * var(--canvas__frames_margin));
+}
+.gjs-frame {
+  overflow-y: hidden;
+}
+.gjs-block {
+  width: auto;
+  height: auto;
+  min-height: auto;
+}
+
+.gjs-pn-panel {
+  position: unset;
+}

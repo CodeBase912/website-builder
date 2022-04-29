@@ -28,7 +28,7 @@ const NavBgModal = ({ menuOpen, setMenuOpen }) => {
   );
 };
 
-const NavBar = ({ children, links, actions }) => {
+const NavBar = ({ children, links, actions, absolute }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
