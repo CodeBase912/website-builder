@@ -34,4 +34,53 @@
 
 .gjs-pn-panel {
   position: unset;
+  padding: 0;
+}
+
+.gjs-pn-buttons {
+  height: 100%;
+}
+
+.gjs-pn-btn {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  margin-right: 0;
+  margin: auto;
+  padding: 0;
+  border-radius: unset;
+  position: relative;
+  width: 100%;
+  min-width: 64px;
+  stroke: #e0e0e3;
+  @apply hover:bg-dark flex min-h-[100%] justify-center;
+}
+
+.gjs-pn-btn:hover {
+  @apply bg-dark;
+}
+
+.gjs-pn-btn:active {
+  @apply bg-dark;
+}
+
+.gjs-pn-btn.gjs-pn-active {
+  @apply bg-opacity-30;
+  box-shadow: unset;
+}
+
+.gjs-pn-btn.gjs-pn-active:hover,
+.gjs-pn-btn.gjs-pn-active:active {
+  @apply bg-dark;
+}
+
+.gjs-one-bg {
+  background-color: unset;
+}
+
+.gjs-four-color {
+  color: #00edff;
+  stroke: #00edff;
+  fill: #00edff;
 }

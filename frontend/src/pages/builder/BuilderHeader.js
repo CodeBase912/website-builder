@@ -34,64 +34,75 @@ const BuilderHeader = ({
 
       {/* Nav Bar Container */}
       {/* <NavBar absolute={fixed} /> */}
-      <div className="flex justify-between w-full">
+      <div className="flex w-full">
         {/* Toggle Borders Button Container */}
-        <div className="panel__basic-actions relative">
-          <div id="toggle-borders" className="max-w-[40px]">
-            {Icons.customIcons.builder.header.borders}
-          </div>
-        </div>
-        {/* Select Device Buttons Container */}
-        <div className="panel__devices flex border-r border-l border-grey">
-          {/* Desktop Device Container */}
-          <div className="w-16 hover:bg-dark flex justify-center cursor-pointer">
+        <div className="relative flex">
+          <div id="toggle-borders" className="w-16 hover:bg-dark flex">
             <div
-              id="device-tablet"
-              className="flex items-center justify-center w-10 h-full fill-grey-lighter stroke-grey-lighter"
+              id="border-toggle-btn"
+              className="w-16 hover:bg-dark flex justify-center cursor-pointer"
             >
-              {Icons.customIcons.builder.header.desktop}
-            </div>
-          </div>
-          {/* Table Device Container */}
-          <div className="w-16 hover:bg-dark flex justify-center cursor-pointer">
-            <div
-              id="device-tablet"
-              className="flex items-center justify-center w-7 h-full fill-grey-lighter stroke-grey-lighter"
-            >
-              {Icons.customIcons.builder.header.tablet}
-            </div>
-          </div>
-          {/* Mobile Device Container */}
-          <div className="w-16 hover:bg-dark flex justify-center cursor-pointer">
-            <div
-              id="device-tablet"
-              className="flex items-center justify-center w-4 h-full fill-grey-lighter stroke-grey-lighter"
-            >
-              {Icons.customIcons.builder.header.mobile}
-            </div>
-          </div>
-          {/* Canvas Width Display/Input & Options Container  */}
-          <div className="flex">
-            {/* Canvas Width Display/Input Container */}
-            <div className="flex items-center px-3 group hover:bg-dark">
-              <div className="flex justify-between w-[92px] border border-grey pl-3 py-1 h-fit bg-transparent my-auto">
-                <input
-                  name="canvas-width"
-                  type={"text"}
-                  placeholder={"300"}
-                  className="w-full bg-transparent outline-none text-white"
-                />
-                <p className="px-3 text-grey-light bg-tranparent">{"px"}</p>
-              </div>
-            </div>
-            {/* Options Container */}
-            <div className="">
-              <div className="flex items-center justify-center w-16 hover:bg-dark h-full text-2xl text-grey-lighter">
-                {Icons.ellipes}
+              <div className="flex items-center justify-center object-contain w-7 h-full">
+                {Icons.customIcons.builder.header.borders}
               </div>
             </div>
           </div>
+          {/* Select Device Buttons Container */}
+          <div
+            id="devices-panel-container"
+            className="flex border-r border-l border-grey"
+          >
+            {/* Desktop Device Container */}
+            <div
+              id="device-desktop-container"
+              className="w-16 hover:bg-dark flex justify-center cursor-pointer"
+            >
+              <div className="flex items-center justify-center object-contain w-10 h-full">
+                {Icons.customIcons.builder.header.desktop}
+              </div>
+            </div>
+            {/* Table Device Container */}
+            <div
+              id="device-tablet-container"
+              className="w-16 hover:bg-dark flex justify-center cursor-pointer"
+            >
+              <div className="flex items-center justify-center object-contain w-7 h-full fill-grey-lighter stroke-grey-lighter">
+                {Icons.customIcons.builder.header.tablet}
+              </div>
+            </div>
+            {/* Mobile Device Container */}
+            <div
+              id="device-mobile-container"
+              className="w-16 hover:bg-dark flex justify-center cursor-pointer"
+            >
+              <div className="flex items-center justify-center object-contain w-4 h-full fill-grey-lighter stroke-grey-lighter">
+                {Icons.customIcons.builder.header.mobile}
+              </div>
+            </div>
+            {/* Canvas Width Display/Input & Options Container  */}
+            {/* <div className="flex">
+              Canvas Width Display/Input Container
+              <div className="flex items-center px-3 group hover:bg-dark">
+                <div className="flex justify-between w-[92px] border border-grey pl-3 py-1 h-fit bg-transparent my-auto">
+                  <input
+                    name="canvas-width"
+                    type={"text"}
+                    placeholder={"300"}
+                    className="w-full bg-transparent outline-none text-white"
+                  />
+                  <p className="px-3 text-grey-light bg-tranparent">{"px"}</p>
+                </div>
+              </div>
+              Options Container
+              <div className="">
+                <div className="flex items-center justify-center w-16 hover:bg-dark h-full text-2xl text-grey-lighter cursor-pointer">
+                  {Icons.ellipes}
+                </div>
+              </div>
+            </div> */}
+          </div>
         </div>
+
         <div className="relative">Right panel</div>
       </div>
     </header>

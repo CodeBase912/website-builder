@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom/client";
 import "grapesjs/dist/css/grapes.min.css";
 import grapesjs from "grapesjs";
 // Import Editor Stylesheet
 import "./editor-styles.css";
 import BuilderHeader from "./BuilderHeader";
-import { Icons } from "../../components/common/icons/icons";
-import CustomIcon from "../../components/common/icons/CustomIcon";
-import { iconPaths } from "../../components/common/icons/paths";
 // Import Custom React Components
 
 const Builder = () => {
@@ -26,37 +22,7 @@ const Builder = () => {
       storageManager: false,
       // Avoid any default panel
 
-      panels: {
-        defaults: [
-          {
-            id: "basic-actions",
-            el: ".panel__basic-actions",
-            buttons: [
-              {
-                id: "visibility",
-                el: "#toggle-borders",
-                active: true, // active by default
-                className: "w-8",
-                command: "sw-visibility", // Built-in command
-              },
-            ],
-          },
-          {
-            id: "panel-devices",
-            el: "#panel__devices",
-            buttons: [
-              {
-                id: "device-desktop",
-                // el: "#device-desktop-container",
-                className: "w-10",
-                command: "set-device-desktop", // Built-in command
-                active: true,
-                toggleable: false,
-              },
-            ],
-          },
-        ],
-      },
+      panels: { defaults: [] },
       canvas: {
         // em: { dragMode: true },
       },
@@ -70,6 +36,60 @@ const Builder = () => {
           },
         },
       },
+    });
+
+    editor.on("load", () => {
+      editor.Panels.addPanel({
+        id: "toogle-actions",
+        el: "#toggle-borders",
+        className: "w-16",
+        buttons: [
+          {
+            id: "borders-toggle",
+            el: "#border-toggle-btn",
+            className: "w-8 ",
+            command: "sw-visibility", // Built-In command
+            active: true,
+          },
+        ],
+      });
+      editor.Panels.addPanel({
+        id: "device-actions",
+        el: "#devices-panel-container",
+        buttons: [
+          {
+            id: "device-desktop",
+            el: "#device-desktop-container",
+            className: "w-16",
+            command: "set-device-desktop", // Built-in command
+            active: true,
+            toggleable: false,
+            attributes: {
+              title: "Desktop",
+            },
+          },
+          {
+            id: "device-tablet",
+            el: "#device-tablet-container",
+            className: "w-16",
+            command: "set-device-tablet", // Built-in command
+            toggleable: false,
+            attributes: {
+              title: "Tablet",
+            },
+          },
+          {
+            id: "device-mobile",
+            el: "#device-mobile-container",
+            className: "w-16",
+            command: "set-device-mobile", // Built-in command
+            toggleable: false,
+            attributes: {
+              title: "Mobile",
+            },
+          },
+        ],
+      });
     });
 
     // console.log(editor.Canvas.getElement());
@@ -267,7 +287,7 @@ const Builder = () => {
   return (
     <div className="overflow-hidden flex flex-col min-h-screen w-screenw max-w-full">
       <BuilderHeader fixed={false} iconOnly dropDown />
-      <main className="flex flex-col relative h-screenh flex-1 w-full bg-primary">
+      <main className="flex flex-col relative h-screenh flex-1 w-full bg-grey-lighter">
         <div id="gjs">
           <h1>Hello World Component!</h1>
         </div>

@@ -307,6 +307,7 @@ export const iconPaths = {
         id="Path_1107"
         data-name="Path 1107"
         transform="translate(2.3 2.3)"
+        stroke="transparent"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeDasharray="11 8"
