@@ -12,6 +12,7 @@ import {
   faChevronDown,
   faChevronLeft,
   faChevronRight,
+  faEllipsisH,
 } from "@fortawesome/free-solid-svg-icons";
 // Import Brand Icons
 import {
@@ -39,7 +40,8 @@ library.add(
   faChevronUp,
   faChevronDown,
   faChevronLeft,
-  faChevronRight
+  faChevronRight,
+  faEllipsisH
 );
 
 export const Icons = {
@@ -101,4 +103,5 @@ export const Icons = {
   user: <FontAwesomeIcon icon={faUser} />,
   redo: <FontAwesomeIcon icon={faRedo} />,
   undo: <FontAwesomeIcon icon={faUndo} />,
+  ellipes: <FontAwesomeIcon icon={faEllipsisH} />,
 };

@@ -6,6 +6,7 @@ import Button from "../../components/common/Button";
 import NavBar from "../../components/site/NavBar";
 import Logo from "../../components/site/Logo";
 import { Icons } from "../../components/common/icons/icons";
+import Input from "../../components/common/forms/Input";
 
 const BuilderHeader = ({
   fixed = true,
@@ -67,6 +68,27 @@ const BuilderHeader = ({
               className="flex items-center justify-center w-4 h-full fill-grey-lighter stroke-grey-lighter"
             >
               {Icons.customIcons.builder.header.mobile}
+            </div>
+          </div>
+          {/* Canvas Width Display/Input & Options Container  */}
+          <div className="flex">
+            {/* Canvas Width Display/Input Container */}
+            <div className="flex items-center px-3 group hover:bg-dark">
+              <div className="flex justify-between w-[92px] border border-grey pl-3 py-1 h-fit bg-transparent my-auto">
+                <input
+                  name="canvas-width"
+                  type={"text"}
+                  placeholder={"300"}
+                  className="w-full bg-transparent outline-none text-white"
+                />
+                <p className="px-3 text-grey-light bg-tranparent">{"px"}</p>
+              </div>
+            </div>
+            {/* Options Container */}
+            <div className="">
+              <div className="flex items-center justify-center w-16 hover:bg-dark h-full text-2xl text-grey-lighter">
+                {Icons.ellipes}
+              </div>
             </div>
           </div>
         </div>
