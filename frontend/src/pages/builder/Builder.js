@@ -201,7 +201,7 @@ const Builder = () => {
     rightScrollController.classList.add("cursor-grab");
     rightScrollController.classList.add("active:cursor-grabbing");
     rightScrollController.innerHTML =
-      '<div data-right-scroll class="bg-grey-light group-hover:bg-primary text-[0px] w-full rounded-full m-auto h-full text-transparent pointer-events-none"></div>';
+      '<div data-right-scroll class="bg-grey-light group-active:bg-primary text-[0px] w-full rounded-full m-auto h-full text-transparent pointer-events-none"></div>';
     rightScrollController.style.width = "50px";
     rightScrollController.style.padding = "0 15px";
     rightScrollController.style.height = "100px";

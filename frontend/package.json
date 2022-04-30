@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^13.5.0",
     "classnames": "^2.3.1",
     "grapesjs": "^0.18.4",
+    "grapesjs-preset-webpage": "^0.1.11",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-hook-form": "^7.30.0",
