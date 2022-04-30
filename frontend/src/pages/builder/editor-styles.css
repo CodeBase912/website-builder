@@ -19,7 +19,7 @@
 .gjs-cv-canvas__frames {
   /* left: 50%;
   transform: translateX(calc(-50% - var(--canvas__frames_margin))); */
-  width: calc(100vw - 100px);
+  width: calc(100% - 100px);
   margin: var(--canvas__frames_margin);
   height: calc(100% - 2 * var(--canvas__frames_margin));
 }
@@ -66,7 +66,7 @@
 }
 
 .gjs-pn-btn.gjs-pn-active {
-  @apply bg-opacity-30;
+  @apply bg-dark bg-opacity-70;
   box-shadow: unset;
 }
 

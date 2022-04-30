@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import classNames from "classnames";
 // Import Custom React Components
 import Button from "../../components/common/Button";
@@ -12,7 +12,18 @@ const BuilderHeader = ({
   fixed = true,
   iconOnly = false,
   dropDown = false,
+  editor,
 }) => {
+  //   useEffect(() => {
+  //     //   first
+  //     console.log("Rerendered");
+  //     console.log(editor?.Devices?.getSelected());
+
+  //     return () => {
+  //       // second
+  //     };
+  //   }, [editor, editor?.Devices?.getSelected()]);
+
   return (
     <header
       className={classNames(
@@ -66,7 +77,7 @@ const BuilderHeader = ({
               id="device-tablet-container"
               className="w-16 hover:bg-dark flex justify-center cursor-pointer"
             >
-              <div className="flex items-center justify-center object-contain w-7 h-full fill-grey-lighter stroke-grey-lighter">
+              <div className="flex items-center justify-center object-contain w-7 h-full">
                 {Icons.customIcons.builder.header.tablet}
               </div>
             </div>
@@ -75,7 +86,7 @@ const BuilderHeader = ({
               id="device-mobile-container"
               className="w-16 hover:bg-dark flex justify-center cursor-pointer"
             >
-              <div className="flex items-center justify-center object-contain w-4 h-full fill-grey-lighter stroke-grey-lighter">
+              <div className="flex items-center justify-center object-contain w-4 h-full">
                 {Icons.customIcons.builder.header.mobile}
               </div>
             </div>

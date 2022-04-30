@@ -45,7 +45,7 @@ export const iconPaths = {
           data-name="Path 1107"
           strokeLinecap="round"
           strokeLinejoin="round"
-          stroke-dasharray="11 6"
+          strokeDasharray="11 6"
           stroke="transparent"
         >
           <path
@@ -609,7 +609,7 @@ export const iconPaths = {
         >
           <feOffset dy="3" input="SourceAlpha" />
           <feGaussianBlur stdDeviation="12.5" result="blur" />
-          <feFlood flood-color="#424d83" flood-opacity="0.271" />
+          <feFlood floodColor="#424d83" floodOpacity="0.271" />
           <feComposite operator="in" in2="blur" />
           <feComposite in="SourceGraphic" />
         </filter>
@@ -623,7 +623,7 @@ export const iconPaths = {
         >
           <feOffset dx="7" dy="7" input="SourceAlpha" />
           <feGaussianBlur stdDeviation="17.5" result="blur-2" />
-          <feFlood flood-color="#141414" flood-opacity="0.071" />
+          <feFlood floodColor="#141414" floodOpacity="0.071" />
           <feComposite operator="in" in2="blur-2" />
           <feComposite in="SourceGraphic" />
         </filter>
@@ -1756,7 +1756,7 @@ export const iconPaths = {
               transform="translate(5094.375 -2321.805)"
               fill="#e0e0e3"
               stroke="rgba(0,0,0,0)"
-              stroke-width="1"
+              strokeWidth="1"
             />
             <path
               id="Preview"
@@ -1764,7 +1764,7 @@ export const iconPaths = {
               transform="translate(4740.125 -2325)"
               fill="#e0e0e3"
               stroke="rgba(0,0,0,0)"
-              stroke-width="1"
+              strokeWidth="1"
             />
             <path
               id="Download"
@@ -1785,7 +1785,7 @@ export const iconPaths = {
                 fill="none"
                 stroke="#00edff"
                 strokeLinejoin="round"
-                stroke-width="5"
+                strokeWidth="5"
               />
               <g
                 id="Path_1121"
@@ -1911,7 +1911,7 @@ export const iconPaths = {
               transform="translate(24.894 25.389)"
               fill="none"
               strokeLinejoin="round"
-              stroke-dasharray="10 6"
+              strokeDasharray="10 6"
             >
               <path
                 d="M1.963,0H39.25a2.044,2.044,0,0,1,1.963,2.117V38.105a2.044,2.044,0,0,1-1.963,2.117H1.963A2.044,2.044,0,0,1,0,38.105V2.117A2.044,2.044,0,0,1,1.963,0Z"
@@ -1965,7 +1965,7 @@ export const iconPaths = {
               stroke="#e0e0e3"
               strokeLinecap="round"
               strokeLinejoin="round"
-              stroke-width="2"
+              strokeWidth="2"
             />
           </g>
         </g>
@@ -1992,7 +1992,7 @@ export const iconPaths = {
               transform="translate(613.5 626.5)"
               fill="none"
               stroke="#e0e0e3"
-              stroke-width="1"
+              strokeWidth="1"
             />
             <path
               id="Path_1171"
@@ -2001,7 +2001,7 @@ export const iconPaths = {
               transform="translate(3591.281 -2159)"
               fill="#0f0f0f"
               stroke="rgba(0,0,0,0)"
-              stroke-width="1"
+              strokeWidth="1"
               opacity="0.8"
             />
           </g>
@@ -2020,7 +2020,7 @@ export const iconPaths = {
               transform="translate(613.5 626.5)"
               fill="none"
               stroke="#e0e0e3"
-              stroke-width="1"
+              strokeWidth="1"
             />
             <path
               id="Text-2"
@@ -2039,7 +2039,7 @@ export const iconPaths = {
               transform="translate(613.5 547.5)"
               fill="none"
               stroke="#e0e0e3"
-              stroke-width="1"
+              strokeWidth="1"
             />
             <path
               id="Title"
@@ -2136,8 +2136,8 @@ export const iconPaths = {
           y2="1.102"
           gradientUnits="objectBoundingBox"
         >
-          <stop offset="0" stop-color="#00deef" />
-          <stop offset="1" stop-color="#93a5ff" stop-opacity="0" />
+          <stop offset="0" stopColor="#00deef" />
+          <stop offset="1" stopColor="#93a5ff" stopOpacity="0" />
         </linearGradient>
       </defs>
       <path
@@ -2164,8 +2164,8 @@ export const iconPaths = {
           y2="1.096"
           gradientUnits="objectBoundingBox"
         >
-          <stop offset="0" stop-color="#00deef" />
-          <stop offset="1" stop-color="#93a5ff" stop-opacity="0" />
+          <stop offset="0" stopColor="#00deef" />
+          <stop offset="1" stopColor="#93a5ff" stopOpacity="0" />
         </linearGradient>
       </defs>
       <path

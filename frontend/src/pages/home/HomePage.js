@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 // Import Custom React Components
 import Header from "../../components/site/Header";
 import Footer from "../../components/site/footer/Footer";
@@ -74,7 +74,10 @@ const HomePage = () => {
               <div className="flex flex-col items-center w-full gap-8">
                 {sections.services.content.map((item, itemIndex) => {
                   return (
-                    <div className="flex gap-3 max-w-[400px]">
+                    <div
+                      key={`services-section-item-${itemIndex}`}
+                      className="flex gap-3 max-w-[400px]"
+                    >
                       {/* Section Item Icon Container */}
                       <div className="w-24 min-w-[3rem] fill-blue-icons">
                         {item.icon}

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "grapesjs/dist/css/grapes.min.css";
 import grapesjs from "grapesjs";
 // Import Editor Stylesheet
 import "./editor-styles.css";
@@ -14,15 +13,93 @@ const Builder = () => {
       container: "#gjs",
       // Get the content for the canvas directly from the element
       // As an alternative we could use: `components: '<h1>Hello World Component!</h1>'`,
-      fromElement: true,
+      fromElement: false,
       // Size of the editor
       height: "calc(100vh - 47.03px)",
-      width: "auto",
+      width: "calc(100% - 64px)",
       // Disable the storage manager for the moment
       storageManager: false,
-      // Avoid any default panel
 
-      panels: { defaults: [] },
+      deviceManager: {
+        devices: [
+          {
+            name: "Desktop",
+            width: "1200px",
+          },
+          {
+            name: "Tablet",
+            width: "768px",
+            // widthMedia: "992px",
+          },
+          {
+            name: "Mobile landscape",
+            width: "575px",
+            // widthMedia: "575px",
+          },
+          {
+            name: "Mobile",
+            width: "320px",
+            // widthMedia: "575px",
+          },
+        ],
+      },
+      panels: {
+        defaults: [
+          {
+            id: "toogle-actions",
+            el: "#toggle-borders",
+            className: "w-16",
+            activeClassName: "bg-red",
+            buttons: [
+              {
+                id: "borders-toggle",
+                el: "#border-toggle-btn",
+                className: "w-8 ",
+                command: "sw-visibility", // Built-In command
+                active: true,
+                togglable: true,
+              },
+            ],
+          },
+          {
+            id: "device-actions",
+            el: "#devices-panel-container",
+            buttons: [
+              {
+                id: "Desktop",
+                el: "#device-desktop-container",
+                className: "w-16",
+                command: "set-device-desktop",
+                active: true,
+                togglable: false,
+                attributes: {
+                  title: "Desktop",
+                },
+              },
+              {
+                id: "Tablet",
+                el: "#device-tablet-container",
+                className: "w-16",
+                command: "set-device-tablet", // Built-in command
+                togglable: false,
+                attributes: {
+                  title: "Tablet",
+                },
+              },
+              {
+                id: "Mobile",
+                el: "#device-mobile-container",
+                className: "gjs-pn-active",
+                command: "set-device-mobile", // Built-in command
+                togglable: false,
+                attributes: {
+                  title: "Mobile",
+                },
+              },
+            ],
+          },
+        ],
+      },
       canvas: {
         // em: { dragMode: true },
       },
@@ -31,71 +108,81 @@ const Builder = () => {
           id: "right-drag",
           el: ".gjs-frame-wrapper__right",
           attributes: {
-            title: "About",
+            title: "Drag to Resize",
             "data-tooltip-pos": "bottom",
           },
         },
       },
     });
 
-    editor.on("load", () => {
-      editor.Panels.addPanel({
-        id: "toogle-actions",
-        el: "#toggle-borders",
-        className: "w-16",
-        buttons: [
-          {
-            id: "borders-toggle",
-            el: "#border-toggle-btn",
-            className: "w-8 ",
-            command: "sw-visibility", // Built-In command
-            active: true,
-          },
-        ],
-      });
-      editor.Panels.addPanel({
-        id: "device-actions",
-        el: "#devices-panel-container",
-        buttons: [
-          {
-            id: "device-desktop",
-            el: "#device-desktop-container",
-            className: "w-16",
-            command: "set-device-desktop", // Built-in command
-            active: true,
-            toggleable: false,
-            attributes: {
-              title: "Desktop",
-            },
-          },
-          {
-            id: "device-tablet",
-            el: "#device-tablet-container",
-            className: "w-16",
-            command: "set-device-tablet", // Built-in command
-            toggleable: false,
-            attributes: {
-              title: "Tablet",
-            },
-          },
-          {
-            id: "device-mobile",
-            el: "#device-mobile-container",
-            className: "w-16",
-            command: "set-device-mobile", // Built-in command
-            toggleable: false,
-            attributes: {
-              title: "Mobile",
-            },
-          },
-        ],
-      });
+    // editor.on("load", () => {
+    //   // Remove duplicate panel buttons container
+    //   Array.from(document.querySelectorAll(".gjs-pn-buttons")).map((list) => {
+    //     if (list.innerHTML == "") {
+    //       console.log(list);
+    //       list.remove();
+    //     }
+    //   });
+    // });
+
+    // DEFAULT COMMANDS
+    // var crc = "create-comp";
+    // var mvc = "move-comp";
+    // var swv = "sw-visibility";
+    // var expt = "export-template";
+    // var osm = "open-sm";
+    // var otm = "open-tm";
+    // var ola = "open-layers";
+    // var obl = "open-blocks";
+    // var ful = "fullscreen";
+    // var prv = "preview";
+
+    // editor.on("run:set-device-desktop", (input) => {
+    //   console.log("Inout: ", input);
+    // });
+    // editor.on("device:select", (input, input2) => {
+    //   console.log("Inout: ", input);
+    //   console.log("Inout2: ", input2);
+    //   // editor.Panels.getButton("device-actions", input.id).set("Active", 1);
+    //   // input.trigger("updateActive");
+    //   // input2.trigger("change:active", 0);
+    //   editor.refresh();
+    // });
+
+    // ----------------------------------------------------------
+    // ADD COMMANDS
+    // ----------------------------------------------------------
+    editor.Commands.add("set-device-desktop", {
+      run: function (editor, sender) {
+        editor.setDevice("Desktop", true);
+        // sender.trigger("updateActive");
+        // const selectedBtn = editor.Panels.getButton(
+        //   "device-actions",
+        //   "set-device-desktop"
+        // ).set("active", 1);
+      },
+    });
+    editor.Commands.add("set-device-tablet", {
+      run: function (editor, sender) {
+        editor.setDevice("Tablet");
+        // sender.trigger("updateActive");
+        // const selectedBtn = editor.Panels.getButton(
+        //   "device-actions",
+        //   "device-tablet"
+        //   ).trigger("updateActive");
+      },
+    });
+    editor.Commands.add("set-device-mobile", {
+      run: function (editor, sender) {
+        editor.setDevice("Mobile");
+        // sender.trigger("updateActive");
+        // const selectedBtn = editor.Panels.getButton(
+        //   "device-actions",
+        //   "device-mobile"
+        // ).trigger("updateActive");
+      },
     });
 
-    // console.log(editor.Canvas.getElement());
-    // console.log(editor.Canvas.getFrameEl());
-    // // Set width of canvas
-    // // editor.Canvas.getFrameEl().style.width = "200px";
     const rightScrollController = document.querySelector(
       ".gjs-frame-wrapper__right"
     );
@@ -129,18 +216,14 @@ const Builder = () => {
     leftScrollController.style.width = "50px";
     leftScrollController.style.padding = "0 15px";
     leftScrollController.style.height = "100px";
-    // // rightScrollController.style.left =
-    // //   editor.Canvas.getFrameEl().getBoundingClientRect().right;
-    // console.log("Canvas config: ", editor.Canvas.getConfig());
-    // console.log("Canvas model: ", editor.Canvas.getModel());
-    // // console.log(editor.Canvas.getResizerEl());
-    // console.log(editor.Canvas.getRect());
 
     const onDragHandler = (e) => {
       const frame_wrapper = document.querySelector(".gjs-frame-wrapper");
+      const right_scroll = document.querySelector("*[data-right-scroll]");
       frame_wrapper.classList.remove("pointer-events-auto");
       frame_wrapper.classList.remove("pointer-events-none");
       frame_wrapper.classList.add("pointer-events-none");
+      right_scroll.classList.add("bg-primary");
       const canvasFrames = document.querySelector(".gjs-cv-canvas__frames");
       const to = e.clientX;
       const newWidth = to - frame_wrapper.getBoundingClientRect().left;
@@ -155,7 +238,7 @@ const Builder = () => {
       const right_scroll = document.querySelector("*[data-right-scroll]");
       frame_wrapper.classList.add("pointer-events-auto");
       frame_wrapper.classList.remove("pointer-events-none");
-      right_scroll.classList.remove("bg-primary");
+      // right_scroll.classList.remove("bg-primary");
       document.removeEventListener("mousemove", onDragHandler);
       document.removeEventListener("mouseup", onDragStopHandler);
     };
@@ -183,116 +266,117 @@ const Builder = () => {
     };
     addScroll();
 
-    editor.on("component:selected", (component) =>
-      console.log("Selected Component: ", component)
-    );
+    // editor.on("component:selected", (component) =>
+    //   console.log("Selected Component: ", component)
+    // );
 
-    editor.Commands.add("adjustCanvasWidth", {
-      run(editor, sender) {
-        console.log("Adjusting Canvas Width...");
-        // const canvas = editor.Canvas.getFrameEl();
-        const canvas =
-          editor.Canvas.getElement().querySelector(".gjs-frame-wrapper");
-        const rightScrollController = editor.Canvas.getElement().querySelector(
-          ".gjs-frame-wrapper__right"
-        );
-        const leftScrollController = editor.Canvas.getElement().querySelector(
-          ".gjs-frame-wrapper__left"
-        );
+    // editor.Commands.add("adjustCanvasWidth", {
+    //   run(editor, sender) {
+    //     console.log("Adjusting Canvas Width...");
+    //     // const canvas = editor.Canvas.getFrameEl();
+    //     const canvas =
+    //       editor.Canvas.getElement().querySelector(".gjs-frame-wrapper");
+    //     const rightScrollController = editor.Canvas.getElement().querySelector(
+    //       ".gjs-frame-wrapper__right"
+    //     );
+    //     const leftScrollController = editor.Canvas.getElement().querySelector(
+    //       ".gjs-frame-wrapper__left"
+    //     );
 
-        const handleScroll = (e, element, canvas, startPt, edgeDist) => {
-          const to = e.x - edgeDist;
-          canvas.style.width =
-            canvas.getBoundingClientRect().width + (to - startPt);
-        };
-        // Add Event Listener
-        rightScrollController.addEventListener("mousedown", (event) => {
-          const startPt = event.clientX;
-          const fromX = rightScrollController.getBoundingClientRect().left;
-          // Determine distance between mouse position and element edge
-          const edgeDist = event.x - fromX;
-          document.addEventListener("mousemove", (e) => {
-            handleScroll(e, rightScrollController, canvas, startPt, edgeDist);
-          });
-        });
-        rightScrollController.addEventListener("mouseup", (event) => {
-          document.removeEventListener("mousemove", (e) => {
-            const startPt = event.clientX;
-            const fromX = rightScrollController.getBoundingClientRect().left;
-            // Determine distance between mouse position and element edge
-            const edgeDist = event.x - fromX;
-            handleScroll(e, rightScrollController, canvas, startPt, edgeDist);
-          });
-        });
-        leftScrollController.addEventListener("mousedown", (event) => {
-          const startPt = event.clientX;
-          const fromX = leftScrollController.getBoundingClientRect().left;
-          // Determine distance between mouse position and element edge
-          const edgeDist = event.x - fromX;
-          document.addEventListener("mousemove", (e) => {
-            handleScroll(e, leftScrollController, canvas, startPt, edgeDist);
-          });
-        });
-        leftScrollController.addEventListener("mouseup", (event) => {
-          const startPt = event.clientX;
-          const fromX = leftScrollController.getBoundingClientRect().left;
-          // Determine distance between mouse position and element edge
-          const edgeDist = event.x - fromX;
-          document.removeEventListener("mousemove", (e) => {
-            handleScroll(e, leftScrollController, canvas, startPt, edgeDist);
-          });
-        });
-      },
-      stop(editor, sender) {
-        // const canvas = editor.Canvas.getFrameEl();
-        const canvas =
-          editor.Canvas.getElement().querySelector(".gjs-frame-wrapper");
-        const rightScrollController = editor.Canvas.getElement().querySelector(
-          ".gjs-frame-wrapper__right"
-        );
-        const leftScrollController = editor.Canvas.getElement().querySelector(
-          ".gjs-frame-wrapper__left"
-        );
+    //     const handleScroll = (e, element, canvas, startPt, edgeDist) => {
+    //       const to = e.x - edgeDist;
+    //       canvas.style.width =
+    //         canvas.getBoundingClientRect().width + (to - startPt);
+    //     };
+    //     // Add Event Listener
+    //     rightScrollController.addEventListener("mousedown", (event) => {
+    //       const startPt = event.clientX;
+    //       const fromX = rightScrollController.getBoundingClientRect().left;
+    //       // Determine distance between mouse position and element edge
+    //       const edgeDist = event.x - fromX;
+    //       document.addEventListener("mousemove", (e) => {
+    //         handleScroll(e, rightScrollController, canvas, startPt, edgeDist);
+    //       });
+    //     });
+    //     rightScrollController.addEventListener("mouseup", (event) => {
+    //       document.removeEventListener("mousemove", (e) => {
+    //         const startPt = event.clientX;
+    //         const fromX = rightScrollController.getBoundingClientRect().left;
+    //         // Determine distance between mouse position and element edge
+    //         const edgeDist = event.x - fromX;
+    //         handleScroll(e, rightScrollController, canvas, startPt, edgeDist);
+    //       });
+    //     });
+    //     leftScrollController.addEventListener("mousedown", (event) => {
+    //       const startPt = event.clientX;
+    //       const fromX = leftScrollController.getBoundingClientRect().left;
+    //       // Determine distance between mouse position and element edge
+    //       const edgeDist = event.x - fromX;
+    //       document.addEventListener("mousemove", (e) => {
+    //         handleScroll(e, leftScrollController, canvas, startPt, edgeDist);
+    //       });
+    //     });
+    //     leftScrollController.addEventListener("mouseup", (event) => {
+    //       const startPt = event.clientX;
+    //       const fromX = leftScrollController.getBoundingClientRect().left;
+    //       // Determine distance between mouse position and element edge
+    //       const edgeDist = event.x - fromX;
+    //       document.removeEventListener("mousemove", (e) => {
+    //         handleScroll(e, leftScrollController, canvas, startPt, edgeDist);
+    //       });
+    //     });
+    //   },
+    //   stop(editor, sender) {
+    //     // const canvas = editor.Canvas.getFrameEl();
+    //     const canvas =
+    //       editor.Canvas.getElement().querySelector(".gjs-frame-wrapper");
+    //     const rightScrollController = editor.Canvas.getElement().querySelector(
+    //       ".gjs-frame-wrapper__right"
+    //     );
+    //     const leftScrollController = editor.Canvas.getElement().querySelector(
+    //       ".gjs-frame-wrapper__left"
+    //     );
 
-        const handleScroll = (e, element, canvas, startPt, edgeDist) => {
-          const to = e.x - edgeDist;
-          canvas.style.width =
-            canvas.getBoundingClientRect().width + (to - startPt);
-        };
-        // Remove Event Listener
-        rightScrollController.removeEventListener("mousedown", (event) => {
-          const startPt = event.clientX;
-          const fromX = rightScrollController.getBoundingClientRect().left;
-          // Determine distance between mouse position and element edge
-          const edgeDist = event.x - fromX;
-          document.removeEventListener("mousemove", (e) => {
-            handleScroll(e, rightScrollController, canvas, startPt, edgeDist);
-          });
-        });
+    //     const handleScroll = (e, element, canvas, startPt, edgeDist) => {
+    //       const to = e.x - edgeDist;
+    //       canvas.style.width =
+    //         canvas.getBoundingClientRect().width + (to - startPt);
+    //     };
+    //     // Remove Event Listener
+    //     rightScrollController.removeEventListener("mousedown", (event) => {
+    //       const startPt = event.clientX;
+    //       const fromX = rightScrollController.getBoundingClientRect().left;
+    //       // Determine distance between mouse position and element edge
+    //       const edgeDist = event.x - fromX;
+    //       document.removeEventListener("mousemove", (e) => {
+    //         handleScroll(e, rightScrollController, canvas, startPt, edgeDist);
+    //       });
+    //     });
 
-        leftScrollController.removeEventListener("mousedown", (event) => {
-          const startPt = event.clientX;
-          const fromX = leftScrollController.getBoundingClientRect().left;
-          // Determine distance between mouse position and element edge
-          const edgeDist = event.x - fromX;
-          document.removeEventListener("mousemove", (e) => {
-            handleScroll(e, leftScrollController, canvas, startPt, edgeDist);
-          });
-        });
-      },
-    });
+    //     leftScrollController.removeEventListener("mousedown", (event) => {
+    //       const startPt = event.clientX;
+    //       const fromX = leftScrollController.getBoundingClientRect().left;
+    //       // Determine distance between mouse position and element edge
+    //       const edgeDist = event.x - fromX;
+    //       document.removeEventListener("mousemove", (e) => {
+    //         handleScroll(e, leftScrollController, canvas, startPt, edgeDist);
+    //       });
+    //     });
+    //   },
+    // });
 
-    console.log("Editor canvas: ", editor.Canvas);
+    console.log("Editor canvas: ", editor.Canvas.getFrames());
+
+    setEditor(editor);
   }, []);
   return (
     <div className="overflow-hidden flex flex-col min-h-screen w-screenw max-w-full">
-      <BuilderHeader fixed={false} iconOnly dropDown />
-      <main className="flex flex-col relative h-screenh flex-1 w-full bg-grey-lighter">
-        <div id="gjs">
+      <BuilderHeader fixed={false} iconOnly dropDown editor={editor} />
+      <main className="flex flex-row relative h-screenh flex-1 w-full bg-gray-100">
+        <div className="w-16 h-[calc(100vh - 47.03px)] bg-white"></div>
+        <div id="gjs" className="w-full h-screenh relative">
           <h1>Hello World Component!</h1>
         </div>
-
-        {/* <div id="blocks"></div> */}
       </main>
     </div>
   );
