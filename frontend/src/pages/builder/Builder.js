@@ -168,47 +168,40 @@ const Builder = () => {
       stop() {},
     });
 
-    const rightScrollController = document.querySelector(
-      ".gjs-frame-wrapper__right"
-    );
-    const leftScrollController = document.querySelector(
-      ".gjs-frame-wrapper__left"
-    );
-    // leftScrollController.innerHtml = '<div class="bg-primary">hello</div>';
-    // document.querySelector(".gjs-frame-wrapper__right").innerHTML =
-    //   '<div class="bg-primary">Hello</div>';
-    // console.log({ rightScrollController, leftScrollController });
-    // leftScrollController.style.background = "gray";
-    // leftScrollController.style.width = "50px";
-    // leftScrollController.style.height = "100px";
-    // rightScrollController.innerHtml = '<div class="bg-primary">hello</div>';
-    rightScrollController.classList.add("group");
-    rightScrollController.classList.add("cursor-grab");
-    rightScrollController.classList.add("active:cursor-grabbing");
-    rightScrollController.innerHTML =
-      '<div data-right-scroll class="bg-grey-light group-active:bg-primary text-[0px] w-full rounded-full m-auto h-full text-transparent pointer-events-none"></div>';
-    rightScrollController.style.width = "50px";
-    rightScrollController.style.padding = "0 15px";
-    rightScrollController.style.height = "100px";
-    rightScrollController.setAttribute("data-tooltip", "Adjust canvas width");
+    const addCanvasWidthAdjusters = () => {
+      const rightScrollController = document.querySelector(
+        ".gjs-frame-wrapper__right"
+      );
+      const leftScrollController = document.querySelector(
+        ".gjs-frame-wrapper__left"
+      );
+      rightScrollController.classList.add("group");
+      rightScrollController.classList.add("cursor-grab");
+      rightScrollController.classList.add("active:cursor-grabbing");
+      rightScrollController.innerHTML =
+        '<div data-right-scroll class="bg-grey-light group-active:bg-primary text-[0px] w-full rounded-full m-auto h-full text-transparent pointer-events-none"></div>';
+      rightScrollController.style.width = "50px";
+      rightScrollController.style.padding = "0 15px";
+      rightScrollController.style.height = "100px";
+      rightScrollController.setAttribute("data-tooltip", "Adjust canvas width");
 
-    leftScrollController.classList.add("group");
-    leftScrollController.classList.add("cursor-grab");
-    leftScrollController.classList.add("active:cursor-grabbing");
-    leftScrollController.classList.add("active:bg-primary");
-    leftScrollController.innerHTML =
-      '<div class="bg-grey-light group-hover:bg-primary group-active:bg-primary text-[0px] w-full rounded-full m-auto h-full text-transparent pointer-events-none"></div>';
-    leftScrollController.style.width = "50px";
-    leftScrollController.style.padding = "0 15px";
-    leftScrollController.style.height = "100px";
+      leftScrollController.classList.add("group");
+      leftScrollController.classList.add("cursor-grab");
+      leftScrollController.classList.add("active:cursor-grabbing");
+      leftScrollController.innerHTML =
+        '<div data-left-scroll class="bg-grey-light group-active:bg-primary text-[0px] w-full rounded-full m-auto h-full text-transparent pointer-events-none"></div>';
+      leftScrollController.style.width = "50px";
+      leftScrollController.style.padding = "0 15px";
+      leftScrollController.style.height = "100px";
+      leftScrollController.setAttribute("data-tooltip", "Adjust canvas width");
+    };
+    addCanvasWidthAdjusters();
 
-    const onDragHandler = (e) => {
+    const onRightDragHandler = (e) => {
       const frame_wrapper = document.querySelector(".gjs-frame-wrapper");
-      const right_scroll = document.querySelector("*[data-right-scroll]");
       frame_wrapper.classList.remove("pointer-events-auto");
       frame_wrapper.classList.remove("pointer-events-none");
       frame_wrapper.classList.add("pointer-events-none");
-      right_scroll.classList.add("bg-primary");
       const canvasFrames = document.querySelector(".gjs-cv-canvas__frames");
       const to = e.clientX;
       const newWidth = to - frame_wrapper.getBoundingClientRect().left;
@@ -217,35 +210,44 @@ const Builder = () => {
       }
     };
 
+    const onLeftDragHandler = (e) => {
+      const frame_wrapper = document.querySelector(".gjs-frame-wrapper");
+      frame_wrapper.classList.remove("pointer-events-auto");
+      frame_wrapper.classList.remove("pointer-events-none");
+      frame_wrapper.classList.add("pointer-events-none");
+      const canvasFrames = document.querySelector(".gjs-cv-canvas__frames");
+      const to = e.clientX;
+      const newWidth = frame_wrapper.getBoundingClientRect().right - to;
+      if (newWidth < canvasFrames.getBoundingClientRect().width) {
+        frame_wrapper.style.width = newWidth + "px";
+      }
+    };
+
     const onDragStopHandler = () => {
       // Remove drag event listeners
       const frame_wrapper = document.querySelector(".gjs-frame-wrapper");
-      const right_scroll = document.querySelector("*[data-right-scroll]");
       frame_wrapper.classList.add("pointer-events-auto");
       frame_wrapper.classList.remove("pointer-events-none");
-      // right_scroll.classList.remove("bg-primary");
-      document.removeEventListener("mousemove", onDragHandler);
+      document.removeEventListener("mousemove", onRightDragHandler);
+      document.removeEventListener("mousemove", onLeftDragHandler);
       document.removeEventListener("mouseup", onDragStopHandler);
     };
 
     const addScroll = function () {
       const right_drag = document.querySelector(".gjs-frame-wrapper__right");
-      const right_scroll = document.querySelector("*[data-right-scroll]");
       const left_drag = document.querySelector(".gjs-frame-wrapper__left");
       const frame_wrapper = document.querySelector(".gjs-frame-wrapper");
-      // right_drag.style.width = "50px";
-      // left_drag.style.width = "50px";
-      // frame_wrapper.style.margin = "20px";
-      // frame_wrapper.style.left = "50%";
-      // frame_wrapper.style.transform = "translateX(-50%)";
+      // Add event listeners
       right_drag.addEventListener("mousedown", (event) => {
         frame_wrapper.classList.add("pointer-events-none");
         frame_wrapper.classList.remove("pointer-events-auto");
-        right_scroll.classList.add("bg-primary");
-        // Determine distance between mouse position and element edge
-        // const fromX = right_drag.getBoundingClientRect().left;
-        // const edgeDist = event.x - fromX;
-        document.addEventListener("mousemove", onDragHandler);
+        document.addEventListener("mousemove", onRightDragHandler);
+        document.addEventListener("mouseup", onDragStopHandler);
+      });
+      left_drag.addEventListener("mousedown", (event) => {
+        frame_wrapper.classList.add("pointer-events-none");
+        frame_wrapper.classList.remove("pointer-events-auto");
+        document.addEventListener("mousemove", onLeftDragHandler);
         document.addEventListener("mouseup", onDragStopHandler);
       });
     };
