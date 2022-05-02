@@ -4,10 +4,11 @@ import grapesjs from "grapesjs";
 // Import Editor Stylesheet
 import "./editor-styles.css";
 import BuilderHeader from "./BuilderHeader";
+import { Icons } from "../../components/common/icons/icons";
 // Import Custom React Components
 
 const Builder = () => {
-  const defaultDeviceWidth = "1200px";
+  const defaultDeviceWidth = "1200";
   const [editor, setEditor] = useState(null);
   const [canvasWidth, setCanvasWidth] = useState(defaultDeviceWidth);
   useEffect(() => {
@@ -101,6 +102,23 @@ const Builder = () => {
               },
             ],
           },
+          // {
+          //   id: "device-actions-panel",
+          //   el: "#user-actions-container",
+          //   command: "make-canvas-width-adjustable", // Built-in command
+          //   buttons: [
+          //     {
+          //       id: "Preview",
+          //       el: "#open-preview-mode-btn",
+          //       className: "w-16",
+          //       command: "preview", // Built-In command
+          //       togglable: true,
+          //       attributes: {
+          //         title: "Manually adjust canvas width",
+          //       },
+          //     },
+          //   ],
+          // },
           {
             id: "canvas-width-adjust-panel",
             el: "#canvas-width-adjust-container",
@@ -189,6 +207,54 @@ const Builder = () => {
       stop() {},
     });
     editor.Commands.add("make-canvas-width-adjustable", {
+      addCanvasWidthAdjusters: function () {
+        const rightScrollController = document.querySelector(
+          ".gjs-frame-wrapper__right"
+        );
+        rightScrollController.classList.remove("hidden");
+        rightScrollController.classList.add("group");
+        rightScrollController.classList.add("cursor-grab");
+        rightScrollController.classList.add("active:cursor-grabbing");
+        rightScrollController.innerHTML =
+          '<div data-right-scroll class="bg-grey-light group-active:bg-primary text-[0px] w-full rounded-full m-auto h-full text-transparent pointer-events-none"></div>';
+        rightScrollController.style.width = "50px";
+        rightScrollController.style.padding = "0 15px";
+        rightScrollController.style.height = "100px";
+        rightScrollController.setAttribute(
+          "data-tooltip",
+          "Adjust canvas width"
+        );
+
+        const leftScrollController = document.querySelector(
+          ".gjs-frame-wrapper__left"
+        );
+        leftScrollController.classList.remove("hidden");
+        leftScrollController.classList.add("group");
+        leftScrollController.classList.add("cursor-grab");
+        leftScrollController.classList.add("active:cursor-grabbing");
+        leftScrollController.innerHTML =
+          '<div data-left-scroll class="bg-grey-light group-active:bg-primary text-[0px] w-full rounded-full m-auto h-full text-transparent pointer-events-none"></div>';
+        leftScrollController.style.width = "50px";
+        leftScrollController.style.padding = "0 15px";
+        leftScrollController.style.height = "100px";
+        leftScrollController.setAttribute(
+          "data-tooltip",
+          "Adjust canvas width"
+        );
+      },
+      hideCanvasWidthAdjusters: () => {
+        const rightScrollController = document.querySelector(
+          ".gjs-frame-wrapper__right"
+        );
+        rightScrollController.classList.add("hidden");
+        rightScrollController.innerHTML = "";
+
+        const leftScrollController = document.querySelector(
+          ".gjs-frame-wrapper__left"
+        );
+        leftScrollController.classList.add("hidden");
+        leftScrollController.innerHTML = "";
+      },
       onRightDragHandler: function (e) {
         const frame_wrapper = document.querySelector(".gjs-frame-wrapper");
         frame_wrapper.classList.remove("pointer-events-auto");
@@ -213,7 +279,7 @@ const Builder = () => {
           frame_wrapper.style.width = newWidth + "px";
         }
       },
-      onDragStopHandler: function () {
+      onDragStopHandler: function (editor) {
         // Remove drag event listeners
         const frame_wrapper = document.querySelector(".gjs-frame-wrapper");
         frame_wrapper.classList.add("pointer-events-auto");
@@ -236,9 +302,8 @@ const Builder = () => {
         document.addEventListener("mousemove", onLeftDragHandler);
         document.addEventListener("mouseup", onDragStopHandler);
       },
-      // right_drag: document.querySelector(".gjs-frame-wrapper__right"),
-      // left_drag: document.querySelector(".gjs-frame-wrapper__left"),
       addScrollEventToHandles: function () {
+        this.addCanvasWidthAdjusters();
         const right_drag = document.querySelector(".gjs-frame-wrapper__right");
         const left_drag = document.querySelector(".gjs-frame-wrapper__left");
         const frame_wrapper = document.querySelector(".gjs-frame-wrapper");
@@ -248,6 +313,7 @@ const Builder = () => {
       },
       removeScrollEventToHandles: function () {
         console.log("Removeing events >>>>>>>>>>>>");
+        this.hideCanvasWidthAdjusters();
         const right_drag = document.querySelector(".gjs-frame-wrapper__right");
         const left_drag = document.querySelector(".gjs-frame-wrapper__left");
         const frame_wrapper = document.querySelector(".gjs-frame-wrapper");
@@ -263,34 +329,34 @@ const Builder = () => {
       },
     });
 
-    const addCanvasWidthAdjusters = () => {
-      const rightScrollController = document.querySelector(
-        ".gjs-frame-wrapper__right"
-      );
-      const leftScrollController = document.querySelector(
-        ".gjs-frame-wrapper__left"
-      );
-      rightScrollController.classList.add("group");
-      rightScrollController.classList.add("cursor-grab");
-      rightScrollController.classList.add("active:cursor-grabbing");
-      rightScrollController.innerHTML =
-        '<div data-right-scroll class="bg-grey-light group-active:bg-primary text-[0px] w-full rounded-full m-auto h-full text-transparent pointer-events-none"></div>';
-      rightScrollController.style.width = "50px";
-      rightScrollController.style.padding = "0 15px";
-      rightScrollController.style.height = "100px";
-      rightScrollController.setAttribute("data-tooltip", "Adjust canvas width");
+    // const addCanvasWidthAdjusters = () => {
+    //   const rightScrollController = document.querySelector(
+    //     ".gjs-frame-wrapper__right"
+    //   );
+    //   const leftScrollController = document.querySelector(
+    //     ".gjs-frame-wrapper__left"
+    //   );
+    //   rightScrollController.classList.add("group");
+    //   rightScrollController.classList.add("cursor-grab");
+    //   rightScrollController.classList.add("active:cursor-grabbing");
+    //   rightScrollController.innerHTML =
+    //     '<div data-right-scroll class="bg-grey-light group-active:bg-primary text-[0px] w-full rounded-full m-auto h-full text-transparent pointer-events-none"></div>';
+    //   rightScrollController.style.width = "50px";
+    //   rightScrollController.style.padding = "0 15px";
+    //   rightScrollController.style.height = "100px";
+    //   rightScrollController.setAttribute("data-tooltip", "Adjust canvas width");
 
-      leftScrollController.classList.add("group");
-      leftScrollController.classList.add("cursor-grab");
-      leftScrollController.classList.add("active:cursor-grabbing");
-      leftScrollController.innerHTML =
-        '<div data-left-scroll class="bg-grey-light group-active:bg-primary text-[0px] w-full rounded-full m-auto h-full text-transparent pointer-events-none"></div>';
-      leftScrollController.style.width = "50px";
-      leftScrollController.style.padding = "0 15px";
-      leftScrollController.style.height = "100px";
-      leftScrollController.setAttribute("data-tooltip", "Adjust canvas width");
-    };
-    addCanvasWidthAdjusters();
+    //   leftScrollController.classList.add("group");
+    //   leftScrollController.classList.add("cursor-grab");
+    //   leftScrollController.classList.add("active:cursor-grabbing");
+    //   leftScrollController.innerHTML =
+    //     '<div data-left-scroll class="bg-grey-light group-active:bg-primary text-[0px] w-full rounded-full m-auto h-full text-transparent pointer-events-none"></div>';
+    //   leftScrollController.style.width = "50px";
+    //   leftScrollController.style.padding = "0 15px";
+    //   leftScrollController.style.height = "100px";
+    //   leftScrollController.setAttribute("data-tooltip", "Adjust canvas width");
+    // };
+    // addCanvasWidthAdjusters();
 
     const onRightDragHandler = (e) => {
       const frame_wrapper = document.querySelector(".gjs-frame-wrapper");
@@ -546,9 +612,67 @@ const Builder = () => {
   }, []);
   return (
     <div className="overflow-hidden flex flex-col min-h-screen w-screenw max-w-full">
-      <BuilderHeader fixed={false} iconOnly dropDown editor={editor} />
+      <BuilderHeader
+        fixed={false}
+        iconOnly
+        dropDown
+        editor={editor}
+        canvasWidth={canvasWidth}
+      />
       <main className="flex flex-row relative h-screenh flex-1 w-full bg-gray-100">
-        <div className="w-16 h-[calc(100vh - 47.03px)] bg-white"></div>
+        {/* Side Bar Container/BG */}
+        <div className="w-16 h-[calc(100vh - 47.03px)] bg-white">
+          {/* Side Bar Panel */}
+          <div id="sidebar-panel flex flex-col">
+            {/* Pages Button Container */}
+            <div
+              id="sidebar-pn-pages"
+              className="group hover:bg-gray-100 hover:cursor-pointer w-full object-contain h-16 flex items-center justify-center"
+            >
+              <div className="flex items-center justify-center object-contain w-7 h-full fill-grey">
+                <div>{Icons.customIcons.builder.sideBar.pages}</div>
+              </div>
+            </div>
+            {/* Blocks Button Container */}
+            <div
+              id="sidebar-pn-pages"
+              className="group hover:bg-gray-100 hover:cursor-pointer w-full object-contain h-16 flex items-center justify-center"
+            >
+              <div className="flex items-center justify-center object-contain w-8 h-full fill-grey">
+                <div>{Icons.customIcons.builder.sideBar.blocks}</div>
+              </div>
+            </div>
+            {/* Layers Button Container */}
+            <div
+              id="sidebar-pn-pages"
+              className="group hover:bg-gray-100 hover:cursor-pointer w-full object-contain h-16 flex items-center justify-center"
+            >
+              <div className="flex items-center justify-center object-contain w-10 h-full fill-grey">
+                <div>{Icons.customIcons.builder.sideBar.layers}</div>
+              </div>
+            </div>
+            {/* Style Button Container */}
+            <div
+              id="sidebar-pn-pages"
+              className="group hover:bg-gray-100 hover:cursor-pointer w-full object-contain h-16 flex items-center justify-center"
+            >
+              <div className="flex items-center justify-center object-contain w-8 h-full fill-grey">
+                <div>{Icons.customIcons.builder.sideBar.styles}</div>
+              </div>
+            </div>
+            {/* Component Settings Button Container */}
+            <div
+              id="sidebar-pn-pages"
+              className="group hover:bg-gray-100 hover:cursor-pointer w-full object-contain h-16 flex items-center justify-center"
+            >
+              <div className="flex items-center justify-center object-contain w-8 h-full fill-grey">
+                <div>{Icons.customIcons.builder.sideBar.traits}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Canvas Container */}
         <div id="gjs" className="w-full h-screenh relative">
           <h1>Hello World Component!</h1>
         </div>

@@ -13,6 +13,7 @@ const BuilderHeader = ({
   iconOnly = false,
   dropDown = false,
   editor,
+  canvasWidth,
 }) => {
   //   useEffect(() => {
   //     //   first
@@ -24,6 +25,8 @@ const BuilderHeader = ({
   //     };
   //   }, [editor, editor?.Devices?.getSelected()]);
 
+  console.log("CanvasWidth: ", canvasWidth);
+  //   console.log("Editor CanvasWidth: ", editor.canvasWidth);
   return (
     <header
       className={classNames(
@@ -99,6 +102,8 @@ const BuilderHeader = ({
                     name="canvas-width"
                     type={"text"}
                     placeholder={"300"}
+                    defaultValue={canvasWidth}
+                    // value={canvasWidth}
                     className="w-full bg-transparent outline-none text-white"
                   />
                   <p className="px-3 text-grey-light bg-tranparent">{"px"}</p>
@@ -125,9 +130,8 @@ const BuilderHeader = ({
             </div>
           </div>
         </div>
-
-        <div className="relative">Right panel</div>
       </div>
+      <div className="relative">Right panel</div>
     </header>
   );
 };
