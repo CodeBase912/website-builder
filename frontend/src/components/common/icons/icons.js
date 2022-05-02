@@ -72,6 +72,7 @@ export const Icons = {
         tablet: <CustomIcon icon="tablet" />,
         desktop: <CustomIcon icon="desktop" />,
         borders: <CustomIcon icon="borders" />,
+        canvasWidth: <CustomIcon icon="canvasWidth" />,
         download: <CustomIcon icon="download" />,
         preview: <CustomIcon icon="preview" />,
         upload: <CustomIcon icon="upload" />,

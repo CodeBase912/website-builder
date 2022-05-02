@@ -111,6 +111,18 @@ const BuilderHeader = ({
                 </div>
               </div>
             </div>
+
+            {/* Canvas Width Adjust Toggler */}
+            <div id="canvas-width-adjust-container">
+              <div
+                id="canvas-width-adjuster-toggler"
+                className="w-16 hover:bg-dark flex justify-center cursor-pointer"
+              >
+                <div className="flex items-center justify-center object-contain w-10 h-full">
+                  {Icons.customIcons.builder.header.canvasWidth}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
