@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import grapesjs from "grapesjs";
+// import gjsPresetWebpage from "gjs-preset-webpage";
 // Import Editor Stylesheet
 import "./editor-styles.css";
 import BuilderHeader from "./BuilderHeader";
 // Import Custom React Components
 
 const Builder = () => {
+  const defaultDeviceWidth = "1200px";
   const [editor, setEditor] = useState(null);
+  const [canvasWidth, setCanvasWidth] = useState(defaultDeviceWidth);
   useEffect(() => {
     const editor = grapesjs.init({
       // Indicate where to init the editor. You can also pass an HTMLElement
@@ -89,7 +92,7 @@ const Builder = () => {
               {
                 id: "Mobile",
                 el: "#device-mobile-container",
-                className: "gjs-pn-active",
+                className: "w-16",
                 command: "set-device-mobile", // Built-in command
                 togglable: false,
                 attributes: {
@@ -113,6 +116,8 @@ const Builder = () => {
           },
         },
       },
+      // plugins: [gjsPresetWebpage],
+      // pluginsOpts: []
     });
 
     // editor.on("load", () => {
@@ -137,50 +142,30 @@ const Builder = () => {
     // var ful = "fullscreen";
     // var prv = "preview";
 
-    // editor.on("run:set-device-desktop", (input) => {
-    //   console.log("Inout: ", input);
-    // });
-    // editor.on("device:select", (input, input2) => {
-    //   console.log("Inout: ", input);
-    //   console.log("Inout2: ", input2);
-    //   // editor.Panels.getButton("device-actions", input.id).set("Active", 1);
-    //   // input.trigger("updateActive");
-    //   // input2.trigger("change:active", 0);
-    //   editor.refresh();
-    // });
+    editor.on("load", () => {
+      // editor.getDevice()();
+    });
 
     // ----------------------------------------------------------
     // ADD COMMANDS
     // ----------------------------------------------------------
     editor.Commands.add("set-device-desktop", {
-      run: function (editor, sender) {
-        editor.setDevice("Desktop", true);
-        // sender.trigger("updateActive");
-        // const selectedBtn = editor.Panels.getButton(
-        //   "device-actions",
-        //   "set-device-desktop"
-        // ).set("active", 1);
+      run(e) {
+        e.setDevice("Desktop");
       },
+      stop() {},
     });
     editor.Commands.add("set-device-tablet", {
-      run: function (editor, sender) {
-        editor.setDevice("Tablet");
-        // sender.trigger("updateActive");
-        // const selectedBtn = editor.Panels.getButton(
-        //   "device-actions",
-        //   "device-tablet"
-        //   ).trigger("updateActive");
+      run(e) {
+        e.setDevice("Tablet");
       },
+      stop() {},
     });
     editor.Commands.add("set-device-mobile", {
-      run: function (editor, sender) {
-        editor.setDevice("Mobile");
-        // sender.trigger("updateActive");
-        // const selectedBtn = editor.Panels.getButton(
-        //   "device-actions",
-        //   "device-mobile"
-        // ).trigger("updateActive");
+      run(e) {
+        e.setDevice("Mobile");
       },
+      stop() {},
     });
 
     const rightScrollController = document.querySelector(

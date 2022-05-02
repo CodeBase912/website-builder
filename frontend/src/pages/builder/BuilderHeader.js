@@ -58,41 +58,41 @@ const BuilderHeader = ({
               </div>
             </div>
           </div>
-          {/* Select Device Buttons Container */}
-          <div
-            id="devices-panel-container"
-            className="flex border-r border-l border-grey"
-          >
-            {/* Desktop Device Container */}
-            <div
-              id="device-desktop-container"
-              className="w-16 hover:bg-dark flex justify-center cursor-pointer"
-            >
-              <div className="flex items-center justify-center object-contain w-10 h-full">
-                {Icons.customIcons.builder.header.desktop}
+          <div className="flex border-x border-grey">
+            {/* Select Device Buttons Container */}
+            <div id="devices-panel-container" className="flex">
+              {/* Desktop Device Container */}
+              <div
+                id="device-desktop-container"
+                className="w-16 hover:bg-dark flex justify-center cursor-pointer"
+              >
+                <div className="flex items-center justify-center object-contain w-10 h-full">
+                  {Icons.customIcons.builder.header.desktop}
+                </div>
+              </div>
+              {/* Tablet Device Container */}
+              <div
+                id="device-tablet-container"
+                className="w-16 hover:bg-dark flex justify-center cursor-pointer"
+              >
+                <div className="flex items-center justify-center object-contain w-7 h-full">
+                  {Icons.customIcons.builder.header.tablet}
+                </div>
+              </div>
+              {/* Mobile Device Container */}
+              <div
+                id="device-mobile-container"
+                className="w-16 hover:bg-dark flex justify-center cursor-pointer"
+              >
+                <div className="flex items-center justify-center object-contain w-4 h-full">
+                  {Icons.customIcons.builder.header.mobile}
+                </div>
               </div>
             </div>
-            {/* Table Device Container */}
-            <div
-              id="device-tablet-container"
-              className="w-16 hover:bg-dark flex justify-center cursor-pointer"
-            >
-              <div className="flex items-center justify-center object-contain w-7 h-full">
-                {Icons.customIcons.builder.header.tablet}
-              </div>
-            </div>
-            {/* Mobile Device Container */}
-            <div
-              id="device-mobile-container"
-              className="w-16 hover:bg-dark flex justify-center cursor-pointer"
-            >
-              <div className="flex items-center justify-center object-contain w-4 h-full">
-                {Icons.customIcons.builder.header.mobile}
-              </div>
-            </div>
+
             {/* Canvas Width Display/Input & Options Container  */}
-            {/* <div className="flex">
-              Canvas Width Display/Input Container
+            <div className="flex">
+              {/* Canvas Width Display/Input Container */}
               <div className="flex items-center px-3 group hover:bg-dark">
                 <div className="flex justify-between w-[92px] border border-grey pl-3 py-1 h-fit bg-transparent my-auto">
                   <input
@@ -104,13 +104,13 @@ const BuilderHeader = ({
                   <p className="px-3 text-grey-light bg-tranparent">{"px"}</p>
                 </div>
               </div>
-              Options Container
+              {/* Options Container */}
               <div className="">
                 <div className="flex items-center justify-center w-16 hover:bg-dark h-full text-2xl text-grey-lighter cursor-pointer">
                   {Icons.ellipes}
                 </div>
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
 
