@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import classNames from "classnames";
 // Import Custom React Components
 import Button from "../../components/common/Button";
@@ -13,17 +13,46 @@ const BuilderHeader = ({
   iconOnly = false,
   dropDown = false,
   editor,
-  canvasWidth,
+  //   canvasWidth,
 }) => {
-  //   useEffect(() => {
-  //     //   first
-  //     console.log("Rerendered");
-  //     console.log(editor?.Devices?.getSelected());
+  const [canvasWidth, setCanvasWidth] = useState(null);
+  useEffect(() => {
+    if (editor) {
+      //   console.log("editor: ", editor);
+      // Add event listener on canvas width
+      const canvasWrapper = editor.Canvas.getFrame().view.wrapper.$el[0];
+      const canvasWidthInput = document.querySelector("#canvas-width-input");
+      console.log("canvasWrapper: ", canvasWrapper);
+      console.log("canvasWrapper: ", editor.Canvas.getFramesEl());
 
-  //     return () => {
-  //       // second
-  //     };
-  //   }, [editor, editor?.Devices?.getSelected()]);
+      //  Use the resize observer to handle canvas width change
+      const resize_ob = new ResizeObserver(function (entries) {
+        // since we are observing only a single element, so we access the first element in entries array
+        let rect = entries[0].contentRect;
+
+        // current width & height
+        let width = rect.width;
+        let height = rect.height;
+
+        console.log("Current Width : " + width);
+        console.log("Current Height : " + height);
+        // setCanvasWidth(Math.floor(width));
+        canvasWidthInput.value = Math.floor(width);
+      });
+
+      // start observing for resize
+      resize_ob.observe(canvasWrapper);
+
+      return () => {
+        // stop observing for resize
+        resize_ob.unobserve(canvasWrapper);
+      };
+    }
+
+    return () => {
+      //
+    };
+  }, [editor, canvasWidth]);
 
   console.log("CanvasWidth: ", canvasWidth);
   //   console.log("Editor CanvasWidth: ", editor.canvasWidth);
@@ -144,6 +173,8 @@ const BuilderHeader = ({
                       console.log("onKeyUp event: ", e);
 
                       if (e.key === "Enter") {
+                        const canvasWrapper =
+                          document.querySelector(".gjs-frame-wrapper");
                         // Set the width of the canvas to the current value
                         const frame_wrapper =
                           document.querySelector(".gjs-frame-wrapper");
@@ -154,7 +185,10 @@ const BuilderHeader = ({
                         let newCanvasWidth = e.target.value;
                         if (newCanvasWidth < 100) {
                           newCanvasWidth = 100;
-                          e.target.value = newCanvasWidth;
+                          e.target.value = Math.floor(
+                            canvasWrapper.getBoundingClientRect().width
+                          );
+                          return;
                         } else if (
                           newCanvasWidth >
                           canvasContainer.getBoundingClientRect().width - 100
@@ -163,9 +197,13 @@ const BuilderHeader = ({
                             canvasContainer.getBoundingClientRect().width
                           );
                           e.target.value = newCanvasWidth;
+                          canvasWrapper.style.width = `${newCanvasWidth}px`;
+                          return;
                         }
-                        frame_wrapper.style.width = `${newCanvasWidth}px`;
-                        // frame_wrapper.style.transition = "unset";
+
+                        e.target.value = newCanvasWidth;
+                        canvasWrapper.style.width = `${newCanvasWidth}px`;
+                        // setCanvasWidth(newCanvasWidth);
                       }
                     }}
                     name="canvas-width"

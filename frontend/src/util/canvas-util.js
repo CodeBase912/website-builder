@@ -12,9 +12,6 @@ export const onRightDragHandler = (e) => {
   const newWidth = to - frame_wrapper.getBoundingClientRect().left;
   if (newWidth < canvasFrames.getBoundingClientRect().width) {
     frame_wrapper.style.width = newWidth + "px";
-    // Update canvas-width-input value (canvas min-width: 100)
-    document.querySelector("#canvas-width-input").value =
-      newWidth > 100 ? Math.ceil(frame_wrapper.style.width.split("p")[0]) : 100;
   }
 };
 
@@ -28,9 +25,6 @@ export const onLeftDragHandler = (e) => {
   const newWidth = frame_wrapper.getBoundingClientRect().right - to;
   if (newWidth < canvasFrames.getBoundingClientRect().width) {
     frame_wrapper.style.width = newWidth + "px";
-    // Update canvas-width-input value (canvas min-width: 100)
-    document.querySelector("#canvas-width-input").value =
-      newWidth > 100 ? Math.ceil(frame_wrapper.style.width.split("p")[0]) : 100;
   }
 };
 

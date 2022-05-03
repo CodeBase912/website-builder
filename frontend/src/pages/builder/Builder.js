@@ -198,8 +198,8 @@ const Builder = () => {
         const device = inputVars[1].device;
         editor.setDevice(device);
         // Update canvas-width-input value
-        document.querySelector("#canvas-width-input").value =
-          editor.Devices.get(device).attributes.priority;
+        // document.querySelector("#canvas-width-input").value =
+        // editor.Devices.get(device).attributes.priority;
       },
     });
     editor.Commands.add("set-device-desktop", {
@@ -272,8 +272,9 @@ const Builder = () => {
         right_drag.addEventListener("mousedown", addRightHandleEvent);
         left_drag.addEventListener("mousedown", addLeftHandleEvent);
       },
-      removeScrollEventToHandles: function () {
+      removeScrollEventToHandles: function (editor) {
         console.log("Removeing events >>>>>>>>>>>>");
+        console.log(editor.Canvas.getCanvasView());
         this.hideCanvasWidthAdjusters();
         const right_drag = document.querySelector(".gjs-frame-wrapper__right");
         const left_drag = document.querySelector(".gjs-frame-wrapper__left");
@@ -285,12 +286,12 @@ const Builder = () => {
       run: function () {
         this.addScrollEventToHandles();
       },
-      stop: function () {
-        this.removeScrollEventToHandles();
+      stop: function (e) {
+        this.removeScrollEventToHandles(e);
       },
     });
 
-    console.log("Editor canvas: ", editor.Canvas.getFrames());
+    console.log("Editor canvas: ", editor.Canvas);
 
     setEditor(editor);
   }, []);
@@ -301,7 +302,7 @@ const Builder = () => {
         iconOnly
         dropDown
         editor={editor}
-        canvasWidth={canvasWidth}
+        // canvasWidth={canvasWidth}
       />
       <main className="flex flex-row relative h-screenh flex-1 w-full bg-gray-100">
         {/* Side Bar Container/BG */}
