@@ -296,7 +296,7 @@ const Builder = () => {
     setEditor(editor);
   }, []);
   return (
-    <div className="overflow-hidden flex flex-col min-h-screen w-screenw max-w-full">
+    <div className="overflow-hidden flex flex-col h-screen w-screenw max-w-full">
       <BuilderHeader
         fixed={false}
         iconOnly
@@ -304,11 +304,11 @@ const Builder = () => {
         editor={editor}
         // canvasWidth={canvasWidth}
       />
-      <main className="flex flex-row relative h-screenh flex-1 w-full bg-gray-100">
+      <main className="flex flex-row relative h-full flex-1 w-full bg-gray-100">
         {/* Side Bar Container/BG */}
-        <div className="w-16 h-[calc(100vh - 47.03px)] bg-white">
+        <div className="w-16 h-full bg-white">
           {/* Side Bar Panel */}
-          <div id="sidebar-panel flex flex-col">
+          <div id="sidebar-panel flex flex-col h-full">
             {/* Pages Button Container */}
             <div
               id="sidebar-pn-pages"
