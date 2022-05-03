@@ -61,6 +61,19 @@ const BuilderHeader = ({
               </div>
             </div>
           </div>
+
+          {/* Canvas Width Adjust Toggler */}
+          <div id="canvas-width-adjust-container">
+            <div
+              id="canvas-width-adjuster-toggler"
+              className="w-16 hover:bg-dark flex justify-center cursor-pointer"
+            >
+              <div className="flex items-center justify-center object-contain w-10 h-full">
+                {Icons.customIcons.builder.header.canvasWidth}
+              </div>
+            </div>
+          </div>
+
           <div className="flex border-x border-grey">
             {/* Select Device Buttons Container */}
             <div id="devices-panel-container" className="flex">
@@ -99,6 +112,62 @@ const BuilderHeader = ({
               <div className="flex items-center px-3 group hover:bg-dark">
                 <div className="flex justify-between w-[92px] border border-grey pl-3 py-1 h-fit bg-transparent my-auto">
                   <input
+                    id="canvas-width-input"
+                    onSubmit={(e) => {
+                      console.log("Width: ", e.target.value);
+                    }}
+                    onKeyDown={(e) => {
+                      //   e.preventDefault();
+                      console.log("KeyDown event: ", e);
+                      console.log("Value: ", e.target.value);
+                      console.log("Key: ", e.key);
+                      console.log("State: ", e.getModifierState());
+                      console.log("Parse key: ", parseInt(e.key));
+                      console.log(
+                        "Parse key condition: ",
+                        parseInt(e.key) / 1 === parseInt(e.key)
+                      );
+                      if (parseInt(e.key) / 1 !== parseInt(e.key)) {
+                        // check if key is Enter or backspace
+                        if (
+                          e.key === "Enter" ||
+                          e.key === "Backspace" ||
+                          e.key.includes("Arrow")
+                        ) {
+                        } else {
+                          // Key is not ENTER or BACKSPACE, prevent default
+                          e.preventDefault();
+                        }
+                      }
+                    }}
+                    onKeyUp={(e) => {
+                      console.log("onKeyUp event: ", e);
+
+                      if (e.key === "Enter") {
+                        // Set the width of the canvas to the current value
+                        const frame_wrapper =
+                          document.querySelector(".gjs-frame-wrapper");
+                        frame_wrapper.style.transition = "0.5 ease-in-out";
+                        const canvasContainer = document.querySelector(
+                          ".gjs-cv-canvas__frames"
+                        );
+                        let newCanvasWidth = e.target.value;
+                        if (newCanvasWidth < 100) {
+                          newCanvasWidth = 100;
+                          e.target.value = newCanvasWidth;
+                        } else if (
+                          newCanvasWidth >
+                          canvasContainer.getBoundingClientRect().width - 100
+                        ) {
+                          newCanvasWidth = Math.floor(
+                            canvasContainer.getBoundingClientRect().width
+                          );
+                          e.target.value = newCanvasWidth;
+                        }
+                        frame_wrapper.style.width = `${newCanvasWidth}px`;
+                        // frame_wrapper.style.transition = "unset";
+                      }
+                    }}
                     name="canvas-width"
                     type={"text"}
                     placeholder={"300"}
@@ -106,25 +175,15 @@ const BuilderHeader = ({
                     // value={canvasWidth}
                     className="w-full bg-transparent outline-none text-white"
                   />
-                  <p className="px-3 text-grey-light bg-tranparent">{"px"}</p>
+                  <p className="px-3 text-grey-light bg-tranparent cursor-pointer">
+                    {"px"}
+                  </p>
                 </div>
               </div>
               {/* Options Container */}
               <div className="">
                 <div className="flex items-center justify-center w-16 hover:bg-dark h-full text-2xl text-grey-lighter cursor-pointer">
                   {Icons.ellipes}
-                </div>
-              </div>
-            </div>
-
-            {/* Canvas Width Adjust Toggler */}
-            <div id="canvas-width-adjust-container">
-              <div
-                id="canvas-width-adjuster-toggler"
-                className="w-16 hover:bg-dark flex justify-center cursor-pointer"
-              >
-                <div className="flex items-center justify-center object-contain w-10 h-full">
-                  {Icons.customIcons.builder.header.canvasWidth}
                 </div>
               </div>
             </div>
