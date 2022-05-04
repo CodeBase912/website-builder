@@ -5,6 +5,11 @@ import grapesjs from "grapesjs";
 import {
   addRightHandleEvent,
   addLeftHandleEvent,
+  findActiveDevice,
+  addCanvasWidthAdjusters,
+  hideCanvasWidthAdjusters,
+  addScrollEventToHandles,
+  removeScrollEventToHandles,
 } from "../../util/canvas-util";
 // Import Editor Stylesheet
 import "./editor-styles.css";
@@ -40,11 +45,11 @@ const Builder = () => {
             width: "768px",
             // widthMedia: "992px",
           },
-          {
-            name: "Mobile landscape",
-            width: "575px",
-            // widthMedia: "575px",
-          },
+          // {
+          //   name: "Mobile landscape",
+          //   width: "575px",
+          //   // widthMedia: "575px",
+          // },
           {
             name: "Mobile",
             width: "320px",
@@ -82,7 +87,7 @@ const Builder = () => {
                 active: true,
                 togglable: false,
                 attributes: {
-                  title: "Desktop",
+                  title: "Desktop (1200px and below)",
                 },
               },
               {
@@ -92,7 +97,7 @@ const Builder = () => {
                 command: "set-device-tablet", // Built-in command
                 togglable: false,
                 attributes: {
-                  title: "Tablet",
+                  title: "Tablet (768px and below)",
                 },
               },
               {
@@ -102,7 +107,7 @@ const Builder = () => {
                 command: "set-device-mobile", // Built-in command
                 togglable: false,
                 attributes: {
-                  title: "Mobile",
+                  title: "Mobile (320px and below)",
                 },
               },
             ],
@@ -129,7 +134,7 @@ const Builder = () => {
             el: "#canvas-width-adjust-container",
             className: "text-xs whitespace-nowrap",
             command: "make-canvas-width-adjustable", // Built-in command
-            togglable: true,
+            // togglable: true,
             buttons: [
               {
                 id: "canvas-width-adjust-btn",
@@ -189,121 +194,118 @@ const Builder = () => {
       // editor.getDevice()();
     });
 
+    editor.on("device:select", (selectedDevice, previousDevice) => {
+      // console.log("DEVICE CHANGED >>>>>>>>>>>>>>>>>");
+      // console.log("selectedDevice: ", selectedDevice);
+      // console.log("previousDevice: ", previousDevice);
+      // console.log("Editor: ", editor.Devices.get(selectedDevice.id));
+      // const selectedDeviceBtn = document.querySelector(
+      //   `#device-${selectedDevice.id.toLowerCase()}-container`
+      // );
+      // console.log("selectedDeviceBtn: ", selectedDeviceBtn);
+      // selectedDeviceBtn.classList.add("gjs-pn-active");
+      // selectedDeviceBtn.classList.add("gjs-four-color");
+      // console.log("Classes: ", selectedDeviceBtn.classList);
+      // const previousDeviceBtn = document.querySelector(
+      //   `#device-${previousDevice.id.toLowerCase()}-container`
+      // );
+      // previousDeviceBtn.classList.remove("gjs-pn-active");
+      // previousDeviceBtn.classList.remove("gjs-four-color");
+      // console.log("Active Device: ", activeDevice);
+      // const device = test(width, availableDevices);
+      // console.log("device: ", device);
+      // console.log("device toLowerCase: ", device.toLowerCase());
+      // if (previousDevice.id != selectedDevice.id) {
+      //   const selectedDeviceBtn = document.querySelector(
+      //     `#device-${selectedDevice.id.toLowerCase()}-container`
+      //   );
+      //   selectedDeviceBtn.classList.add("gjs-pn-active");
+      //   selectedDeviceBtn.classList.add("gjs-four-color");
+      //   const previousDeviceBtn = document.querySelector(
+      //     `#device-${previousDevice.id.toLowerCase()}-container`
+      //   );
+      //   previousDeviceBtn.classList.remove("gjs-pn-active");
+      //   previousDeviceBtn.classList.remove("gjs-four-color");
+      //   // setActiveDevice(device);
+      // }
+    });
+
     // ----------------------------------------------------------
     // ADD COMMANDS
     // ----------------------------------------------------------
+
     editor.Commands.add("canvas-set-device", {
       run: (editor, ...inputVars) => {
-        // const editor = inputVars[0].editor;
-        const device = inputVars[1].device;
-        editor.setDevice(device);
-        // Update canvas-width-input value
-        // document.querySelector("#canvas-width-input").value =
-        // editor.Devices.get(device).attributes.priority;
+        // Get the canvas wrapper element and its width
+        const canvasWrapper = document.querySelector(".gjs-frame-wrapper");
+        const canvasWidth = canvasWrapper.getBoundingClientRect().width;
+
+        // Get all available devices
+        const availableDevices = editor.Devices.getAll().models.map(
+          (device, deviceIndex) => {
+            return [device.attributes.priority, device.id];
+          }
+        );
+
+        // Determine the active device
+        const activeDevice = findActiveDevice(canvasWidth, availableDevices);
+
+        // Find width of selected device from editor intance
+        const selectedDevice = inputVars[1].device;
+        const selectedDeviceWidth =
+          editor.Devices.get(selectedDevice).attributes.priority;
+
+        // Remove active btn styles to previousDeviceBtn
+        const previousDeviceBtn = document.querySelector(
+          `#device-${activeDevice.toLowerCase()}-container`
+        );
+        previousDeviceBtn.style = "";
+
+        // Add active btn styles to selectedDeviceBtn
+        const selectedDeviceBtn = document.querySelector(
+          `#device-${selectedDevice.toLowerCase()}-container`
+        );
+        selectedDeviceBtn.style.backgroundColor = "rgba(15, 15, 15, 0.7)";
+        selectedDeviceBtn.style.color = "#00edff";
+        selectedDeviceBtn.style.fill = "#00edff";
+        selectedDeviceBtn.style.stroke = "#00edff";
+
+        // Update canvas width
+        canvasWrapper.style.transition = "all 0.5s ease-in-out";
+        canvasWrapper.style.width = `${selectedDeviceWidth}px`;
       },
     });
+
     editor.Commands.add("set-device-desktop", {
       run: (e) => e.runCommand("canvas-set-device", { device: "Desktop" }),
-      stop() {},
+      // stop() {},
     });
+
     editor.Commands.add("set-device-tablet", {
       run: (e) => e.runCommand("canvas-set-device", { device: "Tablet" }),
-      stop() {},
+      // stop() {},
     });
+
     editor.Commands.add("set-device-mobile", {
-      run: (e) => e.runCommand("canvas-set-device", { device: "Mobile" }),
-      stop() {},
+      run: (e) => {
+        e.runCommand("canvas-set-device", { device: "Mobile" });
+      },
+      // stop() {},
     });
+
     editor.Commands.add("make-canvas-width-adjustable", {
-      addCanvasWidthAdjusters: function () {
-        const rightScrollController = document.querySelector(
-          ".gjs-frame-wrapper__right"
-        );
-        rightScrollController.classList.remove("hidden");
-        rightScrollController.classList.add("group");
-        rightScrollController.classList.add("cursor-grab");
-        rightScrollController.classList.add("active:cursor-grabbing");
-        rightScrollController.innerHTML =
-          '<div data-right-scroll class="bg-grey-light group-active:bg-primary text-[0px] w-full rounded-full m-auto h-full text-transparent pointer-events-none"></div>';
-        rightScrollController.style.width = "50px";
-        rightScrollController.style.padding = "0 15px";
-        rightScrollController.style.height = "100px";
-        rightScrollController.setAttribute(
-          "data-tooltip",
-          "Adjust canvas width"
-        );
-
-        const leftScrollController = document.querySelector(
-          ".gjs-frame-wrapper__left"
-        );
-        leftScrollController.classList.remove("hidden");
-        leftScrollController.classList.add("group");
-        leftScrollController.classList.add("cursor-grab");
-        leftScrollController.classList.add("active:cursor-grabbing");
-        leftScrollController.innerHTML =
-          '<div data-left-scroll class="bg-grey-light group-active:bg-primary text-[0px] w-full rounded-full m-auto h-full text-transparent pointer-events-none"></div>';
-        leftScrollController.style.width = "50px";
-        leftScrollController.style.padding = "0 15px";
-        leftScrollController.style.height = "100px";
-        leftScrollController.setAttribute(
-          "data-tooltip",
-          "Adjust canvas width"
-        );
-      },
-      hideCanvasWidthAdjusters: () => {
-        const rightScrollController = document.querySelector(
-          ".gjs-frame-wrapper__right"
-        );
-        rightScrollController.classList.add("hidden");
-        rightScrollController.innerHTML = "";
-
-        const leftScrollController = document.querySelector(
-          ".gjs-frame-wrapper__left"
-        );
-        leftScrollController.classList.add("hidden");
-        leftScrollController.innerHTML = "";
-      },
-      addScrollEventToHandles: function () {
-        this.addCanvasWidthAdjusters();
-        const right_drag = document.querySelector(".gjs-frame-wrapper__right");
-        const left_drag = document.querySelector(".gjs-frame-wrapper__left");
-        const frame_wrapper = document.querySelector(".gjs-frame-wrapper");
-        // Add event listeners
-        right_drag.addEventListener("mousedown", addRightHandleEvent);
-        left_drag.addEventListener("mousedown", addLeftHandleEvent);
-      },
-      removeScrollEventToHandles: function (editor) {
-        console.log("Removeing events >>>>>>>>>>>>");
-        console.log(editor.Canvas.getCanvasView());
-        this.hideCanvasWidthAdjusters();
-        const right_drag = document.querySelector(".gjs-frame-wrapper__right");
-        const left_drag = document.querySelector(".gjs-frame-wrapper__left");
-        const frame_wrapper = document.querySelector(".gjs-frame-wrapper");
-        // Add event listeners
-        right_drag.removeEventListener("mousedown", addRightHandleEvent);
-        left_drag.removeEventListener("mousedown", addLeftHandleEvent);
-      },
-      run: function () {
-        this.addScrollEventToHandles();
-      },
-      stop: function (e) {
-        this.removeScrollEventToHandles(e);
-      },
+      run: addScrollEventToHandles,
+      stop: removeScrollEventToHandles,
     });
 
     console.log("Editor canvas: ", editor.Canvas);
 
     setEditor(editor);
   }, []);
+
   return (
     <div className="overflow-hidden flex flex-col h-screen w-screenw max-w-full">
-      <BuilderHeader
-        fixed={false}
-        iconOnly
-        dropDown
-        editor={editor}
-        // canvasWidth={canvasWidth}
-      />
+      <BuilderHeader fixed={false} iconOnly dropDown editor={editor} />
       <main className="flex flex-row relative h-full flex-1 w-full bg-gray-100">
         {/* Side Bar Container/BG */}
         <div className="w-16 h-full bg-white">

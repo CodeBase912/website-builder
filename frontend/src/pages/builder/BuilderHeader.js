@@ -7,24 +7,33 @@ import NavBar from "../../components/site/NavBar";
 import Logo from "../../components/site/Logo";
 import { Icons } from "../../components/common/icons/icons";
 import Input from "../../components/common/forms/Input";
+import { findActiveDevice } from "../../util/canvas-util";
 
 const BuilderHeader = ({
   fixed = true,
   iconOnly = false,
   dropDown = false,
   editor,
-  //   canvasWidth,
 }) => {
   const [canvasWidth, setCanvasWidth] = useState(null);
+  const [activeDevice, setActiveDevice] = useState("Desktop");
   useEffect(() => {
     if (editor) {
-      //   console.log("editor: ", editor);
-      // Add event listener on canvas width
+      //  Get canvas wrapper to which we will obverse
       const canvasWrapper = editor.Canvas.getFrame().view.wrapper.$el[0];
+      //  Get canvas width input element
       const canvasWidthInput = document.querySelector("#canvas-width-input");
-      console.log("canvasWrapper: ", canvasWrapper);
-      console.log("canvasWrapper: ", editor.Canvas.getFramesEl());
 
+      //  Get available device from the editor instance
+      const availableDevices = editor.Devices.getAll().models.map(
+        (device, deviceIndex) => {
+          return [device.attributes.priority, device.id];
+        }
+      );
+
+      // Define the variable that will hold numeric ID that will bw
+      // used by the clearTimeOut function to reset the setTimeOut timer
+      let timeOutFunctionId;
       //  Use the resize observer to handle canvas width change
       const resize_ob = new ResizeObserver(function (entries) {
         // since we are observing only a single element, so we access the first element in entries array
@@ -34,9 +43,41 @@ const BuilderHeader = ({
         let width = rect.width;
         let height = rect.height;
 
-        console.log("Current Width : " + width);
-        console.log("Current Height : " + height);
-        // setCanvasWidth(Math.floor(width));
+        // clearTimeOut() resets the setTimeOut() timer
+        // due to this the function in setTimeout() is
+        // fired after we are done resizing the canvas
+        clearTimeout(timeOutFunctionId);
+        // Variable that will hold the active device after canvas resize
+        let device;
+
+        // setTimeout returns the numeric ID which is used by
+        // clearTimeOut to reset the timer
+        timeOutFunctionId = setTimeout((testVar) => {
+          // Set the active device after canvas resize
+          device = findActiveDevice(width, availableDevices);
+
+          // Check if the active devie has change
+          if (activeDevice != device) {
+            // Active device changed, update styles
+            const previousDeviceBtn = document.querySelector(
+              `#device-${activeDevice.toLowerCase()}-container`
+            );
+            previousDeviceBtn.style = "";
+
+            const selectedDeviceBtn = document.querySelector(
+              `#device-${device.toLowerCase()}-container`
+            );
+            selectedDeviceBtn.style.backgroundColor = "rgba(15, 15, 15, 0.7)";
+            selectedDeviceBtn.style.color = "#00edff";
+            selectedDeviceBtn.style.fill = "#00edff";
+            selectedDeviceBtn.style.stroke = "#00edff";
+
+            // Update active device state variable
+            setActiveDevice(device);
+          }
+        }, 100);
+
+        // Update #canvas-width-input value
         canvasWidthInput.value = Math.floor(width);
       });
 
@@ -52,10 +93,8 @@ const BuilderHeader = ({
     return () => {
       //
     };
-  }, [editor, canvasWidth]);
+  }, [editor, canvasWidth, activeDevice]);
 
-  console.log("CanvasWidth: ", canvasWidth);
-  //   console.log("Editor CanvasWidth: ", editor.canvasWidth);
   return (
     <header
       className={classNames(

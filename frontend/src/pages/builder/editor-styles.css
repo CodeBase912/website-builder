@@ -43,6 +43,7 @@
 
 .gjs-pn-btn {
   display: flex;
+  justify-content: center;
   align-items: center;
   background-color: transparent;
   border: none;
@@ -53,12 +54,12 @@
   position: relative;
   width: 100%;
   min-width: 64px;
+  min-height: 100%;
   stroke: #e0e0e3;
-  @apply hover:bg-dark flex min-h-[100%] justify-center;
 }
 
 .gjs-pn-btn:hover {
-  @apply bg-dark;
+  background-color: rgb(15, 15, 15) !important;
 }
 
 .gjs-pn-btn:active {
