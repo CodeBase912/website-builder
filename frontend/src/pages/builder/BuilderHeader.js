@@ -177,8 +177,8 @@ const BuilderHeader = ({
             {/* Canvas Width Display/Input & Options Container  */}
             <div className="flex">
               {/* Canvas Width Display/Input Container */}
-              <div className="flex items-center px-3 group hover:bg-dark">
-                <div className="flex justify-between w-[92px] border border-grey pl-3 py-1 h-fit bg-transparent my-auto">
+              <div className="flex items-center px-5 group hover:bg-dark">
+                <div className="flex justify-between min-w-[97px] w-[97px] px-3 border border-grey py-1 h-fit bg-transparent my-auto">
                   <input
                     id="canvas-width-input"
                     onSubmit={(e) => {
@@ -250,9 +250,9 @@ const BuilderHeader = ({
                     placeholder={"300"}
                     defaultValue={canvasWidth}
                     // value={canvasWidth}
-                    className="w-full bg-transparent outline-none text-white"
+                    className="w-full text-right pr-3 bg-transparent outline-none text-white"
                   />
-                  <p className="px-3 text-grey-light bg-tranparent cursor-pointer">
+                  <p className="text-grey-light bg-tranparent cursor-pointer">
                     {"px"}
                   </p>
                 </div>
