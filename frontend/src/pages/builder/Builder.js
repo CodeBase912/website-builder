@@ -122,7 +122,6 @@ const Builder = () => {
           {
             id: "canvas-width-adjust-panel",
             el: "#canvas-width-adjust-container",
-            className: "text-xs whitespace-nowrap",
             buttons: [
               {
                 id: "canvas-width-adjust-btn",

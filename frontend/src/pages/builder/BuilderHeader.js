@@ -47,7 +47,10 @@ const BuilderHeader = ({
           </div>
 
           {/* Toggle Canvas Width Handles Container  */}
-          <div id="canvas-width-adjust-container">
+          <div
+            id="canvas-width-adjust-container"
+            className="w-16 hover:bg-dark flex"
+          >
             <div
               id="canvas-width-adjuster-toggler"
               className="w-16 hover:bg-dark flex justify-center cursor-pointer"
