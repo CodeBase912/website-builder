@@ -227,7 +227,7 @@ const Builder = () => {
       <BuilderHeader fixed={false} iconOnly dropDown editor={editor} />
       <main className="flex flex-row relative h-full flex-1 w-full bg-gray-100">
         {/* Side Bar Container/BG */}
-        <div className="w-16 h-full bg-white">
+        <div className="w-16 h-full bg-white z-30">
           {/* Side Bar Panel */}
           <div id="sidebar-panel flex flex-col h-full">
             {/* Pages Button Container */}
@@ -242,9 +242,9 @@ const Builder = () => {
             {/* Blocks Button Container */}
             <div
               id="sidebar-pn-blocks"
-              className="group hover:bg-gray-100 hover:cursor-pointer w-full object-contain h-16 flex items-center justify-center"
+              className="group bg-gray-100  hover:bg-gray-200 hover:cursor-pointer w-full object-contain h-16 flex items-center justify-center"
             >
-              <div className="flex items-center justify-center object-contain w-8 h-full fill-grey">
+              <div className="flex items-center justify-center object-contain w-8 h-full fill-blue-dark">
                 <div>{Icons.customIcons.builder.sideBar.blocks}</div>
               </div>
             </div>
@@ -273,6 +273,56 @@ const Builder = () => {
             >
               <div className="flex items-center justify-center object-contain w-8 h-full fill-grey">
                 <div>{Icons.customIcons.builder.sideBar.traits}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Side Bar Content Container */}
+        <div className="shadow-2xl shadow-grey rounded-sm bg-white absolute left-20 top-[50%] translate-y-[-50%] z-10 h-[95%]">
+          {/* Panel Heading Container */}
+          <div className="flex justify-between border-b border-gray-400">
+            {/* Panel Heading */}
+            <h3 className="p-4 text-2xl no-text-selection font-bold pointer-events-none">
+              {"Add Elements"}
+            </h3>
+            {/* Panel Actions Container */}
+            <div className="flex items-center">
+              <div
+                title="Help Center > Add Elements"
+                className="flex justify-center items-center text-lg w-16 h-full hover:bg-gray-200 cursor-pointer"
+              >
+                {Icons.question}
+              </div>
+              <div
+                title="Close"
+                className="flex justify-center items-center text-lg w-16 h-full hover:bg-gray-200 cursor-pointer"
+              >
+                {Icons.closeIcon}
+              </div>
+            </div>
+          </div>
+          {/* Panel Content */}
+          <div className="flex w-full h-full">
+            {/* Blocks Categories Container */}
+            <div className="min-w-fit h-full border-r border-gray-400">
+              {/* Category */}
+              <div className="py-3 px-4 font-semibold no-text-selection">
+                {"QUICK ADD"}
+              </div>
+              {/* Category */}
+              <div className="py-3 px-4 font-semibold bg-blue-light text-blue-darker no-text-selection">
+                {"TESTIMONIALS"}
+              </div>
+            </div>
+            {/* Block Elements Here */}
+            <div className=" w-[300px]">
+              {/* Blocks Elements Header */}
+              <h2 className="px-3 py-3 font-bold text-xl no-text-selection">
+                {"Add Testimonials"}
+              </h2>
+              {/* Block Elements Container */}
+              <div className="px-3 pb-3 no-text-selection">
+                {"Blocks Elements Here"}
               </div>
             </div>
           </div>
