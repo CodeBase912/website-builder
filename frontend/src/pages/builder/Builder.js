@@ -22,6 +22,13 @@ const Builder = () => {
   const [editor, setEditor] = useState(null);
   const [canvasWidth, setCanvasWidth] = useState(defaultDeviceWidth);
   useEffect(() => {
+    // CUSTOM COMMANDS
+    const CANVAS_SET_DEVICE = "canvas-set-device";
+    const SET_DEVICE_DESKTOP = "set-device-desktop";
+    const SET_DEVICE_TABLET = "set-device-tablet";
+    const SET_DEVICE_MOBILE = "set-device-mobile";
+    const MAKE_CANVAS_WIDTH_ADJUSTABLE = "make-canvas-width-adjustable";
+
     const editor = grapesjs.init({
       // Indicate where to init the editor. You can also pass an HTMLElement
       container: "#gjs",
@@ -83,7 +90,7 @@ const Builder = () => {
                 id: "Desktop",
                 el: "#device-desktop-container",
                 className: "w-16",
-                command: "set-device-desktop",
+                command: SET_DEVICE_DESKTOP,
                 active: true,
                 togglable: false,
                 attributes: {
@@ -94,7 +101,7 @@ const Builder = () => {
                 id: "Tablet",
                 el: "#device-tablet-container",
                 className: "w-16",
-                command: "set-device-tablet", // Built-in command
+                command: SET_DEVICE_TABLET,
                 togglable: false,
                 attributes: {
                   title: "Tablet (768px and below)",
@@ -104,7 +111,7 @@ const Builder = () => {
                 id: "Mobile",
                 el: "#device-mobile-container",
                 className: "w-16",
-                command: "set-device-mobile", // Built-in command
+                command: SET_DEVICE_MOBILE,
                 togglable: false,
                 attributes: {
                   title: "Mobile (320px and below)",
@@ -112,35 +119,16 @@ const Builder = () => {
               },
             ],
           },
-          // {
-          //   id: "device-actions-panel",
-          //   el: "#user-actions-container",
-          //   command: "make-canvas-width-adjustable", // Built-in command
-          //   buttons: [
-          //     {
-          //       id: "Preview",
-          //       el: "#open-preview-mode-btn",
-          //       className: "w-16",
-          //       command: "preview", // Built-In command
-          //       togglable: true,
-          //       attributes: {
-          //         title: "Manually adjust canvas width",
-          //       },
-          //     },
-          //   ],
-          // },
           {
             id: "canvas-width-adjust-panel",
             el: "#canvas-width-adjust-container",
             className: "text-xs whitespace-nowrap",
-            command: "make-canvas-width-adjustable", // Built-in command
-            // togglable: true,
             buttons: [
               {
                 id: "canvas-width-adjust-btn",
                 el: "#canvas-width-adjuster-toggler",
                 className: "w-8",
-                command: "make-canvas-width-adjustable", // Built-In command
+                command: MAKE_CANVAS_WIDTH_ADJUSTABLE,
                 active: true,
                 togglable: true,
                 attributes: {
@@ -150,9 +138,6 @@ const Builder = () => {
             ],
           },
         ],
-      },
-      canvas: {
-        // em: { dragMode: true },
       },
       frame: {
         component: {
@@ -168,73 +153,11 @@ const Builder = () => {
       // pluginsOpts: []
     });
 
-    // editor.on("load", () => {
-    //   // Remove duplicate panel buttons container
-    //   Array.from(document.querySelectorAll(".gjs-pn-buttons")).map((list) => {
-    //     if (list.innerHTML == "") {
-    //       console.log(list);
-    //       list.remove();
-    //     }
-    //   });
-    // });
-
-    // DEFAULT COMMANDS
-    // var crc = "create-comp";
-    // var mvc = "move-comp";
-    // var swv = "sw-visibility";
-    // var expt = "export-template";
-    // var osm = "open-sm";
-    // var otm = "open-tm";
-    // var ola = "open-layers";
-    // var obl = "open-blocks";
-    // var ful = "fullscreen";
-    // var prv = "preview";
-
-    editor.on("load", () => {
-      // editor.getDevice()();
-    });
-
-    editor.on("device:select", (selectedDevice, previousDevice) => {
-      // console.log("DEVICE CHANGED >>>>>>>>>>>>>>>>>");
-      // console.log("selectedDevice: ", selectedDevice);
-      // console.log("previousDevice: ", previousDevice);
-      // console.log("Editor: ", editor.Devices.get(selectedDevice.id));
-      // const selectedDeviceBtn = document.querySelector(
-      //   `#device-${selectedDevice.id.toLowerCase()}-container`
-      // );
-      // console.log("selectedDeviceBtn: ", selectedDeviceBtn);
-      // selectedDeviceBtn.classList.add("gjs-pn-active");
-      // selectedDeviceBtn.classList.add("gjs-four-color");
-      // console.log("Classes: ", selectedDeviceBtn.classList);
-      // const previousDeviceBtn = document.querySelector(
-      //   `#device-${previousDevice.id.toLowerCase()}-container`
-      // );
-      // previousDeviceBtn.classList.remove("gjs-pn-active");
-      // previousDeviceBtn.classList.remove("gjs-four-color");
-      // console.log("Active Device: ", activeDevice);
-      // const device = test(width, availableDevices);
-      // console.log("device: ", device);
-      // console.log("device toLowerCase: ", device.toLowerCase());
-      // if (previousDevice.id != selectedDevice.id) {
-      //   const selectedDeviceBtn = document.querySelector(
-      //     `#device-${selectedDevice.id.toLowerCase()}-container`
-      //   );
-      //   selectedDeviceBtn.classList.add("gjs-pn-active");
-      //   selectedDeviceBtn.classList.add("gjs-four-color");
-      //   const previousDeviceBtn = document.querySelector(
-      //     `#device-${previousDevice.id.toLowerCase()}-container`
-      //   );
-      //   previousDeviceBtn.classList.remove("gjs-pn-active");
-      //   previousDeviceBtn.classList.remove("gjs-four-color");
-      //   // setActiveDevice(device);
-      // }
-    });
-
     // ----------------------------------------------------------
     // ADD COMMANDS
     // ----------------------------------------------------------
 
-    editor.Commands.add("canvas-set-device", {
+    editor.Commands.add(CANVAS_SET_DEVICE, {
       run: (editor, ...inputVars) => {
         // Get the canvas wrapper element and its width
         const canvasWrapper = document.querySelector(".gjs-frame-wrapper");
@@ -276,24 +199,21 @@ const Builder = () => {
       },
     });
 
-    editor.Commands.add("set-device-desktop", {
-      run: (e) => e.runCommand("canvas-set-device", { device: "Desktop" }),
-      // stop() {},
+    editor.Commands.add(SET_DEVICE_DESKTOP, {
+      run: (e) => e.runCommand(CANVAS_SET_DEVICE, { device: "Desktop" }),
     });
 
-    editor.Commands.add("set-device-tablet", {
-      run: (e) => e.runCommand("canvas-set-device", { device: "Tablet" }),
-      // stop() {},
+    editor.Commands.add(SET_DEVICE_TABLET, {
+      run: (e) => e.runCommand(CANVAS_SET_DEVICE, { device: "Tablet" }),
     });
 
-    editor.Commands.add("set-device-mobile", {
+    editor.Commands.add(SET_DEVICE_MOBILE, {
       run: (e) => {
-        e.runCommand("canvas-set-device", { device: "Mobile" });
+        e.runCommand(CANVAS_SET_DEVICE, { device: "Mobile" });
       },
-      // stop() {},
     });
 
-    editor.Commands.add("make-canvas-width-adjustable", {
+    editor.Commands.add(MAKE_CANVAS_WIDTH_ADJUSTABLE, {
       run: addScrollEventToHandles,
       stop: removeScrollEventToHandles,
     });
@@ -322,7 +242,7 @@ const Builder = () => {
             </div>
             {/* Blocks Button Container */}
             <div
-              id="sidebar-pn-pages"
+              id="sidebar-pn-blocks"
               className="group hover:bg-gray-100 hover:cursor-pointer w-full object-contain h-16 flex items-center justify-center"
             >
               <div className="flex items-center justify-center object-contain w-8 h-full fill-grey">
@@ -331,7 +251,7 @@ const Builder = () => {
             </div>
             {/* Layers Button Container */}
             <div
-              id="sidebar-pn-pages"
+              id="sidebar-pn-layers"
               className="group hover:bg-gray-100 hover:cursor-pointer w-full object-contain h-16 flex items-center justify-center"
             >
               <div className="flex items-center justify-center object-contain w-10 h-full fill-grey">
@@ -340,7 +260,7 @@ const Builder = () => {
             </div>
             {/* Style Button Container */}
             <div
-              id="sidebar-pn-pages"
+              id="sidebar-pn-styles"
               className="group hover:bg-gray-100 hover:cursor-pointer w-full object-contain h-16 flex items-center justify-center"
             >
               <div className="flex items-center justify-center object-contain w-8 h-full fill-grey">
@@ -349,7 +269,7 @@ const Builder = () => {
             </div>
             {/* Component Settings Button Container */}
             <div
-              id="sidebar-pn-pages"
+              id="sidebar-pn-traits"
               className="group hover:bg-gray-100 hover:cursor-pointer w-full object-contain h-16 flex items-center justify-center"
             >
               <div className="flex items-center justify-center object-contain w-8 h-full fill-grey">
