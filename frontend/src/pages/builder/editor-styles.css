@@ -114,16 +114,28 @@ header .gjs-pn-btn.gjs-pn-active:hover,
   display: none;
 }
 
-.gjs-block-category {
+#blocks-category-panel .gjs-block-category {
   border-bottom: unset !important;
 }
 
-.gjs-blocks-c {
-  gap: 0.75rem;
+#blocks-category-panel .gjs-blocks-c {
+  gap: 1.5rem;
 }
 
-.gjs-block {
+#blocks-category-panel .gjs-block {
   margin: 0;
+  border: 0;
+  @apply shadow-lg text-grey hover:text-blue-dark fill-grey hover:shadow-xl hover:shadow-gray-500 shadow-grey-light;
+}
+
+/* Block Styles */
+#blocks-category-panel .gjs-block .gjs-block__media {
+  width: 90px;
+  object-fit: contain;
+}
+
+#blocks-category-panel .gjs-block .gjs-block-label {
+  @apply text-sm;
 }
 
 .gjs-one-bg {

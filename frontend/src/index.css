@@ -43,10 +43,10 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  @apply bg-grey-light;
+  @apply bg-grey-light bg-opacity-70;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-opacity-70;
+  @apply bg-opacity-40;
 }
