@@ -351,18 +351,12 @@ const Builder = () => {
 
     editor.Commands.add(RENDER_BLOCK_CATEGORY, {
       run: (editor, sender) => {
-        console.log("Sender: ", sender);
+        // console.log("Sender: ", sender);
         const blocksToRender = editor.Blocks.getAll().models.filter(
           (model) => model.attributes.category.id == sender.id
         );
-        console.log("Blocks: ", blocksToRender);
-        console.log("Blocks: ", editor.Blocks.getAll());
 
-        const categories = document
-          .querySelector("#blocks-category-panel")
-          .querySelector(".gjs-block-categories").children;
-        console.log("categories: ", categories);
-
+        // Change category blocks container title
         const categoryBlocksTitleEl = document.querySelector(
           "#blocks-category-panel-title"
         );
@@ -373,22 +367,22 @@ const Builder = () => {
           : `Add ${sender.attributes.label}`;
 
         // Hide the active category blocks container
+        const categories = document
+          .querySelector("#blocks-category-panel")
+          .querySelector(".gjs-block-categories").children;
         for (let i = 0; i < categories.length; i++) {
           if (categories[i] && categories[i].style.display === "block") {
             categories[i].style.display = "none";
           }
         }
 
-        // Get blocks category containers
+        // Display the blocks container of the selected category
         const categoryContainers = document
           .querySelector("#blocks-category-panel")
           .querySelector(".gjs-block-categories").children[
           blocksToRender[0]?.attributes.category.attributes.order
         ];
-        console.log("categoryContainers: ", categoryContainers);
         if (categoryContainers) categoryContainers.style.display = "block";
-
-        // activeCategoryContainer?.style.display = "none";
       },
       stop: () => {},
     });
