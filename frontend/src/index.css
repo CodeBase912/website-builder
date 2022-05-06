@@ -29,3 +29,24 @@
     }
   }
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  position: absolute;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  display: none;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-grey-light;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-opacity-70;
+}

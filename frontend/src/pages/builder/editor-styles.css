@@ -58,22 +58,56 @@
   stroke: #e0e0e3;
 }
 
-.gjs-pn-btn:hover {
-  background-color: rgb(15, 15, 15) !important;
+header .gjs-pn-btn:hover {
+  background-color: rgb(15, 15, 15);
 }
 
-.gjs-pn-btn:active {
+header .gjs-pn-btn:active {
   @apply bg-dark;
 }
 
-.gjs-pn-btn.gjs-pn-active {
+header .gjs-pn-btn.gjs-pn-active {
   @apply bg-dark bg-opacity-70;
   box-shadow: unset;
 }
 
-.gjs-pn-btn.gjs-pn-active:hover,
+header .gjs-pn-btn.gjs-pn-active:hover,
 .gjs-pn-btn.gjs-pn-active:active {
   @apply bg-dark;
+}
+
+#blocks-categories-panel .gjs-pn-buttons {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+}
+
+#blocks-categories-panel .gjs-pn-buttons .gjs-pn-btn {
+  height: fit-content;
+  min-height: unset;
+  justify-content: flex-start;
+  padding: 0.75rem 1rem;
+}
+
+#blocks-categories-panel .gjs-pn-buttons .gjs-pn-btn.gjs-pn-active {
+  background-color: rgba(0, 222, 239, 0.4);
+  /* color: #007078; */
+  color: #363636;
+}
+#blocks-categories-panel .gjs-pn-buttons .gjs-pn-btn:active,
+.gjs-pn-btn:hover {
+  background-color: rgba(0, 222, 239, 0.2);
+  opacity: 70%;
+}
+
+#blocks-categories-panel .gjs-pn-buttons.gjs-pn-btn:active {
+  @apply text-blue-dark bg-opacity-70;
+}
+
+#blocks-categories-panel .gjs-pn-buttons .gjs-pn-btn.gjs-pn-active:hover,
+.gjs-pn-btn.gjs-pn-active:active {
+  @apply text-grey-dark;
 }
 
 .gjs-one-bg {

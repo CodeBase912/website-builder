@@ -28,6 +28,27 @@ const Builder = () => {
     const SET_DEVICE_TABLET = "set-device-tablet";
     const SET_DEVICE_MOBILE = "set-device-mobile";
     const MAKE_CANVAS_WIDTH_ADJUSTABLE = "make-canvas-width-adjustable";
+    const RENDER_BLOCK_CATEGORY = "render-block-category";
+
+    // Define block categories
+    const blockCategories = [
+      "Quick Add",
+      "Header",
+      "Footer",
+      "Hero",
+      "Call to Action",
+      "Content",
+      "Blog",
+      "Gallery",
+      "Contact",
+      "Features",
+      "Pricing",
+      "Commerce",
+      "Statistics",
+      "Steps",
+      "Team",
+      "Testimonials",
+    ];
 
     const editor = grapesjs.init({
       // Indicate where to init the editor. You can also pass an HTMLElement
@@ -136,8 +157,63 @@ const Builder = () => {
               },
             ],
           },
+          {
+            id: "block-category-selectors",
+            el: "#blocks-categories-panel",
+            // buttons:
+            // [
+            //   {
+            //     id: "Quick Add",
+            //     className: "w-full",
+            //     label: "Quick Add",
+            //     command: RENDER_BLOCK_CATEGORY,
+            //     active: true,
+            //     togglable: true,
+            //     // attributes: {
+            //     //   title: "Manually adjust canvas width",
+            //     // },
+            //   },
+            // ],
+
+            buttons: blockCategories.map((category, categoryIndex) => ({
+              id: category,
+              label: category,
+              className:
+                "w-full no-text-selection py-3 px-4 font-semibold text-blue-darker",
+              command: RENDER_BLOCK_CATEGORY,
+              active: true,
+              togglable: false,
+              // attributes: {
+              //   title: "Manually adjust canvas width",
+              // },
+            })),
+          },
         ],
       },
+      // blockManager: {
+      //   // Specify the element to use as a container, string (query) or HTMLElement
+      //   // With the empty value, nothing will be rendered
+      //   appendTo: "#blocks-categories-panel",
+
+      //   // Append blocks to canvas on click.
+      //   // With the `true` value, it will try to append the block to the selected component.
+      //   // If there is no selected component, the block will be appened to the wrapper.
+      //   // You can also pass a function to this option, use it as a catch-all for all block
+      //   // clicks and implement a custom logic for each block.
+      //   // appendOnClick: (block, editor) => {
+      //   //   if (block.get('id') === 'some-id')
+      //   //    editor.getSelected().append(block.get('content'))
+      //   //   else
+      //   //    editor.getWrapper().append(block.get('content'))
+      //   // }
+      //   appendOnClick: false,
+
+      //   // Default blocks
+      //   blocks: [],
+
+      //   // Avoid rendering the default block manager.
+      //   custom: false,
+      // },
       frame: {
         component: {
           id: "right-drag",
@@ -199,16 +275,18 @@ const Builder = () => {
     });
 
     editor.Commands.add(SET_DEVICE_DESKTOP, {
-      run: (e) => e.runCommand(CANVAS_SET_DEVICE, { device: "Desktop" }),
+      run: (editor) =>
+        editor.runCommand(CANVAS_SET_DEVICE, { device: "Desktop" }),
     });
 
     editor.Commands.add(SET_DEVICE_TABLET, {
-      run: (e) => e.runCommand(CANVAS_SET_DEVICE, { device: "Tablet" }),
+      run: (editor) =>
+        editor.runCommand(CANVAS_SET_DEVICE, { device: "Tablet" }),
     });
 
     editor.Commands.add(SET_DEVICE_MOBILE, {
-      run: (e) => {
-        e.runCommand(CANVAS_SET_DEVICE, { device: "Mobile" });
+      run: (editor) => {
+        editor.runCommand(CANVAS_SET_DEVICE, { device: "Mobile" });
       },
     });
 
@@ -216,6 +294,62 @@ const Builder = () => {
       run: addScrollEventToHandles,
       stop: removeScrollEventToHandles,
     });
+
+    editor.Commands.add(RENDER_BLOCK_CATEGORY, {
+      run: (editor, sender) => {},
+      stop: () => {},
+    });
+
+    // ----------------------------------------------------------
+    // ADD BLOCKS
+    // ----------------------------------------------------------
+
+    // Define blocks
+    const blocks = [
+      {
+        id: "text",
+        label: "Text",
+        category: "Quick Add",
+        // category: {
+        //   label: "Text",
+        //   order: -1, //===>Adjust accordingly
+        //   open: true,
+        // },
+        media: `<svg style="width:48px;height:48px" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M18.5,4L19.66,8.35L18.7,8.61C18.25,7.74 17.79,6.87 17.26,6.43C16.73,6 16.11,6 15.5,6H13V16.5C13,17 13,17.5 13.33,17.75C13.67,18 14.33,18 15,18V19H9V18C9.67,18 10.33,18 10.67,17.75C11,17.5 11,17 11,16.5V6H8.5C7.89,6 7.27,6 6.74,6.43C6.21,6.87 5.75,7.74 5.3,8.61L4.34,8.35L5.5,4H18.5Z" />
+              </svg>`,
+        activate: true,
+        content: {
+          type: "text",
+          content: "Insert your text here",
+          style: { padding: "10px" },
+        },
+      },
+      {
+        id: "link",
+        label: "Link",
+        category: "Quick Add",
+        media: `<svg style="width:48px;height:48px" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z" />
+              </svg>`,
+        activate: true,
+        content: {
+          type: "link",
+          content: "Insert your link here",
+          style: { color: "#d983a6" },
+        },
+      },
+      {
+        id: "image",
+        label: "Image",
+        category: "Quick Add",
+        media: `<svg style="width:48px;height:48px" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M8.5,13.5L11,16.5L14.5,12L19,18H5M21,19V5C21,3.89 20.1,3 19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19Z" />
+              </svg>`,
+        activate: true,
+        content: { type: "image" },
+      },
+    ];
 
     console.log("Editor canvas: ", editor.Canvas);
 
@@ -278,11 +412,11 @@ const Builder = () => {
           </div>
         </div>
         {/* Side Bar Content Container */}
-        <div className="shadow-2xl shadow-grey rounded-sm bg-white absolute left-20 top-[50%] translate-y-[-50%] z-10 h-[95%]">
+        <div className="flex flex-col shadow-2xl shadow-grey rounded-sm bg-white absolute left-20 top-[50%] translate-y-[-50%] z-10 h-[95%] max-h-[95%]">
           {/* Panel Heading Container */}
           <div className="flex justify-between border-b border-gray-400">
             {/* Panel Heading */}
-            <h3 className="p-4 text-2xl no-text-selection font-bold pointer-events-none">
+            <h3 className="p-4 text-2xl text-grey no-text-selection font-extrabold pointer-events-none">
               {"Add Elements"}
             </h3>
             {/* Panel Actions Container */}
@@ -302,17 +436,20 @@ const Builder = () => {
             </div>
           </div>
           {/* Panel Content */}
-          <div className="flex w-full h-full">
+          <div className="flex w-full flex-auto h-0">
             {/* Blocks Categories Container */}
-            <div className="min-w-fit h-full border-r border-gray-400">
+            <div
+              id="blocks-categories-panel"
+              className="flex flex-col min-w-fit h-full border-r border-gray-400"
+            >
               {/* Category */}
-              <div className="py-3 px-4 font-semibold no-text-selection">
+              {/* <div className="py-3 px-4 font-semibold no-text-selection">
                 {"QUICK ADD"}
-              </div>
+              </div> */}
               {/* Category */}
-              <div className="py-3 px-4 font-semibold bg-blue-light text-blue-darker no-text-selection">
+              {/* <div className="py-3 px-4 font-semibold bg-blue-light text-blue-darker no-text-selection">
                 {"TESTIMONIALS"}
-              </div>
+              </div> */}
             </div>
             {/* Block Elements Here */}
             <div className=" w-[300px]">
@@ -321,7 +458,10 @@ const Builder = () => {
                 {"Add Testimonials"}
               </h2>
               {/* Block Elements Container */}
-              <div className="px-3 pb-3 no-text-selection">
+              <div
+                id="blocks-category-panel"
+                className="px-3 pb-3 no-text-selection"
+              >
                 {"Blocks Elements Here"}
               </div>
             </div>
