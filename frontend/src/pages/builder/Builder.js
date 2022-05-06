@@ -190,30 +190,84 @@ const Builder = () => {
           },
         ],
       },
-      // blockManager: {
-      //   // Specify the element to use as a container, string (query) or HTMLElement
-      //   // With the empty value, nothing will be rendered
-      //   appendTo: "#blocks-categories-panel",
+      blockManager: {
+        // Specify the element to use as a container, string (query) or HTMLElement
+        // With the empty value, nothing will be rendered
+        appendTo: "#blocks-category-panel",
 
-      //   // Append blocks to canvas on click.
-      //   // With the `true` value, it will try to append the block to the selected component.
-      //   // If there is no selected component, the block will be appened to the wrapper.
-      //   // You can also pass a function to this option, use it as a catch-all for all block
-      //   // clicks and implement a custom logic for each block.
-      //   // appendOnClick: (block, editor) => {
-      //   //   if (block.get('id') === 'some-id')
-      //   //    editor.getSelected().append(block.get('content'))
-      //   //   else
-      //   //    editor.getWrapper().append(block.get('content'))
-      //   // }
-      //   appendOnClick: false,
+        // Append blocks to canvas on click.
+        // With the `true` value, it will try to append the block to the selected component.
+        // If there is no selected component, the block will be appened to the wrapper.
+        // You can also pass a function to this option, use it as a catch-all for all block
+        // clicks and implement a custom logic for each block.
+        // appendOnClick: (block, editor) => {
+        //   if (block.get('id') === 'some-id')
+        //    editor.getSelected().append(block.get('content'))
+        //   else
+        //    editor.getWrapper().append(block.get('content'))
+        // }
+        appendOnClick: false,
 
-      //   // Default blocks
-      //   blocks: [],
+        // Default blocks
+        blocks: [
+          {
+            id: "text",
+            label: "Text",
+            category: {
+              id: "Quick Add",
+              label: "Quick Add",
+              order: 0,
+              open: true,
+            },
+            media: `<svg style="width:48px;height:48px" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M18.5,4L19.66,8.35L18.7,8.61C18.25,7.74 17.79,6.87 17.26,6.43C16.73,6 16.11,6 15.5,6H13V16.5C13,17 13,17.5 13.33,17.75C13.67,18 14.33,18 15,18V19H9V18C9.67,18 10.33,18 10.67,17.75C11,17.5 11,17 11,16.5V6H8.5C7.89,6 7.27,6 6.74,6.43C6.21,6.87 5.75,7.74 5.3,8.61L4.34,8.35L5.5,4H18.5Z" />
+              </svg>`,
+            activate: true,
+            content: {
+              type: "text",
+              content: "Insert your text here",
+              style: { padding: "10px" },
+            },
+          },
+          {
+            id: "link",
+            label: "Link",
+            category: {
+              id: "Quick Add",
+              label: "Quick Add",
+              order: 0,
+              open: true,
+            },
+            media: `<svg style="width:48px;height:48px" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z" />
+              </svg>`,
+            activate: true,
+            content: {
+              type: "link",
+              content: "Insert your link here",
+              style: { color: "#d983a6" },
+            },
+          },
+          {
+            id: "image",
+            label: "Image",
+            category: {
+              id: "Quick Add",
+              label: "Quick Add",
+              order: 0,
+              open: true,
+            },
+            media: `<svg style="width:48px;height:48px" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M8.5,13.5L11,16.5L14.5,12L19,18H5M21,19V5C21,3.89 20.1,3 19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19Z" />
+              </svg>`,
+            activate: true,
+            content: { type: "image" },
+          },
+        ],
 
-      //   // Avoid rendering the default block manager.
-      //   custom: false,
-      // },
+        // Avoid rendering the default block manager.
+        custom: false,
+      },
       frame: {
         component: {
           id: "right-drag",
@@ -296,60 +350,52 @@ const Builder = () => {
     });
 
     editor.Commands.add(RENDER_BLOCK_CATEGORY, {
-      run: (editor, sender) => {},
+      run: (editor, sender) => {
+        console.log("Sender: ", sender);
+        const blocksToRender = editor.Blocks.getAll().models.filter(
+          (model) => model.attributes.category.id == sender.id
+        );
+        console.log("Blocks: ", blocksToRender);
+        console.log("Blocks: ", editor.Blocks.getAll());
+
+        const categories = document
+          .querySelector("#blocks-category-panel")
+          .querySelector(".gjs-block-categories").children;
+        console.log("categories: ", categories);
+
+        const categoryBlocksTitleEl = document.querySelector(
+          "#blocks-category-panel-title"
+        );
+        categoryBlocksTitleEl.innerHTML = sender.attributes.label.includes(
+          "Add"
+        )
+          ? sender.attributes.label
+          : `Add ${sender.attributes.label}`;
+
+        // Hide the active category blocks container
+        for (let i = 0; i < categories.length; i++) {
+          if (categories[i] && categories[i].style.display === "block") {
+            categories[i].style.display = "none";
+          }
+        }
+
+        // Get blocks category containers
+        const categoryContainers = document
+          .querySelector("#blocks-category-panel")
+          .querySelector(".gjs-block-categories").children[
+          blocksToRender[0]?.attributes.category.attributes.order
+        ];
+        console.log("categoryContainers: ", categoryContainers);
+        if (categoryContainers) categoryContainers.style.display = "block";
+
+        // activeCategoryContainer?.style.display = "none";
+      },
       stop: () => {},
     });
 
     // ----------------------------------------------------------
     // ADD BLOCKS
     // ----------------------------------------------------------
-
-    // Define blocks
-    const blocks = [
-      {
-        id: "text",
-        label: "Text",
-        category: "Quick Add",
-        // category: {
-        //   label: "Text",
-        //   order: -1, //===>Adjust accordingly
-        //   open: true,
-        // },
-        media: `<svg style="width:48px;height:48px" viewBox="0 0 24 24">
-              <path fill="currentColor" d="M18.5,4L19.66,8.35L18.7,8.61C18.25,7.74 17.79,6.87 17.26,6.43C16.73,6 16.11,6 15.5,6H13V16.5C13,17 13,17.5 13.33,17.75C13.67,18 14.33,18 15,18V19H9V18C9.67,18 10.33,18 10.67,17.75C11,17.5 11,17 11,16.5V6H8.5C7.89,6 7.27,6 6.74,6.43C6.21,6.87 5.75,7.74 5.3,8.61L4.34,8.35L5.5,4H18.5Z" />
-              </svg>`,
-        activate: true,
-        content: {
-          type: "text",
-          content: "Insert your text here",
-          style: { padding: "10px" },
-        },
-      },
-      {
-        id: "link",
-        label: "Link",
-        category: "Quick Add",
-        media: `<svg style="width:48px;height:48px" viewBox="0 0 24 24">
-              <path fill="currentColor" d="M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z" />
-              </svg>`,
-        activate: true,
-        content: {
-          type: "link",
-          content: "Insert your link here",
-          style: { color: "#d983a6" },
-        },
-      },
-      {
-        id: "image",
-        label: "Image",
-        category: "Quick Add",
-        media: `<svg style="width:48px;height:48px" viewBox="0 0 24 24">
-              <path fill="currentColor" d="M8.5,13.5L11,16.5L14.5,12L19,18H5M21,19V5C21,3.89 20.1,3 19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19Z" />
-              </svg>`,
-        activate: true,
-        content: { type: "image" },
-      },
-    ];
 
     console.log("Editor canvas: ", editor.Canvas);
 
@@ -454,7 +500,10 @@ const Builder = () => {
             {/* Block Elements Here */}
             <div className=" w-[300px]">
               {/* Blocks Elements Header */}
-              <h2 className="px-3 py-3 font-bold text-xl no-text-selection">
+              <h2
+                id="blocks-category-panel-title"
+                className="px-3 py-3 font-bold text-xl no-text-selection"
+              >
                 {"Add Testimonials"}
               </h2>
               {/* Block Elements Container */}
@@ -462,7 +511,7 @@ const Builder = () => {
                 id="blocks-category-panel"
                 className="px-3 pb-3 no-text-selection"
               >
-                {"Blocks Elements Here"}
+                {/* {"Blocks Elements Here"} */}
               </div>
             </div>
           </div>
