@@ -27,26 +27,35 @@
       color: none;
       background: none;
     }
+
+    /* width */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 10px;
+    }
+    .scrollbar-rounded::-webkit-scrollbar {
+      width: 7px;
+    }
+
+    /* Track */
+    .custom-scrollbar::-webkit-scrollbar-track {
+      display: none;
+    }
+
+    /* Handle */
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      @apply bg-grey-light bg-opacity-70;
+    }
+
+    .scrollbar-rounded::-webkit-scrollbar-thumb {
+      @apply rounded-full;
+    }
+
+    /* Handle on hover */
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      @apply bg-opacity-40;
+    }
+    .scrollbar-rounded::-webkit-scrollbar-thumb:hover {
+      @apply bg-blue-icons;
+    }
   }
-}
-
-/* width */
-::-webkit-scrollbar {
-  width: 10px;
-  position: absolute;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  display: none;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  @apply bg-grey-light bg-opacity-70;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-opacity-40;
 }

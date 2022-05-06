@@ -77,10 +77,26 @@ header .gjs-pn-btn.gjs-pn-active:hover,
 }
 
 #blocks-categories-panel .gjs-pn-buttons {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  overflow-y: scroll;
+  @apply overflow-y-scroll flex flex-col;
+}
+
+#blocks-categories-panel .gjs-pn-buttons::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+#blocks-categories-panel .gjs-pn-buttons::-webkit-scrollbar-track {
+  display: none;
+}
+
+/* Handle */
+#blocks-categories-panel .gjs-pn-buttons::-webkit-scrollbar-thumb {
+  @apply bg-grey-light bg-opacity-70 rounded-full;
+}
+
+/* Handle on hover */
+#blocks-categories-panel .gjs-pn-buttons::-webkit-scrollbar-thumb:hover {
+  @apply bg-blue-icons;
 }
 
 #blocks-categories-panel .gjs-pn-buttons .gjs-pn-btn {
@@ -126,12 +142,15 @@ header .gjs-pn-btn.gjs-pn-active:hover,
   margin: 0;
   border: 0;
   /* @apply shadow-lg text-grey hover:text-blue-dark fill-grey hover:shadow-xl hover:shadow-gray-500 shadow-grey-light; */
-  @apply shadow-none flex-grow justify-center items-center text-grey hover:text-blue-dark hover:bg-grey-lighter;
+  @apply shadow-none cursor-grab active:cursor-grabbing flex flex-col flex-grow justify-center items-center text-grey hover:text-blue-dark hover:bg-grey-lighter;
+  /* display: grid;
+  grid-template-columns: 1fr 1fr; */
 }
 
 /* Block Styles */
 #blocks-category-panel .gjs-block .gjs-block__media {
   width: 90px;
+  flex-grow: 1;
   object-fit: contain;
 }
 
