@@ -38,7 +38,9 @@ const HomePage = () => {
               {/* Hero Button Container */}
               <div className="flex flex-wrap gap-3 text-sm py-5 px-2 justify-center 2sm:justify-start">
                 <Button>{"Get Started"}</Button>
-                <Button outlined>{"Try it for FREE"}</Button>
+                <Button linkTo="/builder" outlined>
+                  {"Try it for FREE"}
+                </Button>
               </div>
             </div>
             {/* Hero Illustration Container */}

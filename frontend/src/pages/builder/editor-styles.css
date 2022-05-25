@@ -142,7 +142,7 @@ header .gjs-pn-btn.gjs-pn-active:hover,
   margin: 0;
   border: 0;
   /* @apply shadow-lg text-grey hover:text-blue-dark fill-grey hover:shadow-xl hover:shadow-gray-500 shadow-grey-light; */
-  @apply shadow-none cursor-grab active:cursor-grabbing flex flex-col flex-grow justify-center items-center text-grey hover:text-blue-dark hover:bg-grey-lighter;
+  @apply shadow-none min-h-[135px] cursor-grab active:cursor-grabbing flex flex-col flex-grow justify-center items-center text-grey hover:text-blue-dark hover:bg-grey-lighter;
   /* display: grid;
   grid-template-columns: 1fr 1fr; */
 }
