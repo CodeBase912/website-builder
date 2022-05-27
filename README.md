@@ -6,9 +6,9 @@ A full stack web application that allows users to create a static website using 
 
 **Note: The work on this project is still in progress!**
 
-<!-- ## Screenshot
+## Screenshot
 
-![screenshot](./site-builder/public/images/screenshot.png?raw=true 'Screenshot of WebX') -->
+![screenshot](./frontend/public/Screenshot.png?raw=true "Screenshot of WebX")
 
 ## Features
 
