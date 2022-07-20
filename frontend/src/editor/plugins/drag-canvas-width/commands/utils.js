@@ -105,57 +105,87 @@ export const removeScrollEventToHandles = function (editor) {
   left_drag.removeEventListener("mousedown", addLeftHandleEvent);
 };
 
-export const onRightDragHandler = (e) => {
+export const addRightHandleEvent = function (mdEvent) {
   const frame_wrapper = document.querySelector(".gjs-frame-wrapper");
-  frame_wrapper.classList.remove("pointer-events-auto");
-  frame_wrapper.classList.remove("pointer-events-none");
   frame_wrapper.classList.add("pointer-events-none");
-  const canvasFrames = document.querySelector(".gjs-cv-canvas__frames");
-  const to = e.clientX;
-  const newWidth = to - frame_wrapper.getBoundingClientRect().left;
-  if (newWidth < canvasFrames.getBoundingClientRect().width) {
-    frame_wrapper.style.transition = "unset";
-    frame_wrapper.style.width = newWidth + "px";
-  }
+  frame_wrapper.classList.remove("pointer-events-auto");
+
+  const startWidth = frame_wrapper.getBoundingClientRect().width;
+  let lastX = mdEvent.clientX;
+
+  const onMouseMove = (mvEvent) => {
+    // Change drag handle pointer-events state
+    frame_wrapper.classList.remove("pointer-events-auto");
+    frame_wrapper.classList.remove("pointer-events-none");
+    frame_wrapper.classList.add("pointer-events-none");
+
+    // Handle mousemove
+    const canvasFrames = document.querySelector(".gjs-cv-canvas__frames");
+    const maxPossibleWidth = canvasFrames.getBoundingClientRect().width;
+    const deltaX = mvEvent.clientX - lastX;
+
+    const newWidth = startWidth + 2 * deltaX;
+    if (newWidth < maxPossibleWidth) {
+      frame_wrapper.style.transition = "unset";
+      frame_wrapper.style.width = newWidth + "px";
+    }
+  };
+
+  const onMouseUp = () => {
+    // Change drag handle pointer-events state
+    const frame_wrapper = document.querySelector(".gjs-frame-wrapper");
+    frame_wrapper.classList.add("pointer-events-auto");
+    frame_wrapper.classList.remove("pointer-events-none");
+
+    // Remove drag event listeners
+    document.removeEventListener("mousemove", onMouseMove);
+    document.removeEventListener("mouseup", onMouseUp);
+  };
+
+  // Add event listeners
+  document.addEventListener("mousemove", onMouseMove);
+  document.addEventListener("mouseup", onMouseUp);
 };
 
-export const onLeftDragHandler = (e) => {
+export const addLeftHandleEvent = function (mdEvent) {
   const frame_wrapper = document.querySelector(".gjs-frame-wrapper");
-  frame_wrapper.classList.remove("pointer-events-auto");
-  frame_wrapper.classList.remove("pointer-events-none");
   frame_wrapper.classList.add("pointer-events-none");
-  const canvasFrames = document.querySelector(".gjs-cv-canvas__frames");
-  const to = e.clientX;
-  const newWidth = frame_wrapper.getBoundingClientRect().right - to;
-  if (newWidth < canvasFrames.getBoundingClientRect().width) {
-    frame_wrapper.style.transition = "unset";
-    frame_wrapper.style.width = newWidth + "px";
-  }
-};
+  frame_wrapper.classList.remove("pointer-events-auto");
 
-export const onDragStopHandler = () => {
-  // Remove drag event listeners
-  const frame_wrapper = document.querySelector(".gjs-frame-wrapper");
-  frame_wrapper.classList.add("pointer-events-auto");
-  frame_wrapper.classList.remove("pointer-events-none");
-  document.removeEventListener("mousemove", onRightDragHandler);
-  document.removeEventListener("mousemove", onLeftDragHandler);
-  document.removeEventListener("mouseup", onDragStopHandler);
-};
+  const startWidth = frame_wrapper.getBoundingClientRect().width;
+  let lastX = mdEvent.clientX;
 
-export const addRightHandleEvent = function () {
-  const frame_wrapper = document.querySelector(".gjs-frame-wrapper");
-  frame_wrapper.classList.add("pointer-events-none");
-  frame_wrapper.classList.remove("pointer-events-auto");
-  document.addEventListener("mousemove", onRightDragHandler);
-  document.addEventListener("mouseup", onDragStopHandler);
-};
-export const addLeftHandleEvent = function () {
-  const frame_wrapper = document.querySelector(".gjs-frame-wrapper");
-  frame_wrapper.classList.add("pointer-events-none");
-  frame_wrapper.classList.remove("pointer-events-auto");
-  document.addEventListener("mousemove", onLeftDragHandler);
-  document.addEventListener("mouseup", onDragStopHandler);
+  const onMouseMove = (mvEvent) => {
+    // Add handle's pointer events
+    frame_wrapper.classList.remove("pointer-events-auto");
+    frame_wrapper.classList.remove("pointer-events-none");
+    frame_wrapper.classList.add("pointer-events-none");
+
+    // Handle mousemove
+    const canvasFrames = document.querySelector(".gjs-cv-canvas__frames");
+    const maxPossibleWidth = canvasFrames.getBoundingClientRect().width;
+    const deltaX = lastX - mvEvent.clientX;
+
+    const newWidth = startWidth + 2 * deltaX;
+    if (newWidth < maxPossibleWidth) {
+      frame_wrapper.style.transition = "unset";
+      frame_wrapper.style.width = newWidth + "px";
+    }
+  };
+
+  const onMouseUp = () => {
+    // Remove handle's pointer events
+    frame_wrapper.classList.add("pointer-events-auto");
+    frame_wrapper.classList.remove("pointer-events-none");
+
+    // Remove event listeners
+    document.removeEventListener("mousemove", onMouseMove);
+    document.removeEventListener("mouseup", onMouseUp);
+  };
+
+  // Add event listerners
+  document.addEventListener("mousemove", onMouseMove);
+  document.addEventListener("mouseup", onMouseUp);
 };
 
 // --------------------------------------------------
