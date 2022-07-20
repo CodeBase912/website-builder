@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cd site-builder && npm start",
-    "build": "cd site-builder && CI='' npm build"
+    "build": "cd site-builder && npm build"
   },
   "author": "Tshepo Tsilo",
   "license": "ISC",
