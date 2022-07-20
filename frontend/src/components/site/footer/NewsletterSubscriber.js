@@ -3,7 +3,6 @@ import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import Button from "../../common/Button";
 import Input from "../../common/forms/Input";
-import { Icons } from "../../common/icons/icons";
 
 const NewsletterSubscriber = () => {
   const methods = useForm({

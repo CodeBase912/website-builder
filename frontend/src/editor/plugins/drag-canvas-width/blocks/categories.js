@@ -64,5 +64,3 @@ export const categoryList = {
     label: "Testimonials",
   },
 };
-
-export default {};

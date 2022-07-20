@@ -1,4 +1,3 @@
-import { categoryList } from "./categories";
 import quickAddBlocks from "./categories/quickAdd";
 
 // Define block categories
@@ -25,7 +24,7 @@ const blocks = [...quickAddBlocks];
 
 export { blockCategories, blocks };
 
-export default (editor, opts = {}) => {
+const loadBlocks = (editor, opts = {}) => {
   const bm = editor.BlockManager;
 
   // Add Text block
@@ -206,3 +205,4 @@ export default (editor, opts = {}) => {
     },
   });
 };
+export default loadBlocks;

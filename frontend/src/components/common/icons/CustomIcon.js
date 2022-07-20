@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 // Import Icon Paths
 import { iconPaths } from "./paths";
 

@@ -34,8 +34,6 @@ const NavBar = ({ children, links, actions, absolute }) => {
   useEffect(() => {
     window.addEventListener("resize", (e) => {
       const width = e.target.innerWidth;
-      const height = e.target.innerHeight;
-      // console.log({ width, height });
 
       if (width < 640) {
         setMenuOpen(false);
@@ -44,8 +42,6 @@ const NavBar = ({ children, links, actions, absolute }) => {
 
     return window.removeEventListener("resize", (e) => {
       const width = e.target.innerWidth;
-      const height = e.target.innerHeight;
-      // console.log({ width, height });
 
       if (width < 640) {
         setMenuOpen(false);
@@ -113,6 +109,7 @@ const NavBar = ({ children, links, actions, absolute }) => {
               className="flex items-center justify-center"
             >
               <a
+                href={link.to}
                 className={classNames(
                   "flex items-center justify-center cursor-pointer",
                   "px-9 bg-dark text-grey-lighter h-full",

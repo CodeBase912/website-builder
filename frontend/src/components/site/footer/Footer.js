@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Button from "../../common/Button";
-import Input from "../../common/forms/Input";
 import { Icons } from "../../common/icons/icons";
 import Logo from "../Logo";
 // Import Footer Links

@@ -12,7 +12,7 @@ export const SET_DEVICE_MOBILE = "set-device-mobile";
 export const MAKE_CANVAS_WIDTH_ADJUSTABLE = "make-canvas-width-adjustable";
 export const RENDER_BLOCK_CATEGORY = "render-block-category";
 
-export default (editor, opts) => {
+const loadCommands = (editor, opts) => {
   // ----------------------------------------------------------
   // ADD COMMANDS
   // ----------------------------------------------------------
@@ -83,7 +83,7 @@ export default (editor, opts) => {
     run: (editor, sender) => {
       // console.log("Sender: ", sender);
       const blocksToRender = editor.Blocks.getAll().models.filter(
-        (model) => model.attributes.category.id == sender.id
+        (model) => model.attributes.category.id === sender.id
       );
 
       // Change category blocks container title
@@ -115,3 +115,5 @@ export default (editor, opts) => {
     stop: () => {},
   });
 };
+
+export default loadCommands;

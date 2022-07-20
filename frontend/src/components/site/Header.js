@@ -1,7 +1,5 @@
 import React from "react";
 import classNames from "classnames";
-// Import Custom React Components
-import Button from "../common/Button";
 // Import Icons
 import NavBar from "./NavBar";
 import Logo from "./Logo";

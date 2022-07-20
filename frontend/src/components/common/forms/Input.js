@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { useFormContext, Controller } from "react-hook-form";
 
 const Input = ({ name, placeholder, type = "text", className }) => {
-  const { control } = useFormContext();
+  // const { control } = useFormContext();
   return (
     <Controller
       name={name}
