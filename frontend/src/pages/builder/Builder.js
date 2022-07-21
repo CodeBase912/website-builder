@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import grapesjs from "grapesjs";
 import gjsDragCanvasWidth from "../../editor/plugins/drag-canvas-width";
 import { blocks } from "../../editor/plugins/drag-canvas-width/blocks";
@@ -24,6 +24,7 @@ const Builder = () => {
   const defaultDeviceWidth = "1200";
   const [editor, setEditor] = useState(null);
   const [canvasWidth, setCanvasWidth] = useState(defaultDeviceWidth);
+  const [sideBarExpanded, setSideBarExpanded] = useState(false);
   useEffect(() => {
     // CUSTOM COMMANDS
     const CANVAS_SET_DEVICE = "canvas-set-device";
@@ -136,6 +137,19 @@ const Builder = () => {
     setEditor(editor);
   }, []);
 
+  const handleSideBarClick = (elmentId) => {
+    const activeElm = document.querySelector(".icon--active");
+    const selectedElm = document.querySelector(`#${elmentId}`);
+
+    if (selectedElm.id !== activeElm?.id) {
+      activeElm?.classList.toggle("icon--active");
+      selectedElm.querySelector(".icon").classList.toggle("icon--active");
+    } else {
+      selectedElm.querySelector(".icon").classList.toggle("icon--active");
+    }
+    setSideBarExpanded((state) => !state);
+  };
+
   return (
     <div className="overflow-hidden flex flex-col h-screen w-screenw max-w-full">
       <BuilderHeader fixed={false} iconOnly dropDown editor={editor} />
@@ -147,18 +161,20 @@ const Builder = () => {
             {/* Pages Button Container */}
             <div
               id="sidebar-pn-pages"
-              className="group hover:bg-gray-100 hover:cursor-pointer w-full object-contain h-16 flex items-center justify-center"
+              className="group sidebar-btn"
+              onClick={() => handleSideBarClick("sidebar-pn-pages")}
             >
-              <div className="flex items-center justify-center object-contain w-7 h-full fill-grey">
+              <div className="icon">
                 <div>{Icons.customIcons.builder.sideBar.pages}</div>
               </div>
             </div>
             {/* Blocks Button Container */}
             <div
               id="sidebar-pn-blocks"
-              className="group bg-gray-100  hover:bg-gray-200 hover:cursor-pointer w-full object-contain h-16 flex items-center justify-center"
+              className="group sidebar-btn"
+              onClick={() => handleSideBarClick("sidebar-pn-blocks")}
             >
-              <div className="flex items-center justify-center object-contain w-8 h-full fill-blue-dark">
+              <div className="icon">
                 <div>{Icons.customIcons.builder.sideBar.blocks}</div>
               </div>
             </div>
@@ -166,6 +182,7 @@ const Builder = () => {
             <div
               id="sidebar-pn-layers"
               className="group hover:bg-gray-100 hover:cursor-pointer w-full object-contain h-16 flex items-center justify-center"
+              onClick={() => handleSideBarClick("sidebar-pn-layers")}
             >
               <div className="flex items-center justify-center object-contain w-10 h-full fill-grey">
                 <div>{Icons.customIcons.builder.sideBar.layers}</div>
@@ -175,6 +192,7 @@ const Builder = () => {
             <div
               id="sidebar-pn-styles"
               className="group hover:bg-gray-100 hover:cursor-pointer w-full object-contain h-16 flex items-center justify-center"
+              onClick={() => handleSideBarClick("sidebar-pn-styles")}
             >
               <div className="flex items-center justify-center object-contain w-8 h-full fill-grey">
                 <div>{Icons.customIcons.builder.sideBar.styles}</div>
@@ -184,6 +202,7 @@ const Builder = () => {
             <div
               id="sidebar-pn-traits"
               className="group hover:bg-gray-100 hover:cursor-pointer w-full object-contain h-16 flex items-center justify-center"
+              onClick={() => handleSideBarClick("sidebar-pn-traits")}
             >
               <div className="flex items-center justify-center object-contain w-8 h-full fill-grey">
                 <div>{Icons.customIcons.builder.sideBar.traits}</div>
@@ -193,7 +212,10 @@ const Builder = () => {
         </div>
 
         {/* Sidebar content */}
-        <SideBarContent />
+        <SideBarContent
+          sideBarExpanded={sideBarExpanded}
+          setSideBarExpanded={setSideBarExpanded}
+        />
 
         {/* Canvas Container */}
         <div id="gjs" className="w-full h-screenh relative">

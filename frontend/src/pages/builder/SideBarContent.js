@@ -1,15 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import classNames from "classnames";
 import { Icons } from "../../components/common/icons/icons";
 
-const SideBarContent = () => {
-  const [isOpen, setIsopen] = useState(false);
-  const handleClose = () => {};
+const SideBarContent = ({ sideBarExpanded, setSideBarExpanded }) => {
+  const [isOpen, setIsOpen] = useState(sideBarExpanded);
+
+  useEffect(() => {
+    console.log("From child component: ", sideBarExpanded);
+
+    console.log("isOpen: ", isOpen);
+
+    return () => {
+      // second;
+    };
+  }, [sideBarExpanded]);
+
+  // const { state, updateSideBarExpanded } = useContext(WebXBuilderContext);
+  // console.log(`\n ${state}  \n `);
+
+  const handleClose = () => {
+    console.log("Handle close worked");
+    setSideBarExpanded(false);
+  };
   return (
     /* Side Bar Content Container */
     <div
       className={classNames(
-        { hidden: isOpen === false },
+        { hidden: sideBarExpanded === false },
         "flex flex-col shadow-2xl shadow-grey rounded-sm bg-white absolute left-20 top-[50%] translate-y-[-50%] z-10 h-[95%] max-h-[95%]"
       )}
     >

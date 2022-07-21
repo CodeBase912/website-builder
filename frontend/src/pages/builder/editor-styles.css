@@ -167,3 +167,23 @@ header .gjs-pn-btn.gjs-pn-active:hover,
   stroke: #00edff;
   fill: #00edff;
 }
+
+.sidebar-btn {
+  @apply hover:bg-gray-100 hover:cursor-pointer w-full object-contain h-16 flex items-center justify-center;
+}
+
+div.icon {
+  @apply flex items-center justify-center object-contain w-7 h-full fill-grey;
+}
+
+.sidebar-btn--active {
+  @apply bg-gray-100  hover:bg-gray-200;
+}
+
+.icon--active {
+  @apply fill-blue-dark !important;
+}
+
+.sidebar-btn--active > .icon {
+  @apply fill-blue-dark;
+}

@@ -3,18 +3,21 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/home/HomePage";
 import Login from "./pages/login/Login";
 import Builder from "./pages/builder/Builder";
+import WebXProvider from "./pages/builder/state";
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/builder" element={<Builder />} />
-        </Routes>
-      </div>
-    </Router>
+    <WebXProvider>
+      <Router>
+        <div className="App">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/builder" element={<Builder />} />
+          </Routes>
+        </div>
+      </Router>
+    </WebXProvider>
   );
 }
 
