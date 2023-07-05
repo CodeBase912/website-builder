@@ -213,6 +213,7 @@ const Builder = () => {
 
         {/* Sidebar content */}
         <SideBarContent
+          editor={editor}
           sideBarExpanded={sideBarExpanded}
           setSideBarExpanded={setSideBarExpanded}
         />

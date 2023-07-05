@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import classNames from "classnames";
 import { Icons } from "../../components/common/icons/icons";
 
-const SideBarContent = ({ sideBarExpanded, setSideBarExpanded }) => {
+const SideBarContent = ({ editor, sideBarExpanded, setSideBarExpanded }) => {
   const [isOpen, setIsOpen] = useState(sideBarExpanded);
+
+  const bgOverlayRef = useRef();
+  const wrapperRef = useRef();
 
   useEffect(() => {
     console.log("From child component: ", sideBarExpanded);
@@ -15,38 +18,76 @@ const SideBarContent = ({ sideBarExpanded, setSideBarExpanded }) => {
     };
   }, [sideBarExpanded]);
 
+  useEffect(() => {
+    if (editor) {
+      // When a block is dragged, fired once...
+      editor.on("block:drag:start", () => {
+        console.log("Component drag started...");
+
+        // Update styles of side-bar modal
+        wrapperRef.current.classList.toggle("opacity-100");
+        wrapperRef.current.classList.toggle("opacity-0");
+
+        // Update styles of modal overlay background
+        bgOverlayRef.current.classList.toggle("bg-opacity-10");
+        bgOverlayRef.current.classList.toggle("bg-opacity-0");
+        bgOverlayRef.current.classList.add("pointer-events-none");
+        bgOverlayRef.current.classList.remove("pointer-events-auto");
+      });
+
+      // While a block is being dragged, fired multiple times while
+      // block is dragged
+      editor.on("block:drag", (...dragging) => {
+        // console.log({ dragging });
+      });
+
+      // When dragging a block is done, fired once when the block is dropped
+      editor.on("block:drag:stop", () => {
+        console.log("Component drag finished!!!");
+
+        // Update styles of side-bar modal
+        wrapperRef.current.classList.toggle("opacity-100");
+        wrapperRef.current.classList.toggle("opacity-0");
+
+        // Update styles of modal overlay background
+        bgOverlayRef.current.classList.toggle("bg-opacity-10");
+        bgOverlayRef.current.classList.toggle("bg-opacity-0");
+        bgOverlayRef.current.classList.remove("pointer-events-none");
+        bgOverlayRef.current.classList.add("pointer-events-auto");
+      });
+    }
+  }, [editor]);
+
   // const { state, updateSideBarExpanded } = useContext(WebXBuilderContext);
   // console.log(`\n ${state}  \n `);
 
-  const handleClose = (e) => {
-    console.log("Handle close worked");
-    console.log("click event: ", e);
+  const handleClose = () => {
     setSideBarExpanded(false);
   };
   return (
     /* Side Bar Content Container */
-    <div
-      id="side-bar-content__overlay"
-      className={classNames(
-        { "bg-opacity-10": sideBarExpanded === true },
-        { "bg-opacity-0": sideBarExpanded === false },
-        "transition-all duration-300",
-        "bg-gray-900 absolute top-[50%] translate-y-[-50%] z-10 w-full h-full"
-      )}
-      onClick={(e) => {
-        // TODO: This is a quick fix. This is not scalable. Please fix!!!
-        if (e.target.closest("#side-bar-content__content-wrapper")) {
-        } else if (e.target.closest("#side-bar-content__overlay")) {
-          setSideBarExpanded(false);
-        }
-      }}
-    >
+    <>
+      <div
+        id="side-bar-content__overlay"
+        className={classNames(
+          { "bg-opacity-10 pointer-events-auto": sideBarExpanded === true },
+          { "bg-opacity-0 pointer-events-none": sideBarExpanded === false },
+          "transition-all duration-150",
+          "bg-gray-900 absolute top-[50%] translate-y-[-50%] z-10 w-full h-full"
+        )}
+        onClick={handleClose}
+        ref={bgOverlayRef}
+      ></div>
       <div
         id="side-bar-content__content-wrapper"
         className={classNames(
           { hidden: sideBarExpanded === false },
+          { "bg-opacity-100": sideBarExpanded === true },
+          { "bg-opacity-0": sideBarExpanded === false },
+          "transition-all duration-300",
           "flex flex-col shadow-2xl shadow-grey rounded-sm bg-white absolute left-20 top-[50%] translate-y-[-50%] z-10 h-[95%] max-h-[95%]"
         )}
+        ref={wrapperRef}
       >
         {/* Panel Heading Container */}
         <div className="flex justify-between border-b border-gray-400">
@@ -80,12 +121,12 @@ const SideBarContent = ({ sideBarExpanded, setSideBarExpanded }) => {
           >
             {/* Category */}
             {/* <div className="py-3 px-4 font-semibold no-text-selection">
-                {"QUICK ADD"}
-              </div> */}
+              {"QUICK ADD"}
+            </div> */}
             {/* Category */}
             {/* <div className="py-3 px-4 font-semibold bg-blue-light text-blue-darker no-text-selection">
-                {"TESTIMONIALS"}
-              </div> */}
+              {"TESTIMONIALS"}
+            </div> */}
           </div>
           {/* Block Elements Here */}
           <div className="h-full flex-auto overflow-y-scroll custom-scrollbar scrollbar-rounded w-[300px]">
@@ -106,7 +147,7 @@ const SideBarContent = ({ sideBarExpanded, setSideBarExpanded }) => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
