@@ -1,5 +1,6 @@
 import React from "react";
 import { Icons } from "../../../components/common/icons/icons";
+import IconButton from "../../../components/common/IconButton";
 
 const IconSidebar = ({ setSideBarExpanded }) => {
   const handleSideBarClick = (elmentId) => {
@@ -20,55 +21,54 @@ const IconSidebar = ({ setSideBarExpanded }) => {
       {/* Side Bar Panel */}
       <div id="sidebar-panel flex flex-col h-full">
         {/* Pages Button Container */}
-        <div
+        <IconButton
+          icon={Icons.customIcons.builder.sideBar.pages}
           id="sidebar-pn-pages"
           className="group sidebar-btn"
+          iconClassName="icon"
           onClick={() => handleSideBarClick("sidebar-pn-pages")}
-        >
-          <div className="icon">
-            <div>{Icons.customIcons.builder.sideBar.pages}</div>
-          </div>
-        </div>
+          title="Pages"
+        />
+
         {/* Blocks Button Container */}
-        <div
+        <IconButton
+          icon={Icons.customIcons.builder.sideBar.blocks}
           id="sidebar-pn-blocks"
           className="group sidebar-btn"
+          iconClassName="icon"
           onClick={() => handleSideBarClick("sidebar-pn-blocks")}
-        >
-          <div className="icon">
-            <div>{Icons.customIcons.builder.sideBar.blocks}</div>
-          </div>
-        </div>
+          title="Blocks"
+        />
+
         {/* Layers Button Container */}
-        <div
+        <IconButton
+          icon={Icons.customIcons.builder.sideBar.layers}
           id="sidebar-pn-layers"
           className="group hover:bg-gray-100 hover:cursor-pointer w-full object-contain h-16 flex items-center justify-center"
+          iconClassName="flex items-center justify-center object-contain w-10 h-full fill-grey"
           onClick={() => handleSideBarClick("sidebar-pn-layers")}
-        >
-          <div className="flex items-center justify-center object-contain w-10 h-full fill-grey">
-            <div>{Icons.customIcons.builder.sideBar.layers}</div>
-          </div>
-        </div>
+          title="Layers"
+        />
+
         {/* Style Button Container */}
-        <div
+        <IconButton
+          icon={Icons.customIcons.builder.sideBar.styles}
           id="sidebar-pn-styles"
           className="group hover:bg-gray-100 hover:cursor-pointer w-full object-contain h-16 flex items-center justify-center"
+          iconClassName="flex items-center justify-center object-contain w-8 h-full fill-grey"
           onClick={() => handleSideBarClick("sidebar-pn-styles")}
-        >
-          <div className="flex items-center justify-center object-contain w-8 h-full fill-grey">
-            <div>{Icons.customIcons.builder.sideBar.styles}</div>
-          </div>
-        </div>
+          title="Styles"
+        />
+
         {/* Component Settings Button Container */}
-        <div
+        <IconButton
+          icon={Icons.customIcons.builder.sideBar.traits}
           id="sidebar-pn-traits"
           className="group hover:bg-gray-100 hover:cursor-pointer w-full object-contain h-16 flex items-center justify-center"
+          iconClassName="flex items-center justify-center object-contain w-8 h-full fill-grey"
           onClick={() => handleSideBarClick("sidebar-pn-traits")}
-        >
-          <div className="flex items-center justify-center object-contain w-8 h-full fill-grey">
-            <div>{Icons.customIcons.builder.sideBar.traits}</div>
-          </div>
-        </div>
+          title="Traits"
+        />
       </div>
     </div>
   );
