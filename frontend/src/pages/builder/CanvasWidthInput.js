@@ -7,7 +7,7 @@ const CanvasInput = ({ editor }) => {
   useEffect(() => {
     if (editor) {
       //  Get canvas wrapper to which we will obverse
-      const canvasWrapper = editor.Canvas.getFrame().view.wrapper.$el[0];
+      const canvasWrapper = editor.Canvas.getFrame().view.el;
       //  Get canvas width input element
       const canvasWidthInput = document.querySelector("#canvas-width-input");
 
