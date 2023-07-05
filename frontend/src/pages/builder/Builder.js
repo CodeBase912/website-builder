@@ -19,6 +19,7 @@ import "./editor-styles.css";
 import BuilderHeader from "./BuilderHeader";
 import { Icons } from "../../components/common/icons/icons";
 import SideBarContent from "./SideBarContent";
+import { DISABLE_CANVAS_TEXT_HIGHLIGHTING } from "../../editor/plugins/drag-canvas-width/commands";
 
 const Builder = () => {
   const defaultDeviceWidth = "1200";
@@ -133,6 +134,9 @@ const Builder = () => {
       plugins: [gjsDragCanvasWidth],
       // pluginsOpts: [],
     });
+
+    // Running some initial commands
+    editor.Commands.run(DISABLE_CANVAS_TEXT_HIGHLIGHTING);
 
     setEditor(editor);
   }, []);

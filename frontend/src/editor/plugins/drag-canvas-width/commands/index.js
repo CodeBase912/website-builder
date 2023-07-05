@@ -11,6 +11,8 @@ export const SET_DEVICE_TABLET = "set-device-tablet";
 export const SET_DEVICE_MOBILE = "set-device-mobile";
 export const MAKE_CANVAS_WIDTH_ADJUSTABLE = "make-canvas-width-adjustable";
 export const RENDER_BLOCK_CATEGORY = "render-block-category";
+export const DISABLE_CANVAS_TEXT_HIGHLIGHTING =
+  "disable-canvas-text-highlighting";
 
 const loadCommands = (editor, opts) => {
   // ----------------------------------------------------------
@@ -62,6 +64,19 @@ const loadCommands = (editor, opts) => {
   editor.Commands.add(SET_DEVICE_DESKTOP, {
     run: (editor) =>
       editor.runCommand(CANVAS_SET_DEVICE, { device: "Desktop" }),
+  });
+
+  editor.Commands.add(DISABLE_CANVAS_TEXT_HIGHLIGHTING, {
+    run: (editor) => {
+      // Disable text highlighting on "gjs-cv-canvas__frames" element
+      document.querySelector(".gjs-cv-canvas__frames").style.userSelect =
+        "none";
+    },
+    stop: (editor) => {
+      // Disable text highlighting on "gjs-cv-canvas__frames" element
+      document.querySelector(".gjs-cv-canvas__frames").style.userSelect =
+        "auto";
+    },
   });
 
   editor.Commands.add(SET_DEVICE_TABLET, {
