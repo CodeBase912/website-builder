@@ -1,18 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import grapesjs from "grapesjs";
 import gjsDragCanvasWidth from "../../editor/plugins/drag-canvas-width";
 import { blocks } from "../../editor/plugins/drag-canvas-width/blocks";
-// import gjsPresetWebpage from "gjs-preset-webpage";
-// Import Utility Functions & Variables
-import {
-  addRightHandleEvent,
-  addLeftHandleEvent,
-  findActiveDevice,
-  addCanvasWidthAdjusters,
-  hideCanvasWidthAdjusters,
-  addScrollEventToHandles,
-  removeScrollEventToHandles,
-} from "../../util/canvas-util";
 // Import Editor Stylesheet
 import "./editor-styles.css";
 // Import Custom React Components
@@ -22,39 +11,10 @@ import SideBarContent from "./SideBarContent";
 import { DISABLE_CANVAS_TEXT_HIGHLIGHTING } from "../../editor/plugins/drag-canvas-width/commands";
 
 const Builder = () => {
-  const defaultDeviceWidth = "1200";
   const [editor, setEditor] = useState(null);
-  const [canvasWidth, setCanvasWidth] = useState(defaultDeviceWidth);
   const [sideBarExpanded, setSideBarExpanded] = useState(false);
+
   useEffect(() => {
-    // CUSTOM COMMANDS
-    const CANVAS_SET_DEVICE = "canvas-set-device";
-    const SET_DEVICE_DESKTOP = "set-device-desktop";
-    const SET_DEVICE_TABLET = "set-device-tablet";
-    const SET_DEVICE_MOBILE = "set-device-mobile";
-    const MAKE_CANVAS_WIDTH_ADJUSTABLE = "make-canvas-width-adjustable";
-    const RENDER_BLOCK_CATEGORY = "render-block-category";
-
-    // Define block categories
-    const blockCategories = [
-      "Quick Add",
-      "Header",
-      "Footer",
-      "Hero",
-      "Call to Action",
-      "Content",
-      "Blog",
-      "Gallery",
-      "Contact",
-      "Features",
-      "Pricing",
-      "Commerce",
-      "Statistics",
-      "Steps",
-      "Team",
-      "Testimonials",
-    ];
-
     const editor = grapesjs.init({
       // Indicate where to init the editor. You can also pass an HTMLElement
       container: "#gjs",
