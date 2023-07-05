@@ -1,22 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import classNames from "classnames";
-import { Icons } from "../../components/common/icons/icons";
+import { Icons } from "../../../components/common/icons/icons";
 
 const SideBarContent = ({ editor, sideBarExpanded, setSideBarExpanded }) => {
-  const [isOpen, setIsOpen] = useState(sideBarExpanded);
-
   const bgOverlayRef = useRef();
   const wrapperRef = useRef();
-
-  useEffect(() => {
-    console.log("From child component: ", sideBarExpanded);
-
-    console.log("isOpen: ", isOpen);
-
-    return () => {
-      // second;
-    };
-  }, [sideBarExpanded]);
 
   useEffect(() => {
     if (editor) {

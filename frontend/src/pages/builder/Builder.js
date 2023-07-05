@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import grapesjs from "grapesjs";
 import gjsDragCanvasWidth from "../../editor/plugins/drag-canvas-width";
 import { blocks } from "../../editor/plugins/drag-canvas-width/blocks";
+import { DISABLE_CANVAS_TEXT_HIGHLIGHTING } from "../../editor/plugins/drag-canvas-width/commands";
 // Import Editor Stylesheet
 import "./editor-styles.css";
 // Import Custom React Components
 import BuilderHeader from "./BuilderHeader";
-import { Icons } from "../../components/common/icons/icons";
-import SideBarContent from "./SideBarContent";
-import { DISABLE_CANVAS_TEXT_HIGHLIGHTING } from "../../editor/plugins/drag-canvas-width/commands";
+import SideBar from "./sidebar";
 
 const Builder = () => {
   const [editor, setEditor] = useState(null);
@@ -101,82 +100,11 @@ const Builder = () => {
     setEditor(editor);
   }, []);
 
-  const handleSideBarClick = (elmentId) => {
-    const activeElm = document.querySelector(".icon--active");
-    const selectedElm = document.querySelector(`#${elmentId}`);
-
-    if (selectedElm.id !== activeElm?.id) {
-      activeElm?.classList.toggle("icon--active");
-      selectedElm.querySelector(".icon").classList.toggle("icon--active");
-    } else {
-      selectedElm.querySelector(".icon").classList.toggle("icon--active");
-    }
-    setSideBarExpanded((state) => !state);
-  };
-
   return (
     <div className="overflow-hidden flex flex-col h-screen w-screenw max-w-full">
       <BuilderHeader fixed={false} iconOnly dropDown editor={editor} />
       <main className="flex flex-row relative h-full flex-1 w-full bg-gray-100">
-        {/* Side Bar Container/BG */}
-        <div className="w-16 h-full bg-white z-30">
-          {/* Side Bar Panel */}
-          <div id="sidebar-panel flex flex-col h-full">
-            {/* Pages Button Container */}
-            <div
-              id="sidebar-pn-pages"
-              className="group sidebar-btn"
-              onClick={() => handleSideBarClick("sidebar-pn-pages")}
-            >
-              <div className="icon">
-                <div>{Icons.customIcons.builder.sideBar.pages}</div>
-              </div>
-            </div>
-            {/* Blocks Button Container */}
-            <div
-              id="sidebar-pn-blocks"
-              className="group sidebar-btn"
-              onClick={() => handleSideBarClick("sidebar-pn-blocks")}
-            >
-              <div className="icon">
-                <div>{Icons.customIcons.builder.sideBar.blocks}</div>
-              </div>
-            </div>
-            {/* Layers Button Container */}
-            <div
-              id="sidebar-pn-layers"
-              className="group hover:bg-gray-100 hover:cursor-pointer w-full object-contain h-16 flex items-center justify-center"
-              onClick={() => handleSideBarClick("sidebar-pn-layers")}
-            >
-              <div className="flex items-center justify-center object-contain w-10 h-full fill-grey">
-                <div>{Icons.customIcons.builder.sideBar.layers}</div>
-              </div>
-            </div>
-            {/* Style Button Container */}
-            <div
-              id="sidebar-pn-styles"
-              className="group hover:bg-gray-100 hover:cursor-pointer w-full object-contain h-16 flex items-center justify-center"
-              onClick={() => handleSideBarClick("sidebar-pn-styles")}
-            >
-              <div className="flex items-center justify-center object-contain w-8 h-full fill-grey">
-                <div>{Icons.customIcons.builder.sideBar.styles}</div>
-              </div>
-            </div>
-            {/* Component Settings Button Container */}
-            <div
-              id="sidebar-pn-traits"
-              className="group hover:bg-gray-100 hover:cursor-pointer w-full object-contain h-16 flex items-center justify-center"
-              onClick={() => handleSideBarClick("sidebar-pn-traits")}
-            >
-              <div className="flex items-center justify-center object-contain w-8 h-full fill-grey">
-                <div>{Icons.customIcons.builder.sideBar.traits}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Sidebar content */}
-        <SideBarContent
+        <SideBar
           editor={editor}
           sideBarExpanded={sideBarExpanded}
           setSideBarExpanded={setSideBarExpanded}
